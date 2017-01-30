@@ -14,7 +14,7 @@ export default class ImageList extends React.Component {
 			images: []
 		};
 
-		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents?page=1', function(json) {
+		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents?page=1&museum=Nationalmuseum', function(json) {
 			this.setState({
 				images: json.documents
 			})

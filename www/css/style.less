@@ -486,8 +486,6 @@ body {
 
 		width: 12.5%;
 
-		overflow: hidden;
-
 		.transition(all 100ms ease-in-out);
 
 		img {
@@ -519,6 +517,8 @@ body {
 
 			z-index: 10;
 
+			opacity: 0;
+
 			pointer-events: none;
 
 			.transform(translateY(80%));
@@ -527,13 +527,15 @@ body {
 		}
 
 		&:hover {
-			box-shadow: 0 2px 34px 4px rgba(0, 0, 0, 0.6);
+			box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
 
 			z-index: 100;
 
 			.transform(scale(1.1));
 
 			.grid-title {
+				opacity: 1;
+
 				.transform(translateY(100%));
 			}
 		}
