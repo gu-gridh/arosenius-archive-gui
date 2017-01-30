@@ -50,10 +50,16 @@ export default class Image extends React.Component {
 		}
 	}
 
-	createGradient() {
+	getBackgroundStyle() {
+/*
 		return this.state.image.color && this.state.image.color.colors ? {
 			backgroundImage: 'linear-gradient(180deg,'+this.state.image.color.colors.prominent[0].hex+','+this.state.image.color.colors.prominent[1].hex+')'
 		} : {};
+		return this.state.image.color && this.state.image.color.colors ? {
+			backgroundColor: this.state.image.color.colors.prominent[1].hex
+		} : null;
+*/
+		return null;
 	}
 
 	render() {
@@ -61,7 +67,7 @@ export default class Image extends React.Component {
 		if (this.state.image) {		
 			return <div>
 
-				<div style={this.state.image.color && this.state.image.color.colors ? {backgroundColor: this.state.image.color.colors.prominent[1].hex} : null} className={"image-display"+(this.state.showAll ? ' show-all' : '')}>
+				<div style={this.getBackgroundStyle()} className={"image-display"+(this.state.showAll ? ' show-all' : '')}>
 					<img src={'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg'} />
 
 					<div className="image-buttons">
