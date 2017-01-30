@@ -29,7 +29,7 @@ export default class ImageList extends React.Component {
 
 	render() {
 		var items = _.map(this.state.images, function(image) {
-			return <ImageListItem key={image.id} id={image.id} file={image.image} />;
+			return <ImageListItem key={image.id} image={image} />;
 		});
 		items.push(<div key="grid-sizer" className="grid-sizer"/>);
 
@@ -39,16 +39,13 @@ export default class ImageList extends React.Component {
 //			transitionDuration: 0
 		};
 
-		return <div>
-			<h1>image list</h1>
-				<Masonry
-					className={'grid'} // default ''
-					options={masonryOptions} // default {}
-					disableImagesLoaded={false} // default false
-					updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-				>
-                {items}
-            </Masonry>
-		</div>;
+		return <Masonry
+				className={'grid'} // default ''
+				options={masonryOptions} // default {}
+				disableImagesLoaded={false} // default false
+				updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+			>
+			{items}
+		</Masonry>;
 	}
 }

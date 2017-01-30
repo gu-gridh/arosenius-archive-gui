@@ -1,16 +1,21 @@
 import React from 'react';
 
+import Header from './header';
+
 export default class Application extends React.Component {
 	constructor(props) {
 		super(props);
+
+		window.app = this;
 	}
 
 	render() {
 		return (
 			<div>
-				<h1>This is the application</h1>
-				<p><a href="#">Home</a> <a href="#images">Images</a></p>
-				{this.props.children}
+				<Header routerPath={this.props.location.pathname} />
+				<div className="site-content">
+					{this.props.children}
+				</div>
 			</div>
 		)
 	}
