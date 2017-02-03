@@ -10,10 +10,14 @@ export default class Image extends React.Component {
 		super(props);
 
 		this.toggleButtonClick = this.toggleButtonClick.bind(this);
+		this.imageLoaded = this.imageLoaded.bind(this);
+		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 
 		this.state = {
 			image: null,
-			showAll: true
+			showAll: true,
+			initialized: false,
+			fixedImageButtons: true
 		};
 	}
 
@@ -23,6 +27,7 @@ export default class Image extends React.Component {
 				return response.json()
 			}).then(function(json) {
 				this.setState({
+					initialized: false,
 					image: json.data
 				});
 			}.bind(this)).catch(function(ex) {
@@ -35,11 +40,48 @@ export default class Image extends React.Component {
 		this.setState({
 			showAll: !this.state.showAll
 		});
+
+		setTimeout(function() {
+			this.positionImageButtons();
+		}.bind(this), 500);
+	}
+
+	windowScrollHandler() {
+		this.positionImageButtons();
+	}
+
+	positionImageButtons() {
+		var imageContainerHeight = this.refs.imageContainer.clientHeight;
+		var windowHeight = document.documentElement.clientHeight;
+		var scrollPos = window.scrollY;
+
+		if (imageContainerHeight+100 <= windowHeight) {
+			this.setState({
+				fixedImageButtons: false
+			});
+		}
+		else if (imageContainerHeight < windowHeight+scrollPos-100) {
+			this.setState({
+				fixedImageButtons: false
+			});
+		}
+		else {
+			this.setState({
+				fixedImageButtons: true
+			});
+		}
+	}
+
+	imageLoaded() {
+		this.setState({
+			initialized: true
+		});
 	}
 
 	componentDidMount() {
-		console.log('Image: componentDidMount');
 		this.fetchImage();
+
+		window.addEventListener('scroll', this.windowScrollHandler);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -48,6 +90,10 @@ export default class Image extends React.Component {
 			
 			new WindowScroll().scrollToY(0, 1000, 'easeInOutSine');
 		}
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('scroll', this.windowScrollHandler);
 	}
 
 	getBackgroundStyle() {
@@ -63,14 +109,13 @@ export default class Image extends React.Component {
 	}
 
 	render() {
-		console.log('Image: render');
 		if (this.state.image) {		
 			return <div>
 
-				<div style={this.getBackgroundStyle()} className={"image-display"+(this.state.showAll ? ' show-all' : '')}>
-					<img src={'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg'} />
+				<div ref="imageContainer" style={this.getBackgroundStyle()} className={'image-display'+(this.state.showAll ? ' show-all' : '')+(this.state.initialized ? ' initialized' : '')}>
+					<img onLoad={this.imageLoaded} src={'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg'} />
 
-					<div className="image-buttons">
+					<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 						
 						<button className="icon-plus"></button>
 
@@ -89,7 +134,10 @@ export default class Image extends React.Component {
 
 					<div className="row">
 						<div className="three columns">
-							<span className="label">Datering:</span> {this.state.image.item_date}
+							{
+								this.state.image.item_date &&
+								<span><span className="label">Datering:</span> {this.state.image.item_date}</span>
+							}
 						</div>
 						<div className="three columns">
 							<span className="label">Plats:</span> {this.state.image.collection.museum}<br/>
