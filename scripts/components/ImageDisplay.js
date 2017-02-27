@@ -200,7 +200,7 @@ export default class ImageDisplay extends React.Component {
 
 						<button className="icon-plus"></button>
 
-						<button className="toggle-show-all" onClick={this.toggleButtonClick}>
+						<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleButtonClick}>
 							<span className="icon-arrow arrow-1"></span>
 							<span className="icon-arrow arrow-2"></span>
 							Show all

@@ -437,10 +437,6 @@ body {
 			bottom: 120px;
 		}
 
-		.hide-ui & {
-			left: -50px;
-		}
-
 		button {
 			display: block;
 			
@@ -463,6 +459,10 @@ body {
 			overflow: hidden;
 
 			.transition(all 300ms ease-in-out);
+
+			.hide-ui & {
+				.transform(translateX(-100px));
+			}
 
 			&:hover {
 				.transform(scale(1.2));
