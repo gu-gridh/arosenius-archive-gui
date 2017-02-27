@@ -12,6 +12,7 @@ export default class Image extends React.Component {
 		this.toggleButtonClick = this.toggleButtonClick.bind(this);
 		this.imageLoaded = this.imageLoaded.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
+		this.hideUiClick = this.hideUiClick.bind(this);
 
 		this.state = {
 			image: null,
@@ -26,6 +27,7 @@ export default class Image extends React.Component {
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
+				console.log(json.data);
 				this.setState({
 					initialized: false,
 					image: json.data
@@ -43,11 +45,15 @@ export default class Image extends React.Component {
 
 		setTimeout(function() {
 			this.positionImageButtons();
-		}.bind(this), 500);
+		}.bind(this), 100);
 	}
 
 	windowScrollHandler() {
 		this.positionImageButtons();
+	}
+
+	hideUiClick() {
+		document.body.classList.add('hide-ui');
 	}
 
 	positionImageButtons() {
@@ -55,12 +61,12 @@ export default class Image extends React.Component {
 		var windowHeight = document.documentElement.clientHeight;
 		var scrollPos = window.scrollY;
 
-		if (imageContainerHeight+100 <= windowHeight) {
+		if (imageContainerHeight+80 <= windowHeight) {
 			this.setState({
 				fixedImageButtons: false
 			});
 		}
-		else if (imageContainerHeight < windowHeight+scrollPos-100) {
+		else if (imageContainerHeight < windowHeight+scrollPos-80) {
 			this.setState({
 				fixedImageButtons: false
 			});
@@ -82,13 +88,15 @@ export default class Image extends React.Component {
 		this.fetchImage();
 
 		window.addEventListener('scroll', this.windowScrollHandler);
+
+		this.positionImageButtons();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.state.image.id != this.props.params.imageId) {
 			this.fetchImage();
 			
-			new WindowScroll().scrollToY(0, 1000, 'easeInOutSine');
+			new WindowScroll().scrollToY(0, 500, 'easeInOutSine');
 		}
 	}
 
@@ -117,6 +125,8 @@ export default class Image extends React.Component {
 
 					<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 						
+						{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
+
 						<button className="icon-plus"></button>
 
 						<button className="toggle-show-all" onClick={this.toggleButtonClick}>

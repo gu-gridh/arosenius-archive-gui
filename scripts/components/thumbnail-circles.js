@@ -40,7 +40,11 @@ export default class ThumbnailCircles
 	thumbnailClick(index) {
 		this.setState({
 			selectedItem: index
-		});
+		}, function() {
+			if (this.props.selectionChanged) {
+				this.props.selectionChanged(index);
+			}
+		}.bind(this));
 	}
 
 	render() {

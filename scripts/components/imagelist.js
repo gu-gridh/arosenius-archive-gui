@@ -14,7 +14,8 @@ export default class ImageList extends React.Component {
 
 		this.state = {
 			images: [],
-			initialized: false
+			initialized: false,
+			columns: false
 		};
 
 		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents?page=1&museum=Nationalmuseum', function(json) {
@@ -48,8 +49,8 @@ export default class ImageList extends React.Component {
 			transitionDuration: 0
 		};
 
-		if (this.props.columns) {
-			return <div className="grid columns">
+		if (this.props.columns || this.state.columns) {
+			return <div className="grid grid-columns initialized">
 				{items}
 			</div>;
 		}
