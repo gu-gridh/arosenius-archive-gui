@@ -8,7 +8,7 @@ export default class ThumbnailCircles
 		window.thumbs = this;
 
 		this.state = {
-			selectedItem: -1
+			selectedPerson: null
 		};
 
 		this.thumbnailClick = this.thumbnailClick.bind(this);
@@ -20,36 +20,50 @@ export default class ThumbnailCircles
 			},
 			{
 				image: 'img/persons/lillan.jpg',
-				label: 'Eva "Lillan" Arosenius'
-			},
-			{
-				image: 'img/persons/eva.jpg',
 				label: 'Eva Arosenius'
 			},
 			{
+				image: 'img/persons/eva.jpg',
+				label: 'Ida (Eva) Arosenius'
+			},
+			{
 				image: 'img/persons/kruse.jpg',
-				label: 'Kruse'
+				label: 'Ole Kruse'
 			},
 			{
 				image: 'img/persons/henning.jpg',
-				label: 'Henning'
+				label: 'Gerhard Henning'
 			}
 		];
 	}
 
 	thumbnailClick(index) {
 		this.setState({
-			selectedItem: index
+			selectedPerson: this.state.selectedPerson == this.thumbnails[index].label ? '' : this.thumbnails[index].label
 		}, function() {
 			if (this.props.selectionChanged) {
-				this.props.selectionChanged(index);
+				this.props.selectionChanged({
+					selectedPerson: this.state.selectedPerson
+				});
 			}
 		}.bind(this));
 	}
 
+	componentDidMount() {
+		this.setState({
+			selectedPerson: this.props.selectedPerson
+		})
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			selectedPerson: props.selectedPerson
+		})
+	}
+
 	render() {
 		var items = this.thumbnails.map(function(item, index) {
-			return <a onClick={function(e) {e.preventDefault(); this.thumbnailClick(index)}.bind(this)} key={index} href="#" className={"thumb-item"+(this.state.selectedItem != null && this.state.selectedItem == index ? ' selected' : '')} style={{backgroundImage: 'url('+item.image+')'}}>
+			return <a onClick={function(e) {e.preventDefault(); this.thumbnailClick(index)}.bind(this)} key={index} href="#" className={"thumb-item"+(this.state.selectedPerson != null && this.state.selectedPerson == item.label ? ' selected' : '')} style={{backgroundImage: 'url('+item.image+')'}}>
 				<span>{item.label}</span>
 			</a>
 		}.bind(this));

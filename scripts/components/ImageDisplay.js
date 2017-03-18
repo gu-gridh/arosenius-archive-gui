@@ -2,7 +2,7 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 
-import ImageList from './imagelist';
+import ImageList from './ImageList';
 import WindowScroll from './../utils/window-scroll';
 
 export default class ImageDisplay extends React.Component {
@@ -66,7 +66,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	mouseMoveHandler() {
-		console.log('ImageDisplay: mouseMoveHandler');
 		if (this.mouseIdleTimer) {
 			clearTimeout(this.mouseIdleTimer);
 		}
@@ -74,7 +73,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	mouseIdleHandler() {
-		console.log('ImageDisplay: mouseIdleHandler');
 		document.body.classList.add('hide-ui');
 	}
 
@@ -187,6 +185,10 @@ export default class ImageDisplay extends React.Component {
 				return <div key={index} className="color" style={{backgroundColor: color.hex}} />
 			});
 
+			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
+				return <div key={index}><a href={'#/search/person/'+person}>{person}</a></div>
+			}) : [];
+
 			return <div onMouseMove={this.mouseMoveHandler}>
 
 				<div ref="imageContainer" className={'image-container'+(this.state.showAll ? ' show-all' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
@@ -231,6 +233,18 @@ export default class ImageDisplay extends React.Component {
 							<div className="color-list">
 								{colorElements}
 							</div>
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="six columns">
+							{
+								persons.length > 0 &&
+								<span>
+									<span className="label">Personer</span><br/>
+									{persons}
+								</span>
+							}
 						</div>
 					</div>
 

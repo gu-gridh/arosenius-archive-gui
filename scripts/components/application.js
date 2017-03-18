@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from './header';
+import Header from './Header';
 
 export default class Application extends React.Component {
 	constructor(props) {

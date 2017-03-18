@@ -3,8 +3,8 @@ import 'whatwg-fetch';
 import _ from 'underscore';
 import Masonry  from 'react-masonry-component';
 
-import ImageListCollection from '../collections/imagelistcollection';
-import ImageListItem from './imagelistitem';
+import ImageListCollection from '../collections/ImageListCollection';
+import ImageListItem from './ImageListItem';
 
 export default class ImageList extends React.Component {
 	constructor(props) {
@@ -18,18 +18,29 @@ export default class ImageList extends React.Component {
 			columns: false
 		};
 
-		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents?page=1&museum=Nationalmuseum', function(json) {
+		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents', function(json) {
 			this.setState({
 				images: json.documents
 			})
 		}.bind(this));
+	}
 
-		this.collection.fetch();
+	componentDidMount() {
+		this.collection.fetch(this.props.searchString, this.props.searchPerson);
+	}
+
+	componentWillReceiveProps(props) {
+		if (this.props.searchString != props.searchString || 
+			this.props.searchPerson != props.searchPerson
+		) {
+			this.collection.fetch(props.searchString, props.searchPerson);
+		}
 	}
 
 	imageLoadedHandler() {
 		setTimeout(function() {
-			if (!this.state.initialized) {			
+			if (!this.state.initialized) {
+				console.log('setState?');
 				this.setState({
 					initialized: true
 				});

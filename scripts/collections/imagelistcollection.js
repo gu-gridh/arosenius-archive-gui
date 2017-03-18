@@ -7,9 +7,17 @@ export default class ImageListCollection {
 		this.onComplete = onComplete;
 	}
 
-	fetch() {
+	fetch(searchString, person) {
 		if (this.url) {
-			fetch(this.url)
+			var fetchParams = [];
+			if (searchString) {
+				fetchParams.push('search='+searchString);
+			}
+			if (person) {
+				fetchParams.push('person='+person);
+			}
+
+			fetch(this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))
 				.then(function(response) {
 					return response.json()
 				}).then(function(json) {

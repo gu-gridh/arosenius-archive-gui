@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Search from './search';
-import ImageList from './imagelist';
+import Search from './Search';
+import ImageList from './ImageList';
 import WindowScroll from './../utils/window-scroll';
 
 export default class FrontPage extends React.Component {
@@ -11,7 +11,9 @@ export default class FrontPage extends React.Component {
 		this.arrowClick = this.arrowClick.bind(this);
 
 		this.state = {
-			initialized: false
+			initialized: false,
+			searchString: null,
+			searchPerson: null
 		};
 	}
 
@@ -24,9 +26,21 @@ export default class FrontPage extends React.Component {
 	componentDidMount() {
 		setTimeout(function() {
 			this.setState({
-				initialized: true
+				initialized: true,
+				searchString: this.props.params.search,
+				searchPerson: this.props.params.person
 			});
 		}.bind(this), 200);
+	}
+
+	componentWillReceiveProps(props) {
+		console.log('FrontPage: componentWillReceiveProps');
+		console.log(props);
+
+		this.setState({
+			searchString: props.params.search,
+			searchPerson: props.params.person
+		});
 	}
 
 	render() {
@@ -38,10 +52,10 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search />
+				<Search searchString={this.state.searchString} searchPerson={this.state.searchPerson} />
 
 				<div className="site-content">
-					<ImageList />
+					<ImageList searchString={this.state.searchString} searchPerson={this.state.searchPerson} />
 				</div>
 			</div>
 		)
