@@ -3,6 +3,8 @@ import { hashHistory } from 'react-router';
 
 import ThumbnailCircles from './ThumbnailCircles';
 
+import WindowScroll from './../utils/window-scroll';
+
 export default class Search extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,6 +36,12 @@ export default class Search extends React.Component {
 			searchPerson: props.searchPerson || '',
 			open: Boolean(props.searchString || props.searchPerson)
 		});
+
+		if (!this.state.open && Boolean(props.searchString || props.searchPerson)) {
+			var scroll = new WindowScroll();
+
+			scroll.scrollToY(document.documentElement.clientHeight-200, 1000, 'easeInOutSine');			
+		}
 	}
 
 	toggleButtonClick() {

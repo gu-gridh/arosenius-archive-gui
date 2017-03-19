@@ -26,7 +26,7 @@ export default class ImageList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.collection.fetch(this.props.searchString, this.props.searchPerson);
+//		this.collection.fetch(this.props.searchString, this.props.searchPerson);
 	}
 
 	componentWillReceiveProps(props) {
