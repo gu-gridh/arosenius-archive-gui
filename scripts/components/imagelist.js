@@ -26,11 +26,18 @@ export default class ImageList extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('ImageList: componentDidMount');
 //		this.collection.fetch(this.props.searchString, this.props.searchPerson);
 	}
 
 	componentWillReceiveProps(props) {
-		if (this.props.searchString != props.searchString || 
+		console.log('ImageList: componentWillReceiveProps');
+		console.log(props);
+
+		if (!props.searchString && !props.searchPerson && this.state.images.length == 0) {
+			this.collection.fetch();
+		}
+		else if (this.props.searchString != props.searchString || 
 			this.props.searchPerson != props.searchPerson
 		) {
 			this.collection.fetch(props.searchString, props.searchPerson);

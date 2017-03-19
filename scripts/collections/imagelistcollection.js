@@ -5,10 +5,14 @@ export default class ImageListCollection {
 	constructor(url, onComplete) {
 		this.url = url;
 		this.onComplete = onComplete;
+
+		this.loading = false;
 	}
 
 	fetch(searchString, person) {
-		if (this.url) {
+		if (this.url && !this.loading) {
+			this.loading = true;
+
 			var fetchParams = [];
 			if (searchString) {
 				fetchParams.push('search='+searchString);
@@ -21,6 +25,7 @@ export default class ImageListCollection {
 				.then(function(response) {
 					return response.json()
 				}).then(function(json) {
+					this.loading = false;
 					if (this.onComplete) {
 						this.onComplete(json);
 					}
