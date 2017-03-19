@@ -182,7 +182,7 @@ export default class ImageDisplay extends React.Component {
 	render() {
 		if (this.state.image) {
 			var colorElements = this.state.image.color.colors.five.map(function(color, index) {
-				return <div key={index} className="color" style={{backgroundColor: color.hex}} />
+				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} className="color" style={{backgroundColor: color.hex}} ></a>
 			});
 
 			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
@@ -223,7 +223,7 @@ export default class ImageDisplay extends React.Component {
 							}
 						</div>
 						<div className="four columns">
-							<span className="label">Plats:</span> {this.state.image.collection.museum}<br/>
+							<span className="label">Plats:</span> <a href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a><br/>
 							{
 								this.state.image.size && this.state.image.size.inner &&
 								<span><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</span>
