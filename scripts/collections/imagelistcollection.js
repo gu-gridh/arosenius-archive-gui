@@ -32,7 +32,7 @@ export default class ImageListCollection {
 
 			fetch(this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))
 				.then(function(response) {
-					return response.json()
+					return response.json();
 				}).then(function(json) {
 					this.loading = false;
 					if (this.onComplete) {

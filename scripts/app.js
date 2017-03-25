@@ -11,8 +11,8 @@ ReactDOM.render(
 	<Router history={hashHistory}>
 		<Route component={Application}>
 			<Route path="/(search(/query/:search)(/person/:person)(/museum/:museum)(/color/:hue/:saturation))" component={FrontPage}/>
-			<Route path="images" component={ImageList}/>
-			<Route path="image/:imageId" component={ImageDisplay}/>
+			<Route path="/images" component={ImageList}/>
+			<Route path="/image/:imageId(/:imageIndex)" component={ImageDisplay}/>
 		</Route>
 	</Router>,
 	document.getElementById('app')

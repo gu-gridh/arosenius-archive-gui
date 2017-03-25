@@ -107,11 +107,17 @@ export default class ImageDisplay extends React.Component {
 			image.onload = this.imageLoaded;
 			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg';
 		}
+		else if (this.state.image.images && this.state.image.images[0]) {
+			var image = new Image();
+
+			image.onload = this.imageLoaded;
+			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg';
+		}
 	}
 
 	imageLoaded() {
 		this.setState({
-			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg'
+			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg'
 		});
 
 		setTimeout(function() {
@@ -148,8 +154,8 @@ export default class ImageDisplay extends React.Component {
 
 		var ratio = 0;
 
-		var imageWidth = this.state.image.imagesize.width;
-		var imageHeight = this.state.image.imagesize.height;
+		var imageWidth = this.state.image.images[0].imagesize.width;
+		var imageHeight = this.state.image.images[0].imagesize.height;
 
 		if (this.state.showAll) {
 			ratio = viewWidth / imageWidth;
@@ -170,8 +176,8 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
-		return this.state.image.color && this.state.image.color.colors ? {
-			backgroundColor: this.state.image.color.dominant.hex,
+		return this.state.image.images[0].color && this.state.image.images[0].color.colors ? {
+			backgroundColor: this.state.image.images[0].color.dominant.hex,
 			backgroundImage: this.state.imageUrl && this.state.imageUrl != '' ? 'url('+this.state.imageUrl+')' : null,
 
 			width: imageWidth,
@@ -180,10 +186,10 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	render() {
-		if (this.state.image) {
-			var colorElements = this.state.image.color.colors.five.map(function(color, index) {
+		if (this.state.image && this.state.image.images[0]) {
+			var colorElements = this.state.image.images[0].color ? this.state.image.images[0].color.colors.five.map(function(color, index) {
 				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} className="color" style={{backgroundColor: color.hex}} ></a>
-			});
+			}) : [];
 
 			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
 				return <div key={index}><a href={'#/search/person/'+person}>{person}</a></div>
