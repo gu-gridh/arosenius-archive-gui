@@ -10,7 +10,7 @@ export default class ImageDisplay extends React.Component {
 		super(props);
 
 		this.toggleButtonClick = this.toggleButtonClick.bind(this);
-		this.imageLoaded = this.imageLoaded.bind(this);
+		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.hideUiClick = this.hideUiClick.bind(this);
@@ -104,18 +104,20 @@ export default class ImageDisplay extends React.Component {
 		if (this.state.image.image) {
 			var image = new Image();
 
-			image.onload = this.imageLoaded;
+			image.onload = this.imageLoadedHandler;
 			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg';
 		}
 		else if (this.state.image.images && this.state.image.images[0]) {
 			var image = new Image();
 
-			image.onload = this.imageLoaded;
+			image.onload = this.imageLoadedHandler;
+			image.onerror = this.imageErrorHandler;
 			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg';
 		}
 	}
 
-	imageLoaded() {
+	imageLoadedHandler() {
+		console.log('imageLoadedHandler');
 		this.setState({
 			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg'
 		});
@@ -123,6 +125,11 @@ export default class ImageDisplay extends React.Component {
 		setTimeout(function() {
 			this.positionImageButtons();
 		}.bind(this), 100);
+	}
+
+	imageErrorHandler(event) {
+		console.log('imageError');
+		console.log(event);
 	}
 
 	componentDidMount() {
@@ -176,13 +183,17 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
-		return this.state.image.images[0].color && this.state.image.images[0].color.colors ? {
+		var imageStyle = this.state.image.images[0].color && this.state.image.images[0].color.colors ? {
 			backgroundColor: this.state.image.images[0].color.dominant.hex,
-			backgroundImage: this.state.imageUrl && this.state.imageUrl != '' ? 'url('+this.state.imageUrl+')' : null,
+			backgroundImage: this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight
 		} : null;
+
+		console.log(imageStyle);
+
+		return imageStyle;
 	}
 
 	render() {

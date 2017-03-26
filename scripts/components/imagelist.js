@@ -27,15 +27,7 @@ export default class ImageList extends React.Component {
 		}.bind(this));
 	}
 
-	componentDidMount() {
-		console.log('ImageList: componentDidMount');
-//		this.collection.fetch(this.props.searchString, this.props.searchPerson);
-	}
-
 	componentWillReceiveProps(props) {
-		console.log('ImageList: componentWillReceiveProps');
-		console.log(props);
-
 		if (!props.searchString && !props.searchPerson && !props.searchMuseum && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.collection.fetch();
 		}
@@ -52,7 +44,6 @@ export default class ImageList extends React.Component {
 	imageLoadedHandler() {
 		setTimeout(function() {
 			if (!this.state.initialized) {
-				console.log('setState?');
 				this.setState({
 					initialized: true
 				});
