@@ -9,7 +9,7 @@ export default class ImageDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.toggleButtonClick = this.toggleButtonClick.bind(this);
+		this.toggleFullDisplay = this.toggleFullDisplay.bind(this);
 		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
@@ -19,7 +19,8 @@ export default class ImageDisplay extends React.Component {
 		this.state = {
 			image: null,
 			imageUrl: null,
-			showAll: false,
+			fullDisplay: false,
+			fullDisplayImageUrl: null,
 			fixedImageButtons: true	
 		};
 	}
@@ -43,14 +44,17 @@ export default class ImageDisplay extends React.Component {
 		;
 	}
 
-	toggleButtonClick() {
+	toggleFullDisplay() {
 		this.setState({
-			showAll: !this.state.showAll
-		});
-
-		setTimeout(function() {
-			this.positionImageButtons();
-		}.bind(this), 100);
+			fullDisplay: !this.state.fullDisplay
+		}, function() {
+			if (this.state.fullDisplay && !this.state.fullDisplayImageUrl) {
+				// load fullDisplayImage
+			}
+			setTimeout(function() {
+				this.positionImageButtons();
+			}.bind(this), 100);
+		}.bind(this));
 	}
 
 	windowScrollHandler() {
@@ -117,7 +121,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	imageLoadedHandler() {
-		console.log('imageLoadedHandler');
 		this.setState({
 			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg'
 		});
@@ -128,8 +131,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	imageErrorHandler(event) {
-		console.log('imageError');
-		console.log(event);
 	}
 
 	componentDidMount() {
@@ -164,7 +165,7 @@ export default class ImageDisplay extends React.Component {
 		var imageWidth = this.state.image.images[0].imagesize.width;
 		var imageHeight = this.state.image.images[0].imagesize.height;
 
-		if (this.state.showAll) {
+		if (this.state.fullDisplay) {
 			ratio = viewWidth / imageWidth;
 			imageWidth = viewWidth;
 			imageHeight = imageHeight * ratio;
@@ -191,8 +192,6 @@ export default class ImageDisplay extends React.Component {
 			height: imageHeight
 		} : null;
 
-		console.log(imageStyle);
-
 		return imageStyle;
 	}
 
@@ -208,7 +207,7 @@ export default class ImageDisplay extends React.Component {
 
 			return <div onMouseMove={this.mouseMoveHandler}>
 
-				<div ref="imageContainer" className={'image-container'+(this.state.showAll ? ' show-all' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
+				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
 					<div className="image-display" style={this.getImageStyle()}>
 						<div className="loader"></div>
 					</div>
@@ -219,7 +218,7 @@ export default class ImageDisplay extends React.Component {
 
 						<button className="icon-plus"></button>
 
-						<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleButtonClick}>
+						<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleFullDisplay}>
 							<span className="icon-arrow arrow-1"></span>
 							<span className="icon-arrow arrow-2"></span>
 							Show all
