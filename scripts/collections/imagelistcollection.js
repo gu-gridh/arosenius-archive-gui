@@ -9,7 +9,7 @@ export default class ImageListCollection {
 		this.loading = false;
 	}
 
-	fetch(searchString, person, museum, hue, saturation) {
+	fetch(searchString, person, place, museum, genre, hue, saturation) {
 		if (this.url && !this.loading) {
 			this.loading = true;
 
@@ -20,8 +20,14 @@ export default class ImageListCollection {
 			if (person) {
 				fetchParams.push('person='+person);
 			}
+			if (place) {
+				fetchParams.push('place='+place);
+			}
 			if (museum) {
 				fetchParams.push('museum='+museum);
+			}
+			if (genre) {
+				fetchParams.push('genre='+genre);
 			}
 			if (hue) {
 				fetchParams.push('hue='+hue);

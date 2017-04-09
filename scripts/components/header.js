@@ -46,7 +46,7 @@ export default class Header extends React.Component {
 
 					<nav className="site-nav">
 						<ul>
-							<li><a href="#">Projektet</a></li>
+							<li><a href="http://aroseniusarkivet.org/projekt/">Projektet</a></li>
 							<li><a href="#">Utöka arkivet</a></li>
 						</ul>
 					</nav>

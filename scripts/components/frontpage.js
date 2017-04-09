@@ -29,7 +29,9 @@ export default class FrontPage extends React.Component {
 				initialized: true,
 				searchString: this.props.params.search,
 				searchPerson: this.props.params.person,
+				searchPlace: this.props.params.place,
 				searchMuseum: this.props.params.museum,
+				searchGenre: this.props.params.genre,
 				searchHue: this.props.params.hue,
 				searchSaturation: this.props.params.saturation
 			});
@@ -43,7 +45,9 @@ export default class FrontPage extends React.Component {
 		this.setState({
 			searchString: props.params.search,
 			searchPerson: props.params.person,
+			searchPlace: props.params.place,
 			searchMuseum: props.params.museum,
+			searchGenre: props.params.genre,
 			searchHue: props.params.hue,
 			searchSaturation: props.params.saturation
 		});
@@ -63,7 +67,9 @@ export default class FrontPage extends React.Component {
 				<div className="site-content">
 					<ImageList searchString={this.state.searchString} 
 						searchPerson={this.state.searchPerson} 
+						searchPlace={this.state.searchPlace} 
 						searchMuseum={this.state.searchMuseum}
+						searchGenre={this.state.searchGenre}
 						searchHue={this.state.searchHue}
 						searchSaturation={this.state.searchSaturation} />
 				</div>

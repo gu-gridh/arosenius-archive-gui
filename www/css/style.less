@@ -166,8 +166,8 @@ body {
 
 	height: 120vh;
 
-	background-image: url('../img/bg-1.jpg');
-	background-position: center;
+	background-image: url('../img/bg-2.jpg');
+	background-position: top center;
 	background-size: cover;
 
 	.overlay {
@@ -186,26 +186,29 @@ body {
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3364cfef', endColorstr='#80a0e8e6',GradientType=0 );
 	}
 
+	@hero-arrow-size: 80px;
+
 	.arrow {
 		position: absolute;
 
 		left: 50%;
 		top: 50%;
 
-		width: 100px;
-		height: 100px;
+		width: @hero-arrow-size;
+		height: @hero-arrow-size;
 
 		padding: 0;
+	
+		background-image: url('../img/icon-hero-arrow.png');
+		background-size: @hero-arrow-size @hero-arrow-size;
 
-		border-style: dotted;
-		border-color: #fff;
-		border-width: 0 3px 3px 0;
+		border: none;
 
 		z-index: 10;
 
 		opacity: 0;
 
-		.transform(translate(-50%, 0) rotate(45deg));
+		.transform(translate(-50%, 0));
 		.transition(all 300ms ease-in-out);
 		.animation(fadein 5s);
 
@@ -491,18 +494,18 @@ body {
 				.transition(all 300ms ease-in-out);
 
 				&.arrow-1 {
-					.transform(translate(22px, 8px));
+					.transform(translate(10px, 20px));
 
 					.full-display& {
-						.transform(translate(10px, 20px));
+						.transform(translate(22px, 8px));
 					}
 				}
 
 				&.arrow-2 {
-					.transform(rotate(180deg) translate(-10px, -20px));
+					.transform(rotate(180deg) translate(-23px, -7px));
 
 					.full-display& {
-						.transform(rotate(180deg) translate(-23px, -7px));
+						.transform(rotate(180deg) translate(-10px, -20px));
 					}
 				}
 			}

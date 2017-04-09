@@ -10,7 +10,7 @@ import FrontPage from './components/FrontPage';
 ReactDOM.render(
 	<Router history={hashHistory}>
 		<Route component={Application}>
-			<Route path="/(search(/query/:search)(/person/:person)(/museum/:museum)(/color/:hue/:saturation))" component={FrontPage}/>
+			<Route path="/(search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/color/:hue/:saturation))" component={FrontPage}/>
 			<Route path="/images" component={ImageList}/>
 			<Route path="/image/:imageId(/:imageIndex)" component={ImageDisplay}/>
 		</Route>

@@ -28,16 +28,18 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (!props.searchString && !props.searchPerson && !props.searchMuseum && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.collection.fetch();
 		}
 		else if (this.props.searchString != props.searchString || 
 			this.props.searchPerson != props.searchPerson || 
+			this.props.searchPlace != props.searchPlace || 
 			this.props.searchMuseum != props.searchMuseum ||
-			this.props.searchMuseum != props.searchHue ||
-			this.props.searchMuseum != props.searchSaturation
+			this.props.searchGenre != props.searchGenre ||
+			this.props.searchHue != props.searchHue ||
+			this.props.searchSaturation != props.searchSaturation
 		) {
-			this.collection.fetch(props.searchString, props.searchPerson, props.searchMuseum, props.searchHue, props.searchSaturation);
+			this.collection.fetch(props.searchString, props.searchPerson, props.searchPlace, props.searchMuseum, props.searchGenre, props.searchHue, props.searchSaturation);
 		}
 	}
 
