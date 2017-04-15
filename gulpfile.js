@@ -13,7 +13,12 @@ var gutil = require('gulp-util');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
- 
+var less = require('gulp-less');
+var minifyCSS = require('gulp-csso');
+var path = require('path');
+var gulpif = require('gulp-if');
+
+
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
 var dependencies = [
@@ -23,25 +28,34 @@ var dependencies = [
 // keep a count of the times a task refires
 var scriptsCount = 0;
 
+var production = true;
  
 // Gulp tasks
 // ----------------------------------------------------------------------------
 gulp.task('scripts', function () {
-    bundleApp(true);
+    bundleApp(production);
 });
- 
+
+gulp.task('less', function(){
+    return gulp.src('./less/style.less')
+        .pipe(less())
+        .pipe(gulpif(production, minifyCSS({keepBreaks:true})))
+        .pipe(gulp.dest('www/css'));
+});
+
 gulp.task('deploy', function (){
 	bundleApp(true);
 });
  
 gulp.task('watch', function () {
-	gulp.watch(['./scripts/*/*.js', './scripts/*.js'], ['scripts']);
+	gulp.watch(['./scripts/*.js', './scripts/*/*.js'], ['scripts']);
+	gulp.watch(['./less/*.less', './less/*/*.less'], ['less']);
 });
  
 // When running 'gulp' on the terminal this task will fire.
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
-gulp.task('default', ['scripts','watch']);
+gulp.task('default', ['scripts', 'less', 'watch']);
  
 // Private Functions
 // ----------------------------------------------------------------------------

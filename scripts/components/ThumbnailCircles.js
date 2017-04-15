@@ -8,7 +8,8 @@ export default class ThumbnailCircles
 		window.thumbs = this;
 
 		this.state = {
-			selectedPerson: null
+			selectedPerson: null,
+			initialized: false
 		};
 
 		this.thumbnailClick = this.thumbnailClick.bind(this);
@@ -20,7 +21,7 @@ export default class ThumbnailCircles
 			},
 			{
 				image: 'img/persons/lillan.jpg',
-				label: 'Eva Arosenius'
+				label: 'Eva "Lillan" Arosenius'
 			},
 			{
 				image: 'img/persons/eva.jpg',
@@ -52,7 +53,14 @@ export default class ThumbnailCircles
 	componentDidMount() {
 		this.setState({
 			selectedPerson: this.props.selectedPerson
-		})
+		});
+
+		setTimeout(function() {
+			this.setState({
+				initialized: true
+			});
+		}.bind(this), 200);
+
 	}
 
 	componentWillReceiveProps(props) {
@@ -68,7 +76,7 @@ export default class ThumbnailCircles
 			</a>
 		}.bind(this));
 		return (
-			<div className="thumb-list">
+			<div className={'fade-in-component thumb-list'+(this.state.initialized ? ' initialized' : '')}>
 				{items}
 			</div>
 		)

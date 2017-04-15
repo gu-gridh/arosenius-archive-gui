@@ -2,6 +2,8 @@ import React from 'react';
 import { hashHistory } from 'react-router';
 
 import ThumbnailCircles from './ThumbnailCircles';
+import ColorSearchSelector from './ColorSearchSelector';
+import DropdownMenu from './DropdownMenu';
 
 import WindowScroll from './../utils/window-scroll';
 
@@ -18,7 +20,8 @@ export default class Search extends React.Component {
 		this.state = {
 			open: false,
 			searchString: '',
-			searchPerson: ''
+			searchPerson: '',
+			searchMode: 'persons'
 		};
 	}
 
@@ -68,6 +71,14 @@ export default class Search extends React.Component {
 		}, this.triggerSearch);
 	}
 
+	setSearchMode(mode) {
+		this.refs.searchModeDropdownMenu.closeMenu();
+
+		this.setState({
+			searchMode: mode
+		});
+	}
+
 	triggerSearch() {
 		function encodeQueryData(data) {
 			var ret = [];
@@ -90,12 +101,19 @@ export default class Search extends React.Component {
 	}
 
 	render() {
+		var searchElement = this.state.searchMode == 'persons' ?
+				<ThumbnailCircles selectedPerson={this.state.searchPerson} selectionChanged={this.personSelectorChangeHandler} />
+			: this.state.searchMode == 'colors' ?
+				<ColorSearchSelector />
+			: null
+		;
+
 		return (
 			<div className="search-module">
 
 				<button className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
 
-				<div className={"module-content"+(this.state.open ? ' open' : '')}>
+				<div className={'module-content'+(' mode-'+this.state.searchMode)+(this.state.open ? ' open' : '')}>
 					<input value={this.state.searchString} 
 						type="text" 
 						placeholder="Skriv här..." 
@@ -103,7 +121,12 @@ export default class Search extends React.Component {
 						onChange={this.searchInputChangeHandler} 
 						onKeyPress={this.searchInputKeyPress} />
 
-					<ThumbnailCircles selectedPerson={this.state.searchPerson} selectionChanged={this.personSelectorChangeHandler} />
+					<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
+						<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
+						<button onClick={this.setSearchMode.bind(this, 'colors')}>Färger</button>
+					</DropdownMenu>
+
+					{searchElement}
 				</div>
 
 			</div>
