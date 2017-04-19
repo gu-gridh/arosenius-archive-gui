@@ -39,9 +39,6 @@ export default class FrontPage extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log('FrontPage: componentWillReceiveProps');
-		console.log(props);
-
 		this.setState({
 			searchString: props.params.search,
 			searchPerson: props.params.person,
@@ -62,7 +59,7 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search searchString={this.state.searchString} searchPerson={this.state.searchPerson} />
+				<Search searchString={this.state.searchString} searchPerson={this.state.searchPerson} searchHue={this.state.searchHue} searchSaturation={this.state.searchSaturation} />
 
 				<div className="site-content">
 					<ImageList searchString={this.state.searchString} 

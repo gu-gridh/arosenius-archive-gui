@@ -16,11 +16,13 @@ export default class Search extends React.Component {
 		this.searchInputKeyPress = this.searchInputKeyPress.bind(this);
 		this.searchInputChangeHandler = this.searchInputChangeHandler.bind(this);
 		this.personSelectorChangeHandler = this.personSelectorChangeHandler.bind(this);
+		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
 
 		this.state = {
 			open: false,
 			searchString: '',
 			searchPerson: '',
+			searchColor: null,
 			searchMode: 'persons'
 		};
 	}
@@ -29,7 +31,9 @@ export default class Search extends React.Component {
 		this.setState({
 			searchString: this.props.searchString || '',
 			searchPerson: this.props.searchPerson || '',
-			open: Boolean(this.props.searchString || this.props.searchPerson)
+			searchHue: this.props.searchHue,
+			searchSaturation: this.props.searchSaturation,
+			open: Boolean(this.props.searchString || this.props.searchPerson || this.props.searchHue || this.props.searchSaturation)
 		});
 	}
 
@@ -37,7 +41,9 @@ export default class Search extends React.Component {
 		this.setState({
 			searchString: props.searchString || '',
 			searchPerson: props.searchPerson || '',
-			open: Boolean(props.searchString || props.searchPerson)
+			searchHue: props.searchHue,
+			searchSaturation: props.searchHue,
+			open: Boolean(props.searchString || props.searchPerson || props.searchHue || props.searchSaturation)
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPerson)) {
@@ -67,7 +73,16 @@ export default class Search extends React.Component {
 
 	personSelectorChangeHandler(event) {
 		this.setState({
-			searchPerson: event.selectedPerson
+			searchPerson: event.selectedPerson,
+			searchColor: null
+		}, this.triggerSearch);
+	}
+
+	colorSelectorSelect(event) {
+		this.setState({
+			searchPerson: '',
+			searchHue: event.hue,
+			searchSaturation: event.saturation
 		}, this.triggerSearch);
 	}
 
@@ -83,7 +98,12 @@ export default class Search extends React.Component {
 		function encodeQueryData(data) {
 			var ret = [];
 			for (var d in data) {
-				ret.push(encodeURIComponent(d) + '/' + encodeURIComponent(data[d]));
+				if (data[d].param && data[d].disableEncoding) {
+					ret.push(encodeURIComponent(d) + '/' + data[d].param);
+				}
+				else {
+					ret.push(encodeURIComponent(d) + '/' + encodeURIComponent(data[d]));
+				}
 			}
 			return ret.join('/');
 		}
@@ -97,6 +117,13 @@ export default class Search extends React.Component {
 			searchParams['person'] = this.state.searchPerson;
 		}
 
+		if (this.state.searchHue && this.state.searchSaturation) {
+			searchParams['color'] = {
+				param: this.state.searchHue+'/'+this.state.searchSaturation,
+				disableEncoding: true
+			};
+		}
+
 		hashHistory.push('/search/'+encodeQueryData(searchParams));
 	}
 
@@ -104,7 +131,7 @@ export default class Search extends React.Component {
 		var searchElement = this.state.searchMode == 'persons' ?
 				<ThumbnailCircles selectedPerson={this.state.searchPerson} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
-				<ColorSearchSelector />
+				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: null
 		;
 

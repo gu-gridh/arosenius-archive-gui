@@ -59,7 +59,7 @@ export default class ThumbnailCircles
 			this.setState({
 				initialized: true
 			});
-		}.bind(this), 200);
+		}.bind(this), 300);
 
 	}
 
