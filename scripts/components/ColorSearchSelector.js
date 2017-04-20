@@ -118,7 +118,66 @@ export default class ColorSearchSelector
 						}
 					});
 			});
+	}
 
+	renderColormap(colormap) {
+		var view = this;
+		
+		this.graphContainer.selectAll('g.marker')
+			.data(colormap)
+			.enter()
+			.append('g')
+			.attr('class', 'marker')
+
+			.attr('transform', function(d) {
+				if (view.circularGraph) {
+					return 'rotate('+d.hue+')';
+				}
+			})
+
+			.each(function(data, hue) {
+				d3.select(this)
+					.selectAll('circle')
+					.data(data.saturation)
+					.enter()
+					.append('circle')
+					.attr('cx', function(d) {
+						if (!view.circularGraph) {
+							return view.xRange(colormap[hue].hue);
+						}
+					})
+					.attr('cy', function(d) {
+						return view.yRange(d)
+					})
+					.attr('r', 1.5)
+					.attr('fill', function(d) {
+						return chroma(colormap[hue].hue, (d/100), 0.6+(d/100), 'hsv').saturate(2.5).darken(2.5).hex();
+					})
+					.attr('style', 'cursor: pointer')
+//					.attr('stroke', 'rgba(0, 0, 0, 0.5)')
+					.attr('stroke-width', 0.1)
+					.on('click', function(event) {
+						if (view.props.onColorSelect) {
+							view.props.onColorSelect({
+								hue: view.baseData[hue].hue,
+								saturation: event
+							});
+						}
+					});
+			});
+
+	}
+
+	fetchColormap() {
+		fetch('http://cdh-vir-1.it.gu.se:8004/colormap')
+				.then(function(response) {
+					return response.json();
+				}).then(function(json) {
+					this.renderColormap(json);
+				}.bind(this)).catch(function(ex) {
+					console.log('parsing failed', ex)
+				})
+			;
 	}
 
 	componentDidMount() {
@@ -133,6 +192,8 @@ export default class ColorSearchSelector
 			graphHeight: ReactDOM.findDOMNode(this).clientHeight
 		}, function() {
 			this.renderGraph();
+
+			this.fetchColormap();
 		}.bind(this));
 	}
 
