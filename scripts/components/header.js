@@ -13,21 +13,19 @@ export default class Header extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.routerPath == '/') {		
-			window.addEventListener('scroll', function(e){
-				var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		window.addEventListener('scroll', function(e){
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-				if (scrollTop > 300) {
-					this.setState({
-						smallHeader: true
-					});
-				} else {
-					this.setState({
-						smallHeader: false
-					});
-				}
-			}.bind(this));
-		}
+			if (scrollTop > 300) {
+				this.setState({
+					smallHeader: true
+				});
+			} else {
+				this.setState({
+					smallHeader: false
+				});
+			}
+		}.bind(this));
 
 		setTimeout(function() {
 			this.setState({
@@ -38,7 +36,7 @@ export default class Header extends React.Component {
 
 	render() {
 		return (
-			<header className={"site-header"+(this.state.smallHeader || this.props.routerPath != '/' ? ' small' : '')+(this.state.initialized ? ' initialized' : '')}>
+			<header className={"site-header"+(this.props.routerPath.indexOf('/image/') > -1 || this.state.smallHeader ? ' small ' : '')+(this.state.initialized ? ' initialized' : '')}>
 				<div className="site-logo"><a href="#/">IA</a></div>
 
 				<div className="header-content">

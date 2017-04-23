@@ -21,7 +21,7 @@ export default class Search extends React.Component {
 		this.state = {
 			open: false,
 			searchString: '',
-			searchPerson: '',
+			searchPersons: [],
 			searchColor: null,
 			searchMode: 'persons'
 		};
@@ -30,23 +30,25 @@ export default class Search extends React.Component {
 	componentDidMount() {
 		this.setState({
 			searchString: this.props.searchString || '',
-			searchPerson: this.props.searchPerson || '',
+			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
-			open: Boolean(this.props.searchString || this.props.searchPerson || this.props.searchHue || this.props.searchSaturation)
+			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchHue || this.props.searchSaturation),
+			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : ''
 		});
 	}
 
 	componentWillReceiveProps(props) {
 		this.setState({
 			searchString: props.searchString || '',
-			searchPerson: props.searchPerson || '',
+			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
-			open: Boolean(props.searchString || props.searchPerson || props.searchHue || props.searchSaturation)
+			open: Boolean(props.searchString || props.searchPersons || props.searchHue || props.searchSaturation),
+			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : ''
 		});
 
-		if (!this.state.open && Boolean(props.searchString || props.searchPerson)) {
+		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
 			var scroll = new WindowScroll();
 
 			scroll.scrollToY(document.documentElement.clientHeight-200, 1000, 'easeInOutSine');			
@@ -73,14 +75,15 @@ export default class Search extends React.Component {
 
 	personSelectorChangeHandler(event) {
 		this.setState({
-			searchPerson: event.selectedPerson,
-			searchColor: null
+			searchPersons: event.selectedPersons,
+			searchHue: null,
+			searchSaturation: null
 		}, this.triggerSearch);
 	}
 
 	colorSelectorSelect(event) {
 		this.setState({
-			searchPerson: '',
+			searchPersons: [],
 			searchHue: event.hue,
 			searchSaturation: event.saturation
 		}, this.triggerSearch);
@@ -113,8 +116,8 @@ export default class Search extends React.Component {
 			searchParams['query'] = this.state.searchString;
 		}
 
-		if (this.state.searchPerson != '') {
-			searchParams['person'] = this.state.searchPerson;
+		if (this.state.searchPersons.length > 0) {
+			searchParams['person'] = this.state.searchPersons.join(';');
 		}
 
 		if (this.state.searchHue && this.state.searchSaturation) {
@@ -129,7 +132,7 @@ export default class Search extends React.Component {
 
 	render() {
 		var searchElement = this.state.searchMode == 'persons' ?
-				<ThumbnailCircles selectedPerson={this.state.searchPerson} selectionChanged={this.personSelectorChangeHandler} />
+				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
 				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: null

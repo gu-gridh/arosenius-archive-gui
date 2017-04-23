@@ -1,5 +1,7 @@
 import React from 'react';
 
+import _ from 'underscore';
+
 export default class ThumbnailCircles
  extends React.Component {
 	constructor(props) {
@@ -8,7 +10,7 @@ export default class ThumbnailCircles
 		window.thumbs = this;
 
 		this.state = {
-			selectedPerson: null,
+			selectedPersons: [],
 			initialized: false
 		};
 
@@ -39,12 +41,21 @@ export default class ThumbnailCircles
 	}
 
 	thumbnailClick(index) {
+		var selectedPersons = this.state.selectedPersons;
+
+		if (_.indexOf(selectedPersons, this.thumbnails[index].label) == -1) {
+			selectedPersons.push(this.thumbnails[index].label);
+		}
+		else {
+			selectedPersons = _.without(selectedPersons, this.thumbnails[index].label);
+		}
+
 		this.setState({
-			selectedPerson: this.state.selectedPerson == this.thumbnails[index].label ? '' : this.thumbnails[index].label
+			selectedPersons: selectedPersons
 		}, function() {
 			if (this.props.selectionChanged) {
 				this.props.selectionChanged({
-					selectedPerson: this.state.selectedPerson
+					selectedPersons: this.state.selectedPersons
 				});
 			}
 		}.bind(this));
@@ -52,7 +63,7 @@ export default class ThumbnailCircles
 
 	componentDidMount() {
 		this.setState({
-			selectedPerson: this.props.selectedPerson
+			selectedPersons: this.props.selectedPersons
 		});
 
 		setTimeout(function() {
@@ -65,13 +76,13 @@ export default class ThumbnailCircles
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			selectedPerson: props.selectedPerson
+			selectedPersons: props.selectedPersons
 		})
 	}
 
 	render() {
 		var items = this.thumbnails.map(function(item, index) {
-			return <a onClick={function(e) {e.preventDefault(); this.thumbnailClick(index)}.bind(this)} key={index} href="#" className={"thumb-item"+(this.state.selectedPerson != null && this.state.selectedPerson == item.label ? ' selected' : '')} style={{backgroundImage: 'url('+item.image+')'}}>
+			return <a onClick={function(e) {e.preventDefault(); this.thumbnailClick(index)}.bind(this)} key={index} href="#" className={"thumb-item"+(_.indexOf(this.state.selectedPersons, item.label) > -1 ? ' selected' : '')} style={{backgroundImage: 'url('+item.image+')'}}>
 				<span>{item.label}</span>
 			</a>
 		}.bind(this));

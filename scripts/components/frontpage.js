@@ -13,7 +13,7 @@ export default class FrontPage extends React.Component {
 		this.state = {
 			initialized: false,
 			searchString: null,
-			searchPerson: null
+			searchPersons: null
 		};
 	}
 
@@ -28,7 +28,7 @@ export default class FrontPage extends React.Component {
 			this.setState({
 				initialized: true,
 				searchString: this.props.params.search,
-				searchPerson: this.props.params.person,
+				searchPersons: this.props.params.person,
 				searchPlace: this.props.params.place,
 				searchMuseum: this.props.params.museum,
 				searchGenre: this.props.params.genre,
@@ -41,7 +41,7 @@ export default class FrontPage extends React.Component {
 	componentWillReceiveProps(props) {
 		this.setState({
 			searchString: props.params.search,
-			searchPerson: props.params.person,
+			searchPersons: props.params.person,
 			searchPlace: props.params.place,
 			searchMuseum: props.params.museum,
 			searchGenre: props.params.genre,
@@ -59,11 +59,11 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search searchString={this.state.searchString} searchPerson={this.state.searchPerson} searchHue={this.state.searchHue} searchSaturation={this.state.searchSaturation} />
+				<Search searchString={this.state.searchString} searchPersons={this.state.searchPersons} searchHue={this.state.searchHue} searchSaturation={this.state.searchSaturation} />
 
 				<div className="site-content">
 					<ImageList searchString={this.state.searchString} 
-						searchPerson={this.state.searchPerson} 
+						searchPerson={this.state.searchPersons} 
 						searchPlace={this.state.searchPlace} 
 						searchMuseum={this.state.searchMuseum}
 						searchGenre={this.state.searchGenre}
