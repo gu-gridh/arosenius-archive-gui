@@ -1,0 +1,58 @@
+.thumb-list {
+	.thumb-item {
+		display: inline-block;
+
+		position: relative;
+
+		width: 100px;
+		height: 100px;
+
+		margin: 0 10px;
+
+		border-radius: 100%;
+		border: 1px solid fadeout(@color-blue, 100%);
+		box-sizing: border-box;
+
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 110%;
+
+		.transition(all 200ms ease-in-out);
+
+		&:hover {
+			border: 1px solid @color-blue;
+
+			background-size: 120%;
+
+			opacity: 0.9;
+
+			span {
+				top: 105px;
+
+				opacity: 1;
+			}
+		}
+
+		&.selected {
+			border: 1px solid @color-blue;
+			box-shadow: 0 0px 0px 1px #00c5ff;
+		}
+		
+		span {
+			display: block;
+			
+			position: absolute;
+			
+			top: 90px;
+			
+			width: 100%;
+			
+			text-align: center;
+			line-height: 1.7rem;
+ 			
+ 			opacity: 0;
+
+ 			.transition(all 200ms ease-in-out);
+		}
+	}
+}

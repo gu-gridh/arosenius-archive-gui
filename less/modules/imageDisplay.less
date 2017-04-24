@@ -1,0 +1,190 @@
+
+.image-container {
+	position: relative;
+
+	margin-bottom: 50px;
+
+	.transition(all 400ms ease-in-out);
+
+	.image-display {
+		display: inline-block;
+
+		position: relative;
+
+		left: 50%;
+
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjg3OUMyMzAwRjc2RTExRTZBRTRFRTM3NjkzNEFGQUQ0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjg3OUMyMzAxRjc2RTExRTZBRTRFRTM3NjkzNEFGQUQ0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ODc5QzIyRkVGNzZFMTFFNkFFNEVFMzc2OTM0QUZBRDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6ODc5QzIyRkZGNzZFMTFFNkFFNEVFMzc2OTM0QUZBRDQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz59woChAAAAEElEQVR42mL4//8/A0CAAQAI/AL+26JNFgAAAABJRU5ErkJggg==');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+
+		box-shadow: 0px 0px 50px black;
+
+		.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0));
+
+		.transition(all 300ms ease-in-out);
+
+		&.image-rear {
+			position: absolute;
+			
+			opacity: 0;
+
+			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(-180deg));
+
+			.flipped& {
+				opacity: 1;
+
+				.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0deg));
+			}
+		}
+
+		.flipped& {
+			opacity: 0;
+
+			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(180deg));
+		}
+
+		.loader {
+			position: relative;
+
+			top: 50%;
+			left: 50%;
+
+			width: 80px;
+			height: 80px;
+
+			background-image: url(../img/loading.gif);
+			background-repeat: no-repeat;
+			background-size: 80px 80px;
+
+			.transform(translate(-50%, -50%));
+
+			.transition(all 300ms ease-in-out);
+
+			.initialized& {
+				opacity: 0;
+			}
+		}
+	}
+
+	.image-buttons {
+		position: absolute;
+
+		bottom: 40px;
+		left: 40px;
+
+		z-index: 60;
+
+		.transition(all 300ms ease-in-out);
+
+		&.fixed {
+			position: fixed;
+
+			bottom: 120px;
+		}
+
+		button {
+			display: block;
+			
+			position: relative;
+
+			width: 44px;
+			height: 44px;
+
+			padding: 0;
+			margin-top: 35px;
+			
+			background: #fff;
+
+			border: none;
+			border-radius: 100%;
+			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.55);
+
+			text-indent: 1000px;
+
+			overflow: hidden;
+
+			.transition(all 300ms ease-in-out);
+
+			.hide-ui & {
+				.transform(translateX(-100px));
+			}
+
+			&:hover {
+				.transform(scale(1.2));
+			}
+
+			&.icon-plus {
+				background-image: url('../img/icon-plus.png');
+				background-size: 24px 24px;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+
+			.icon-arrow {
+				display: block;
+
+				position: absolute;
+
+				width: 11px;
+				height: 11px;
+
+				background-image: url('../img/icon-arrow.png');
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+
+				.transition(all 300ms ease-in-out);
+
+				&.arrow-1 {
+					.transform(translate(10px, 20px));
+
+					.full-display& {
+						.transform(translate(22px, 8px));
+					}
+				}
+
+				&.arrow-2 {
+					.transform(rotate(180deg) translate(-23px, -7px));
+
+					.full-display& {
+						.transform(rotate(180deg) translate(-10px, -20px));
+					}
+				}
+			}
+		}
+	}
+
+	img {
+		display: block;
+
+		position: relative;
+
+		left: 50%;
+
+		width: 100%;
+
+		max-height: 10000px;
+		max-width: 100%;
+
+		box-shadow: 0px 0px 50px black;
+
+		.transform(translateX(-50%));
+
+		.transition(all 300ms ease-in-out);
+
+		.initialized& {
+			opacity: 1;
+		}
+	}
+
+	&.full-display {
+//		max-height: 100vh;
+
+		img {
+			width: auto;
+
+			max-height: 100vh;
+		}
+	}
+}

@@ -19,23 +19,13 @@ export default class Search extends React.Component {
 		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
 
 		this.state = {
-			open: false,
-			searchString: '',
-			searchPersons: [],
-			searchColor: null,
-			searchMode: 'persons'
-		};
-	}
-
-	componentDidMount() {
-		this.setState({
 			searchString: this.props.searchString || '',
 			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
 			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchHue || this.props.searchSaturation),
-			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : ''
-		});
+			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
+		};
 	}
 
 	componentWillReceiveProps(props) {
@@ -45,7 +35,7 @@ export default class Search extends React.Component {
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
 			open: Boolean(props.searchString || props.searchPersons || props.searchHue || props.searchSaturation),
-			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : ''
+			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : 'persons'
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
@@ -131,6 +121,7 @@ export default class Search extends React.Component {
 	}
 
 	render() {
+		console.log(this.state);
 		var searchElement = this.state.searchMode == 'persons' ?
 				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?

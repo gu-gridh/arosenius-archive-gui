@@ -15,13 +15,15 @@ export default class ImageDisplay extends React.Component {
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.hideUiClick = this.hideUiClick.bind(this);
 		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
+		this.imageDisplayClickHandler = this.imageDisplayClickHandler.bind(this);
 
 		this.state = {
 			image: null,
 			imageUrl: null,
 			fullDisplay: false,
 			fullDisplayImageUrl: null,
-			fixedImageButtons: true	
+			fixedImageButtons: true,
+			flipped: false
 		};
 	}
 
@@ -55,6 +57,14 @@ export default class ImageDisplay extends React.Component {
 				this.positionImageButtons();
 			}.bind(this), 100);
 		}.bind(this));
+	}
+
+	imageDisplayClickHandler() {
+		if (this.state.image.images.length == 2) {
+			this.setState({
+				flipped: !this.state.flipped
+			});
+		}
 	}
 
 	windowScrollHandler() {
@@ -105,13 +115,7 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	loadImage() {
-		if (this.state.image.image) {
-			var image = new Image();
-
-			image.onload = this.imageLoadedHandler;
-			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.image+'.jpg';
-		}
-		else if (this.state.image.images && this.state.image.images[0]) {
+		if (this.state.image.images && this.state.image.images[0]) {
 			var image = new Image();
 
 			image.onload = this.imageLoadedHandler;
@@ -156,14 +160,21 @@ export default class ImageDisplay extends React.Component {
 		window.removeEventListener('resize', this.windowResizeHandler);
 	}
 
-	getImageStyle() {
+	getImageStyle(rearImage) {
+		if (rearImage && this.state.image.images.length == 2) {
+			var imgObj = this.state.image.images[1];
+		}
+		else {
+			var imgObj = this.state.image.images[0];
+		}
+
 		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 		var ratio = 0;
 
-		var imageWidth = this.state.image.images[0].imagesize.width;
-		var imageHeight = this.state.image.images[0].imagesize.height;
+		var imageWidth = imgObj.imagesize.width;
+		var imageHeight = imgObj.imagesize.height;
 
 		if (this.state.fullDisplay) {
 			ratio = viewWidth / imageWidth;
@@ -184,9 +195,9 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
-		var imageStyle = this.state.image.images[0].color && this.state.image.images[0].color.colors ? {
-			backgroundColor: this.state.image.images[0].color.dominant.hex,
-			backgroundImage: this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
+		var imageStyle = imgObj.color && imgObj.color.colors ? {
+			backgroundColor: imgObj.color.dominant.hex,
+			backgroundImage: rearImage ? "url('http://cdh-vir-1.it.gu.se:8004/images/1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight
@@ -202,15 +213,29 @@ export default class ImageDisplay extends React.Component {
 			}) : [];
 
 			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
-				return <div key={index}><a href={'#/search/person/'+person}>{person}</a></div>
+				if (person != '') {
+					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index > 0 ? ', ' : ''}</span>
+				}
+			}) : [];
+
+			var genre = this.state.image.genre ? this.state.image.genre.map(function(genre, index) {
+				if (genre != '') {
+					return <span key={index}><a href={'#/search/genre/'+genre}>{genre}</a>{index > 0 ? ', ' : ''}</span>
+				}
 			}) : [];
 
 			return <div onMouseMove={this.mouseMoveHandler}>
 
-				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
-					<div className="image-display" style={this.getImageStyle()}>
+				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
+					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
 						<div className="loader"></div>
 					</div>
+
+					{
+						this.state.image.images.length == 2 && 
+						<div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(true)}>
+						</div>
+					}
 
 					<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 						
@@ -232,19 +257,35 @@ export default class ImageDisplay extends React.Component {
 					<h2>{this.state.image.title}</h2>
 
 					<div className="row">
+						{
+							(this.state.image.item_date || (this.state.image.size && this.state.image.size.inner) || this.state.image.material) &&
+
+							<div className="four columns">
+								{
+									this.state.image.item_date &&
+									<div><span className="label">Datering:</span> {this.state.image.item_date}</div>
+								}
+								{
+									this.state.image.material &&
+									<div><span className="label">Material:</span> {this.state.image.material}</div>
+								}
+								{
+									this.state.image.size && this.state.image.size.inner &&
+									<div><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
+								}
+							</div>
+						}
+
 						<div className="four columns">
+							<div><span className="label">Plats:</span> <a href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
-								this.state.image.item_date &&
-								<span><span className="label">Datering:</span> {this.state.image.item_date}</span>
+								genre.length > 0 &&
+								<div>
+									<span className="label">Genre:</span> {genre}
+								</div>
 							}
 						</div>
-						<div className="four columns">
-							<span className="label">Plats:</span> <a href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a><br/>
-							{
-								this.state.image.size && this.state.image.size.inner &&
-								<span><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</span>
-							}
-						</div>
+
 						<div className="four columns">
 							<div className="color-list">
 								{colorElements}
@@ -253,15 +294,14 @@ export default class ImageDisplay extends React.Component {
 					</div>
 
 					<div className="row">
-						<div className="six columns">
-							{
-								persons.length > 0 &&
-								<span>
-									<span className="label">Personer</span><br/>
-									{persons}
-								</span>
-							}
-						</div>
+						{
+							persons.length > 0 &&
+							<div className="six columns">
+								<br/>
+								<span className="label">Personer:</span><br/>
+								{persons}
+							</div>
+						}
 					</div>
 
 					<br/>

@@ -1,0 +1,25 @@
+.dropdown-wrapper {
+	position: relative;
+
+	.dropdown-container {
+		position: absolute;
+
+		opacity: 0;
+
+		pointer-events: none;
+
+		z-index: 10;
+
+		.transition(all 300ms ease-in-out);
+
+		.transform(translateY(-10px) scale(0.9));
+
+		&.open {
+			opacity: 1;
+
+			.transform(translateY(0) scale(1));
+
+			pointer-events: all;
+		}
+	}
+}
