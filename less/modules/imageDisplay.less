@@ -22,11 +22,13 @@
 
 		.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0));
 
-		.transition(all 300ms ease-in-out);
+		.transition(all 600ms ease-in-out);
 
 		&.image-rear {
 			position: absolute;
-			
+
+			top: 0;
+
 			opacity: 0;
 
 			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(-180deg));
