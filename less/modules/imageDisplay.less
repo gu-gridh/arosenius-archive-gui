@@ -20,6 +20,8 @@
 
 		box-shadow: 0px 0px 50px black;
 
+		backface-visibility: hidden;
+
 		.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0));
 
 		.transition(all 600ms ease-in-out);
@@ -30,7 +32,7 @@
 			top: 0;
 
 			opacity: 0;
-
+//
 			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(-180deg));
 
 			.flipped& {
@@ -41,7 +43,7 @@
 		}
 
 		.flipped& {
-			opacity: 0;
+//			opacity: 0;
 
 			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(180deg));
 		}

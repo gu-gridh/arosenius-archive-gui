@@ -34,7 +34,8 @@ export default class ImageDisplay extends React.Component {
 			}).then(function(json) {
 				this.setState({
 					image: json.data,
-					imageUrl: ''
+					imageUrl: '',
+					flipped: false
 				});
 
 				setTimeout(function() {
