@@ -2213,10 +2213,10 @@ stretchRight
   background-position: center;
   box-shadow: 0px 0px 50px black;
   backface-visibility: hidden;
-  -webkit-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0);
-  -moz-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0);
-  -ms-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0);
-  transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0);
+  -webkit-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0);
+  -moz-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0);
+  -ms-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0);
+  transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0);
   -webkit-transition: all 600ms ease-in-out;
   -o-transition: all 600ms ease-in-out;
   transition: all 600ms ease-in-out;
@@ -2225,23 +2225,23 @@ stretchRight
   position: absolute;
   top: 0;
   opacity: 0;
-  -webkit-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(-180deg);
-  -moz-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(-180deg);
-  -ms-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(-180deg);
-  transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(-180deg);
+  -webkit-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
+  -moz-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
+  -ms-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
+  transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
 }
 .flipped.image-container .image-display.image-rear {
   opacity: 1;
-  -webkit-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0deg);
-  -moz-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0deg);
-  -ms-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0deg);
-  transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(0deg);
+  -webkit-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0deg);
+  -moz-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0deg);
+  -ms-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0deg);
+  transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(0deg);
 }
 .flipped.image-container .image-display {
-  -webkit-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(180deg);
-  -moz-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(180deg);
-  -ms-transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(180deg);
-  transform: translate3D(-50%, 0, 0) perspective(5000px) rotateY(180deg);
+  -webkit-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(-180deg);
+  -moz-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(-180deg);
+  -ms-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(-180deg);
+  transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(-180deg);
 }
 .image-container .image-display .loader {
   position: relative;

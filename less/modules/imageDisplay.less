@@ -1,3 +1,4 @@
+@3d-rotation-perspective: 2000px;
 
 .image-container {
 	position: relative;
@@ -22,7 +23,7 @@
 
 		backface-visibility: hidden;
 
-		.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0));
+		.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(0));
 
 		.transition(all 600ms ease-in-out);
 
@@ -33,19 +34,19 @@
 
 			opacity: 0;
 //
-			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(-180deg));
+			.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(180deg));
 
 			.flipped& {
 				opacity: 1;
 
-				.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(0deg));
+				.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(0deg));
 			}
 		}
 
 		.flipped& {
 //			opacity: 0;
 
-			.transform(translate3D(-50%, 0, 0) perspective(5000px ) rotateY(180deg));
+			.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(-180deg));
 		}
 
 		.loader {

@@ -6,6 +6,8 @@ import Masonry  from 'react-masonry-component';
 import ImageListCollection from '../collections/ImageListCollection';
 import ImageListItem from './ImageListItem';
 
+import WindowScroll from './../utils/window-scroll';
+
 export default class ImageList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -40,6 +42,8 @@ export default class ImageList extends React.Component {
 			this.props.searchSaturation != props.searchSaturation
 		) {
 			this.collection.fetch(props.searchString, props.searchPerson, props.searchPlace, props.searchMuseum, props.searchGenre, props.searchHue, props.searchSaturation);
+
+			(new WindowScroll()).scrollToY(document.documentElement.clientHeight+200, 1000, 'easeInOutSine');
 		}
 	}
 

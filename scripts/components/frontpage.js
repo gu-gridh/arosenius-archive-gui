@@ -18,9 +18,7 @@ export default class FrontPage extends React.Component {
 	}
 
 	arrowClick() {
-		var scroll = new WindowScroll();
-
-		scroll.scrollToY(document.documentElement.clientHeight-100, 1000, 'easeInOutSine');
+		(new WindowScroll()).scrollToY(document.documentElement.clientHeight-100, 1000, 'easeInOutSine');
 	}
 
 	componentDidMount() {

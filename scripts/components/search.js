@@ -48,7 +48,11 @@ export default class Search extends React.Component {
 	toggleButtonClick() {
 		this.setState({
 			open: !this.state.open
-		});
+		}, function() {
+			if (this.state.open) {
+				(new WindowScroll()).scrollToY(document.documentElement.clientHeight-100, 1000, 'easeInOutSine');
+			}
+		}.bind(this));
 	}
 
 	searchInputKeyPress(event) {
@@ -121,7 +125,6 @@ export default class Search extends React.Component {
 	}
 
 	render() {
-		console.log(this.state);
 		var searchElement = this.state.searchMode == 'persons' ?
 				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?

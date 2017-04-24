@@ -40,6 +40,12 @@ export default class DropdownMenu extends React.Component {
 		}
 	}
 
+	componeneWillUnmount() {
+		if (!this.props.manuallyClose) {
+			document.getElementById('app').removeEventListener('click', this.windowClickHandler.bind(this));
+		}
+	}
+
 	componentWillReceiveProps(props) {
 	}
 
