@@ -49,8 +49,13 @@ export default class ImageList extends React.Component {
 					genre: props.relatedValue
 				}, props.count);
 			}
+			if (props.related == 'tag') {
+				this.collection.fetch({
+					tags: props.relatedValue
+				}, props.count);
+			}
 		}
-		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.collection.fetch();
 		}
 		else if (this.props.searchString != props.searchString || 
@@ -58,6 +63,7 @@ export default class ImageList extends React.Component {
 			this.props.searchPlace != props.searchPlace || 
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
+			this.props.searchTags != props.searchTags ||
 			this.props.searchHue != props.searchHue ||
 			this.props.searchSaturation != props.searchSaturation
 		) {
@@ -67,6 +73,7 @@ export default class ImageList extends React.Component {
 				place: props.searchPlace, 
 				museum: props.searchMuseum, 
 				genre: props.searchGenre, 
+				tags: props.searchTags, 
 				hue: props.searchHue, 
 				saturation: props.searchSaturation
 			}, props.count);

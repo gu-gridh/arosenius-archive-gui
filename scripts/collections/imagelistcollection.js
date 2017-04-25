@@ -10,7 +10,7 @@ export default class ImageListCollection {
 	}
 
 	// Search params:
-	// searchString, person, place, museum, genre, hue, saturation
+	// searchString, person, place, tags, museum, genre, hue, saturation
 	fetch(params, count) {
 
 		params = params || {};
@@ -33,6 +33,9 @@ export default class ImageListCollection {
 			}
 			if (params.genre) {
 				fetchParams.push('genre='+params.genre);
+			}
+			if (params.tags) {
+				fetchParams.push('tags='+params.tags);
 			}
 			if (params.hue) {
 				fetchParams.push('hue='+params.hue);

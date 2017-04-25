@@ -217,13 +217,33 @@ export default class ImageDisplay extends React.Component {
 
 			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
 				if (person != '') {
-					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index > 0 ? ', ' : ''}</span>
+					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index > 0 ? ', ' : ''}</span>;
+				}
+			}) : [];
+
+			var relatedPersonImages = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
+				if (person != '') {
+					return <div key={index}>
+						<br/><br/>
+						<h3>Flera bilder av {person}</h3>
+						<ImageList related="person" relatedValue={person} count="10" />
+					</div>;
 				}
 			}) : [];
 
 			var genre = this.state.image.genre ? this.state.image.genre.map(function(genre, index) {
 				if (genre != '') {
-					return <span key={index}><a href={'#/search/genre/'+genre}>{genre}</a>{index > 0 ? ', ' : ''}</span>
+					return <span key={index}><a href={'#/search/genre/'+genre}>{genre}</a>{index > 0 ? ', ' : ''}</span>;
+				}
+			}) : [];
+
+			var relatedTagsImages = this.state.image.tags ? this.state.image.tags.map(function(tag, index) {
+				if (tag != '') {
+					return <div key={index}>
+						<br/><br/>
+						<h3>Flera bilder relaterad till {tag}</h3>
+						<ImageList related="tag" relatedValue={tag} count="10" />
+					</div>;
 				}
 			}) : [];
 
@@ -314,11 +334,16 @@ export default class ImageDisplay extends React.Component {
 
 				<div className="container">
 					{
-						this.state.image.persons && this.state.image.persons.length > 0 &&
+						relatedTagsImages.length > 0 &&
 						<div>
-							<br/><br/>
-							<h3>Flera bilder av {this.state.image.persons[0]}</h3>
-							<ImageList related="person" relatedValue={this.state.image.persons[0]} count="10" />
+							{relatedTagsImages}
+						</div>
+					}
+
+					{
+						relatedPersonImages.length > 0 &&
+						<div>
+							{relatedPersonImages}
 						</div>
 					}
 
