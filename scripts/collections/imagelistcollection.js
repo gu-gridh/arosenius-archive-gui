@@ -4,6 +4,8 @@ import _ from 'underscore';
 export default class ImageListCollection {
 	constructor(url, onComplete) {
 		this.url = url;
+		this.lastUrl = '';
+
 		this.onComplete = onComplete;
 
 		this.loading = false;
@@ -47,7 +49,15 @@ export default class ImageListCollection {
 				fetchParams.push('count='+count);
 			}
 
-			fetch(this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))
+			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
+
+			if (this.lastUrl == url) {
+				return;
+			}
+
+			this.lastUrl = url;
+
+			fetch(url)
 				.then(function(response) {
 					return response.json();
 				}).then(function(json) {

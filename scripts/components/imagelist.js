@@ -30,9 +30,6 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log('ImageList: componentWillReceiveProps');
-		console.log(props);
-
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
 				this.collection.fetch({
