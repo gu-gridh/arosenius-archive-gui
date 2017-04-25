@@ -316,7 +316,7 @@ export default class ImageDisplay extends React.Component {
 					{
 						this.state.image.persons && this.state.image.persons.length > 0 &&
 						<div>
-							<br/>
+							<br/><br/><br/>
 							<h3>Flera bilder av {this.state.image.persons[0]}</h3>
 							<ImageList related="person" relatedValue={this.state.image.persons[0]} count="10" />
 						</div>
@@ -325,13 +325,13 @@ export default class ImageDisplay extends React.Component {
 					{
 						this.state.image.genre && this.state.image.genre.length > 0 &&
 						<div>
-							<br/><br/><br/>
+							<br/><br/><br/><br/><br/>
 							<h3>Flera {this.state.image.genre[0]}</h3>
 							<ImageList related="genre" relatedValue={this.state.image.genre[0]} count="10" />
 						</div>
 					}
 
-					<br/><br/><br/>
+					<br/><br/><br/><br/><br/>
 					<h3>Flera bilder från {this.state.image.collection.museum}</h3>
 					<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
 				</div>
