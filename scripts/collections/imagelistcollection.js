@@ -9,31 +9,39 @@ export default class ImageListCollection {
 		this.loading = false;
 	}
 
-	fetch(searchString, person, place, museum, genre, hue, saturation) {
+	// Search params:
+	// searchString, person, place, museum, genre, hue, saturation
+	fetch(params, count) {
+
+		params = params || {};
+
 		if (this.url && !this.loading) {
 			this.loading = true;
 
 			var fetchParams = [];
-			if (searchString) {
-				fetchParams.push('search='+searchString);
+			if (params.searchString) {
+				fetchParams.push('search='+params.searchString);
 			}
-			if (person) {
-				fetchParams.push('person='+person);
+			if (params.person) {
+				fetchParams.push('person='+params.person);
 			}
-			if (place) {
-				fetchParams.push('place='+place);
+			if (params.place) {
+				fetchParams.push('place='+params.place);
 			}
-			if (museum) {
-				fetchParams.push('museum='+museum);
+			if (params.museum) {
+				fetchParams.push('museum='+params.museum);
 			}
-			if (genre) {
-				fetchParams.push('genre='+genre);
+			if (params.genre) {
+				fetchParams.push('genre='+params.genre);
 			}
-			if (hue) {
-				fetchParams.push('hue='+hue);
+			if (params.hue) {
+				fetchParams.push('hue='+params.hue);
 			}
-			if (saturation) {
-				fetchParams.push('saturation='+saturation);
+			if (params.saturation) {
+				fetchParams.push('saturation='+params.saturation);
+			}
+			if (count) {
+				fetchParams.push('count='+count);
 			}
 
 			fetch(this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))

@@ -23,7 +23,8 @@ export default class ImageDisplay extends React.Component {
 			fullDisplay: false,
 			fullDisplayImageUrl: null,
 			fixedImageButtons: true,
-			flipped: false
+			flipped: false,
+			flippable: false
 		};
 	}
 
@@ -127,7 +128,8 @@ export default class ImageDisplay extends React.Component {
 
 	imageLoadedHandler() {
 		this.setState({
-			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg'
+			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg',
+			flippable: this.state.image.images.length == 2
 		});
 
 		setTimeout(function() {
@@ -227,7 +229,7 @@ export default class ImageDisplay extends React.Component {
 
 			return <div onMouseMove={this.mouseMoveHandler}>
 
-				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
+				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
 					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
 						<div className="loader"></div>
 					</div>
@@ -310,7 +312,29 @@ export default class ImageDisplay extends React.Component {
 
 				</div>
 
-				<ImageList />
+				<div className="container">
+					{
+						this.state.image.persons && this.state.image.persons.length > 0 &&
+						<div>
+							<br/>
+							<h3>Flera bilder av {this.state.image.persons[0]}</h3>
+							<ImageList related="person" relatedValue={this.state.image.persons[0]} count="10" />
+						</div>
+					}
+
+					{
+						this.state.image.genre && this.state.image.genre.length > 0 &&
+						<div>
+							<br/><br/><br/>
+							<h3>Flera {this.state.image.genre[0]}</h3>
+							<ImageList related="genre" relatedValue={this.state.image.genre[0]} count="10" />
+						</div>
+					}
+
+					<br/><br/><br/>
+					<h3>Flera bilder från {this.state.image.collection.museum}</h3>
+					<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
+				</div>
 
 			</div>;
 		}

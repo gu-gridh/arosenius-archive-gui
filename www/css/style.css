@@ -2221,10 +2221,12 @@ stretchRight
   -o-transition: all 600ms ease-in-out;
   transition: all 600ms ease-in-out;
 }
+.flippable.image-container .image-display {
+  cursor: pointer;
+}
 .image-container .image-display.image-rear {
   position: absolute;
   top: 0;
-  opacity: 0;
   -webkit-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
   -moz-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
   -ms-transform: translate3D(-50%, 0, 0) perspective(2000px) rotateY(180deg);
@@ -2529,7 +2531,7 @@ body {
   font-family: "hypatia-sans-pro", sans-serif;
 }
 body {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   overflow-x: hidden;
 }
 .label {

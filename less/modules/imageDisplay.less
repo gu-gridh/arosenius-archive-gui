@@ -27,13 +27,15 @@
 
 		.transition(all 600ms ease-in-out);
 
+		.flippable& {
+			cursor: pointer;
+		}
+
 		&.image-rear {
 			position: absolute;
 
 			top: 0;
 
-			opacity: 0;
-//
 			.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(180deg));
 
 			.flipped& {
@@ -44,8 +46,6 @@
 		}
 
 		.flipped& {
-//			opacity: 0;
-
 			.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(-180deg));
 		}
 

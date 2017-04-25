@@ -30,7 +30,27 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		console.log('ImageList: componentWillReceiveProps');
+		console.log(props);
+
+		if (props.related && props.relatedValue) {
+			if (props.related == 'person') {
+				this.collection.fetch({
+					person: props.relatedValue
+				}, props.count);
+			}
+			if (props.related == 'museum') {
+				this.collection.fetch({
+					museum: props.relatedValue
+				}, props.count);
+			}
+			if (props.related == 'genre') {
+				this.collection.fetch({
+					genre: props.relatedValue
+				}, props.count);
+			}
+		}
+		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.collection.fetch();
 		}
 		else if (this.props.searchString != props.searchString || 
@@ -41,7 +61,15 @@ export default class ImageList extends React.Component {
 			this.props.searchHue != props.searchHue ||
 			this.props.searchSaturation != props.searchSaturation
 		) {
-			this.collection.fetch(props.searchString, props.searchPerson, props.searchPlace, props.searchMuseum, props.searchGenre, props.searchHue, props.searchSaturation);
+			this.collection.fetch({
+				searchString: props.searchString, 
+				person: props.searchPerson, 
+				place: props.searchPlace, 
+				museum: props.searchMuseum, 
+				genre: props.searchGenre, 
+				hue: props.searchHue, 
+				saturation: props.searchSaturation
+			}, props.count);
 
 			(new WindowScroll()).scrollToY(document.documentElement.clientHeight+200, 1000, 'easeInOutSine');
 		}
