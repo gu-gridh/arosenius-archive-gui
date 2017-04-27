@@ -1940,6 +1940,7 @@ stretchRight
 .site-header .site-logo a {
   text-decoration: none;
   color: inherit;
+  font-weight: 100;
 }
 .small.site-header .site-logo {
   padding: 0 24px;
