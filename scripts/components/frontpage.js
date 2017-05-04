@@ -13,7 +13,9 @@ export default class FrontPage extends React.Component {
 		this.state = {
 			initialized: false,
 			searchString: null,
-			searchPersons: null
+			searchPersons: null,
+			backgroundImage: null,
+			backgroundLoaded: false
 		};
 	}
 
@@ -35,6 +37,8 @@ export default class FrontPage extends React.Component {
 				searchSaturation: this.props.params.saturation
 			});
 		}.bind(this), 200);
+
+		this.loadBackgroundImage();
 	}
 
 	componentWillReceiveProps(props) {
@@ -50,10 +54,37 @@ export default class FrontPage extends React.Component {
 		});
 	}
 
+	loadBackgroundImage() {
+		var rand = Math.round(Math.random()*5);
+		var imageUrl = 'img/background/bg-'+rand+'.jpg';
+
+		var image = new Image();
+
+		image.onload = function() {
+			this.setState({
+				backgroundImage: imageUrl
+			}, function() {
+				setTimeout(function() {
+					this.setState({
+						backgroundLoaded: true
+					});
+				}.bind(this), 500);
+			}.bind(this));
+		}.bind(this);
+
+		image.onerror = this.imageErrorHandler;
+
+		image.src = imageUrl;
+	}
+
+	imageErrorHandler() {
+	}
+
 	render() {
+		console.log(this.state);
 		return (
 			<div className={"front"+(this.state.initialized ? ' initialized' : '')}>
-				<div className="hero-image">
+				<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
 					<div className="overlay"></div>
 
 					<button className="arrow" onClick={this.arrowClick}></button>

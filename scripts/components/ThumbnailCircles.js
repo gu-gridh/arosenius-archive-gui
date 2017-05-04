@@ -36,6 +36,10 @@ export default class ThumbnailCircles
 			{
 				image: 'img/persons/henning.jpg',
 				label: 'Gerhard Henning'
+			},
+			{
+				image: 'img/persons/sahlin.jpg',
+				label: 'Ester Sahlin'
 			}
 		];
 	}

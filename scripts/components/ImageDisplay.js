@@ -161,6 +161,10 @@ export default class ImageDisplay extends React.Component {
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.windowScrollHandler);
 		window.removeEventListener('resize', this.windowResizeHandler);
+
+		if (this.mouseIdleTimer) {
+			clearTimeout(this.mouseIdleTimer);
+		}
 	}
 
 	getImageStyle(rearImage) {
@@ -233,7 +237,7 @@ export default class ImageDisplay extends React.Component {
 
 			var genre = this.state.image.genre ? this.state.image.genre.map(function(genre, index) {
 				if (genre != '') {
-					return <span key={index}><a href={'#/search/genre/'+genre}>{genre}</a>{index > 0 ? ', ' : ''}</span>;
+					return <span key={index}><a href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>{index > 0 ? ', ' : ''}</span>;
 				}
 			}) : [];
 
@@ -241,7 +245,7 @@ export default class ImageDisplay extends React.Component {
 				if (tag != '') {
 					return <div key={index}>
 						<br/><br/>
-						<h3>Flera bilder relaterad till {tag}</h3>
+						<h3>Fler objekt relaterad till {tag}</h3>
 						<ImageList related="tag" relatedValue={tag} count="10" />
 					</div>;
 				}
@@ -351,13 +355,13 @@ export default class ImageDisplay extends React.Component {
 						this.state.image.genre && this.state.image.genre.length > 0 &&
 						<div>
 							<br/><br/><br/><br/>
-							<h3>Flera {this.state.image.genre[0]}</h3>
+							<h3>Flera {this.state.image.genre[0].toLowerCase()}</h3>
 							<ImageList related="genre" relatedValue={this.state.image.genre[0]} count="10" />
 						</div>
 					}
 
 					<br/><br/><br/><br/>
-					<h3>Flera bilder från {this.state.image.collection.museum}</h3>
+					<h3>Fler objekt från {this.state.image.collection.museum}</h3>
 					<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
 				</div>
 

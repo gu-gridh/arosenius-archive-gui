@@ -76,12 +76,18 @@
 		float: left;
 
 		margin: 15px 0 0 20px;
+
+		.transition(all 300ms ease-in-out);
+
+		.small& {
+			margin-top: 12px;
+		}
 	}
 
 	.site-title {
 		max-height: 80px;
 
-		margin-bottom: 1.2rem;
+		margin-bottom: 1rem;
 
 		color: white;
 		font-family: "hypatia-sans-pro", sans-serif;
@@ -120,6 +126,10 @@
 		ul {
 			list-style: none;
 
+			li {
+				margin-bottom: 0.5rem;
+			}
+
 			a {
 				color: #fff;
 				font-family: hypatia-sans-pro,sans-serif;
@@ -127,6 +137,10 @@
 				font-weight: 100;
 				line-height: 1.8rem;
 				text-decoration: none;
+
+				.small& {
+					font-size: 2.8rem;
+				}
 
 				&:hover {
 					color: @color-blue;
@@ -143,11 +157,19 @@
 	left: 0;
 	right: 0;
 
-	height: 120vh;
+	height: 140vh;
 
-	background-image: url('../img/bg-2.jpg');
+	background: @empty-image;
 	background-position: top center;
 	background-size: cover;
+
+	opacity: 0;
+
+	.transition(opacity 300ms ease-in-out);
+
+	&.initialized {
+		opacity: 1;
+	}
 
 	.overlay {
 		position: absolute;
@@ -186,18 +208,12 @@
 
 		z-index: 10;
 
-		opacity: 0;
-
 		.transform(translate(-50%, 0));
 		.transition(all 300ms ease-in-out);
 		.animation(fadein 5s);
 
 		&:hover {
 			margin-top: 8px;
-		}
-
-		.initialized & {
-			opacity: 1;
 		}
 
 		@media screen and (max-width: 750px) {
