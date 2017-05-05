@@ -5,6 +5,8 @@ import _ from 'underscore';
 import ImageList from './ImageList';
 import WindowScroll from './../utils/window-scroll';
 
+import config from './../config';
+
 export default class ImageDisplay extends React.Component {
 	constructor(props) {
 		super(props);
@@ -29,7 +31,8 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	fetchData() {
-		fetch('http://cdh-vir-1.it.gu.se:8004/document/'+this.props.params.imageId)
+		console.log('from config');
+		fetch(config.apiUrl+config.endpoints.document+this.props.params.imageId)
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {

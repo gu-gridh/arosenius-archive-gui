@@ -8,6 +8,7 @@ export default class DropdownMenu extends React.Component {
 
 		this.menuButtonClick = this.menuButtonClick.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
+		this.windowClickHandler = this.windowClickHandler.bind(this);
 
 		this.state = {
 			menuOpen: false
@@ -36,13 +37,13 @@ export default class DropdownMenu extends React.Component {
 
 	componentDidMount() {
 		if (!this.props.manuallyClose) {
-			document.getElementById('app').addEventListener('click', this.windowClickHandler.bind(this));
+			document.getElementById('app').addEventListener('click', this.windowClickHandler);
 		}
 	}
 
 	componeneWillUnmount() {
 		if (!this.props.manuallyClose) {
-			document.getElementById('app').removeEventListener('click', this.windowClickHandler.bind(this));
+			document.getElementById('app').removeEventListener('click', this.windowClickHandler);
 		}
 	}
 

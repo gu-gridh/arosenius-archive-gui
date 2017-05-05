@@ -1,9 +1,11 @@
 import 'whatwg-fetch';
 import _ from 'underscore';
 
+import config from './../config';
+
 export default class ImageListCollection {
-	constructor(url, onComplete) {
-		this.url = url;
+	constructor(onComplete) {
+		this.url = config.apiUrl+config.endpoints.documents;
 		this.lastUrl = '';
 
 		this.onComplete = onComplete;
@@ -11,11 +13,14 @@ export default class ImageListCollection {
 		this.loading = false;
 	}
 
-	// Search params:
-	// searchString, person, place, tags, museum, genre, hue, saturation
-	fetch(params, count) {
+	fetch(params, count, page, append) {
+		page = page || 1;
+
+		this.currentPage = page;
 
 		params = params || {};
+
+		this.currentParams = params;
 
 		if (this.url && !this.loading) {
 			this.loading = true;
@@ -49,6 +54,8 @@ export default class ImageListCollection {
 				fetchParams.push('count='+count);
 			}
 
+			fetchParams.push('page='+page);
+
 			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
 
 			if (this.lastUrl == url) {
@@ -63,7 +70,10 @@ export default class ImageListCollection {
 				}).then(function(json) {
 					this.loading = false;
 					if (this.onComplete) {
-						this.onComplete(json);
+						this.onComplete({
+							append: append,
+							data: json
+						});
 					}
 				}.bind(this)).catch(function(ex) {
 					console.log('parsing failed', ex)

@@ -2413,7 +2413,7 @@ stretchRight
   display: block;
   position: relative;
   float: left;
-  width: 16.67%;
+  width: 20%;
   min-height: 100px;
   -webkit-transition: all 100ms ease-in-out;
   -o-transition: all 100ms ease-in-out;
@@ -2472,33 +2472,21 @@ stretchRight
   transform: translateY(100%);
 }
 .grid .grid-sizer {
-  width: 16.67%;
+  width: 20%;
 }
-@media screen and (max-width: 1600px) {
-  .grid .grid-item,
-  .grid .grid-sizer {
-    width: 20%;
-  }
-}
-@media screen and (max-width: 1250) {
-  .grid .grid-item,
-  .grid .grid-sizer {
-    width: 20%;
-  }
-}
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1250px) {
   .grid .grid-item,
   .grid .grid-sizer {
     width: 25%;
   }
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .grid .grid-item,
   .grid .grid-sizer {
     width: 33.3%;
   }
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 900px) {
   .grid .grid-item,
   .grid .grid-sizer {
     width: 50%;

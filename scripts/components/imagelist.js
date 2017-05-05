@@ -12,7 +12,10 @@ export default class ImageList extends React.Component {
 	constructor(props) {
 		super(props);
 
+		window.imageList = this;
+
 		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
+		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 
 		this.state = {
 			images: [],
@@ -20,13 +23,45 @@ export default class ImageList extends React.Component {
 			columns: false
 		};
 
-		this.collection = new ImageListCollection('http://cdh-vir-1.it.gu.se:8004/documents', function(json) {
-			this.setState({
-				images: _.filter(json.documents, function(document) {
+		this.collection = new ImageListCollection(function(event) {
+			var imageArray = [];
+
+			if (event.append) {
+				var appendImageArray = _.filter(event.data.documents, function(document) {
 					return (document.image && document.image != '') || (document.images && document.images.length > 0 && document.images[0].image != '');
-				})
+				});
+
+				imageArray = this.state.images.concat(appendImageArray);
+			}
+			else {
+				imageArray = _.filter(event.data.documents, function(document) {
+					return (document.image && document.image != '') || (document.images && document.images.length > 0 && document.images[0].image != '');
+				});
+			}
+			this.setState({
+				images: imageArray
 			})
 		}.bind(this));
+	}
+
+	componentDidMount() {
+		if (this.props.enableAutoLoad) {
+			window.addEventListener('scroll', this.windowScrollHandler)
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.props.enableAutoLoad) {
+			window.removeEventListener('scroll', this.windowScrollHandler);
+		}
+	}
+
+	windowScrollHandler() {
+		if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+			if (this.props.enableAutoLoad) {
+				this.appendPage();
+			}
+		}
 	}
 
 	componentWillReceiveProps(props) {
@@ -34,26 +69,26 @@ export default class ImageList extends React.Component {
 			if (props.related == 'person') {
 				this.collection.fetch({
 					person: props.relatedValue
-				}, props.count);
+				}, props.count, 1);
 			}
 			if (props.related == 'museum') {
 				this.collection.fetch({
 					museum: props.relatedValue
-				}, props.count);
+				}, props.count, 1);
 			}
 			if (props.related == 'genre') {
 				this.collection.fetch({
 					genre: props.relatedValue
-				}, props.count);
+				}, props.count, 1);
 			}
 			if (props.related == 'tag') {
 				this.collection.fetch({
 					tags: props.relatedValue
-				}, props.count);
+				}, props.count, 1);
 			}
 		}
 		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
-			this.collection.fetch();
+			this.collection.fetch(null, props.count, 1);
 		}
 		else if (this.props.searchString != props.searchString || 
 			this.props.searchPerson != props.searchPerson || 
@@ -73,10 +108,23 @@ export default class ImageList extends React.Component {
 				tags: props.searchTags, 
 				hue: props.searchHue, 
 				saturation: props.searchSaturation
-			}, props.count);
+			}, props.count, 1);
 
 			(new WindowScroll()).scrollToY(document.documentElement.clientHeight+200, 1000, 'easeInOutSine');
 		}
+	}
+
+	appendPage() {
+		this.collection.fetch({
+			searchString: this.props.searchString, 
+			person: this.props.searchPerson, 
+			place: this.props.searchPlace, 
+			museum: this.props.searchMuseum, 
+			genre: this.props.searchGenre, 
+			tags: this.props.searchTags, 
+			hue: this.props.searchHue, 
+			saturation: this.props.searchSaturation
+		}, this.props.count, this.collection.currentPage+1, true);
 	}
 
 	imageLoadedHandler() {

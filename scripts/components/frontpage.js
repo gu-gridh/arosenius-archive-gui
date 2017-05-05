@@ -81,7 +81,6 @@ export default class FrontPage extends React.Component {
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 			<div className={"front"+(this.state.initialized ? ' initialized' : '')}>
 				<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
@@ -93,7 +92,7 @@ export default class FrontPage extends React.Component {
 				<Search searchString={this.state.searchString} searchPersons={this.state.searchPersons} searchHue={this.state.searchHue} searchSaturation={this.state.searchSaturation} />
 
 				<div className="site-content">
-					<ImageList searchString={this.state.searchString} 
+					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
 						searchPerson={this.state.searchPersons} 
 						searchPlace={this.state.searchPlace} 
 						searchMuseum={this.state.searchMuseum}
