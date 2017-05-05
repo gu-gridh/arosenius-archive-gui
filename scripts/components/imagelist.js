@@ -57,7 +57,7 @@ export default class ImageList extends React.Component {
 	}
 
 	windowScrollHandler() {
-		if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+		if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight-50) {
 			if (this.props.enableAutoLoad) {
 				this.appendPage();
 			}
