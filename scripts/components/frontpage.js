@@ -68,7 +68,7 @@ export default class FrontPage extends React.Component {
 					this.setState({
 						backgroundLoaded: true
 					});
-				}.bind(this), 500);
+				}.bind(this), 300);
 			}.bind(this));
 		}.bind(this);
 
