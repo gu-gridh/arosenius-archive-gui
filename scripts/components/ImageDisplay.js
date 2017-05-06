@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import _ from 'underscore';
 
 import ImageList from './ImageList';
+import Search from './Search';
 import WindowScroll from './../utils/window-scroll';
 
 import config from './../config';
@@ -222,32 +223,47 @@ export default class ImageDisplay extends React.Component {
 				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} className="color" style={{backgroundColor: color.hex}} ></a>
 			}) : [];
 
-			var persons = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
-				if (person != '') {
-					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index > 0 ? ', ' : ''}</span>;
-				}
+			var persons = this.state.image.persons ? _.filter(this.state.image.persons, function(item) {
+				return item != '';
 			}) : [];
 
-			var relatedPersonImages = this.state.image.persons ? this.state.image.persons.map(function(person, index) {
+			var personsEls = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
-					return <div key={index}>
-						<br/><br/>
+					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index == persons.length-1 ? '' : ', '}</span>;
+				}
+			}.bind(this)) : [];
+
+			var relatedPersonImages = persons.length > 0 ? persons.map(function(person, index) {
+				if (person != '') {
+					return <div className="related-list" key={index}>
 						<h3>Flera bilder av {person}</h3>
 						<ImageList related="person" relatedValue={person} count="10" />
 					</div>;
 				}
 			}) : [];
 
-			var genre = this.state.image.genre ? this.state.image.genre.map(function(genre, index) {
+			var genres = this.state.image.genre ? _.filter(this.state.image.genre, function(item) {
+				return item != '';
+			}) : [];
+
+			var relatedGenreImages = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <span key={index}><a href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>{index > 0 ? ', ' : ''}</span>;
+					return <div className="related-list" key={index}>
+						<h3>Flera {genre.toLowerCase()}</h3>
+						<ImageList related="genre" relatedValue={genre} count="10" />
+					</div>;
 				}
 			}) : [];
 
+			var genreEls =genres.length > 0 ? genres.map(function(genre, index) {
+				if (genre != '') {
+					return <span key={index}><a href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>{index == genres.length-1 ? '' : ', '}</span>;
+				}
+			}.bind(this)) : [];
+
 			var relatedTagsImages = this.state.image.tags ? this.state.image.tags.map(function(tag, index) {
 				if (tag != '') {
-					return <div key={index}>
-						<br/><br/>
+					return <div className="related-list" key={index}>
 						<h3>Fler objekt relaterad till {tag}</h3>
 						<ImageList related="tag" relatedValue={tag} count="10" />
 					</div>;
@@ -309,9 +325,9 @@ export default class ImageDisplay extends React.Component {
 						<div className="four columns">
 							<div><span className="label">Plats:</span> <a href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
-								genre.length > 0 &&
+								genreEls.length > 0 &&
 								<div>
-									<span className="label">Genre:</span> {genre}
+									<span className="label">Genre:</span> {genreEls}
 								</div>
 							}
 						</div>
@@ -325,11 +341,11 @@ export default class ImageDisplay extends React.Component {
 
 					<div className="row">
 						{
-							persons.length > 0 &&
+							personsEls.length > 0 &&
 							<div className="six columns">
 								<br/>
 								<span className="label">Personer:</span><br/>
-								{persons}
+								{personsEls}
 							</div>
 						}
 					</div>
@@ -355,17 +371,16 @@ export default class ImageDisplay extends React.Component {
 					}
 
 					{
-						this.state.image.genre && this.state.image.genre.length > 0 &&
+						relatedGenreImages.length > 0 &&
 						<div>
-							<br/><br/><br/><br/>
-							<h3>Flera {this.state.image.genre[0].toLowerCase()}</h3>
-							<ImageList related="genre" relatedValue={this.state.image.genre[0]} count="10" />
+							{relatedGenreImages}
 						</div>
 					}
 
-					<br/><br/><br/><br/>
-					<h3>Fler objekt från {this.state.image.collection.museum}</h3>
-					<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
+					<div className="related-list">
+						<h3>Fler objekt från {this.state.image.collection.museum}</h3>
+						<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
+					</div>
 				</div>
 
 			</div>;

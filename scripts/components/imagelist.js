@@ -20,10 +20,13 @@ export default class ImageList extends React.Component {
 		this.state = {
 			images: [],
 			initialized: false,
-			columns: false
+			columns: false,
+			waitingForLoad: false
 		};
 
 		this.collection = new ImageListCollection(function(event) {
+			this.waitingForLoad = false;
+
 			var imageArray = [];
 
 			if (event.append) {
@@ -39,7 +42,8 @@ export default class ImageList extends React.Component {
 				});
 			}
 			this.setState({
-				images: imageArray
+				images: imageArray,
+				total: event.data.total
 			})
 		}.bind(this));
 	}
@@ -88,6 +92,8 @@ export default class ImageList extends React.Component {
 			}
 		}
 		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+			this.waitingForLoad = true;
+
 			this.collection.fetch(null, props.count, 1);
 		}
 		else if (this.props.searchString != props.searchString || 
@@ -99,6 +105,8 @@ export default class ImageList extends React.Component {
 			this.props.searchHue != props.searchHue ||
 			this.props.searchSaturation != props.searchSaturation
 		) {
+			this.waitingForLoad = true;
+
 			this.collection.fetch({
 				searchString: props.searchString, 
 				person: props.searchPerson, 
@@ -115,16 +123,20 @@ export default class ImageList extends React.Component {
 	}
 
 	appendPage() {
-		this.collection.fetch({
-			searchString: this.props.searchString, 
-			person: this.props.searchPerson, 
-			place: this.props.searchPlace, 
-			museum: this.props.searchMuseum, 
-			genre: this.props.searchGenre, 
-			tags: this.props.searchTags, 
-			hue: this.props.searchHue, 
-			saturation: this.props.searchSaturation
-		}, this.props.count, this.collection.currentPage+1, true);
+		if (!this.waitingForLoad) {
+			this.waitingForLoad = true;
+
+			this.collection.fetch({
+				searchString: this.props.searchString, 
+				person: this.props.searchPerson, 
+				place: this.props.searchPlace, 
+				museum: this.props.searchMuseum, 
+				genre: this.props.searchGenre, 
+				tags: this.props.searchTags, 
+				hue: this.props.searchHue, 
+				saturation: this.props.searchSaturation
+			}, this.props.count, this.collection.currentPage+1, true);
+		}
 	}
 
 	imageLoadedHandler() {
@@ -155,15 +167,21 @@ export default class ImageList extends React.Component {
 			</div>;
 		}
 		else {
-			return <Masonry
+			return <div>
+				{
+					this.props.related && this.state.total > this.state.images.length &&
+					<a className="view-more-link" href={'#/search/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
+				}
+				<Masonry
 					className={'grid'+(this.state.initialized ? ' initialized' : '')} // default ''
 					options={masonryOptions} // default {}
 					disableImagesLoaded={false} // default false
 					updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
 					onImagesLoaded={this.imageLoadedHandler}
-				>
-				{items}
-			</Masonry>;
+					>
+					{items}
+				</Masonry>
+			</div>;
 		}
 	}
 }
