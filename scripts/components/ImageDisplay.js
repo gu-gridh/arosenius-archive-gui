@@ -61,7 +61,7 @@ export default class ImageDisplay extends React.Component {
 			}
 			setTimeout(function() {
 				this.positionImageButtons();
-			}.bind(this), 300);
+			}.bind(this), 500);
 		}.bind(this));
 	}
 
