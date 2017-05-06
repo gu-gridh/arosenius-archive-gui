@@ -19,27 +19,33 @@ export default class ThumbnailCircles
 		this.thumbnails = [
 			{
 				image: 'img/persons/ivar.jpg',
-				label: 'Ivar Arosenius'
+				label: 'Ivar Arosenius',
+				shortLabel: 'Ivar'
 			},
 			{
 				image: 'img/persons/lillan.jpg',
-				label: 'Eva "Lillan" Arosenius'
+				label: 'Eva "Lillan" Arosenius',
+				shortLabel: 'Lillan'
 			},
 			{
 				image: 'img/persons/eva.jpg',
-				label: 'Ida (Eva) Arosenius'
+				label: 'Ida (Eva) Arosenius',
+				shortLabel: 'Eva'
 			},
 			{
 				image: 'img/persons/kruse.jpg',
-				label: 'Ole Kruse'
+				label: 'Ole Kruse',
+				shortLabel: 'Ole'
 			},
 			{
 				image: 'img/persons/henning.jpg',
-				label: 'Gerhard Henning'
+				label: 'Gerhard Henning',
+				shortLabel: 'Gerhard'
 			},
 			{
 				image: 'img/persons/sahlin.jpg',
-				label: 'Ester Sahlin'
+				label: 'Ester Sahlin',
+				shortLabel: 'Ester'
 			}
 		];
 	}
@@ -87,7 +93,7 @@ export default class ThumbnailCircles
 	render() {
 		var items = this.thumbnails.map(function(item, index) {
 			return <a onClick={function(e) {e.preventDefault(); this.thumbnailClick(index)}.bind(this)} key={index} href="#" className={"thumb-item"+(_.indexOf(this.state.selectedPersons, item.label) > -1 ? ' selected' : '')} style={{backgroundImage: 'url('+item.image+')'}}>
-				<span>{item.label}</span>
+				<span>{item.shortLabel}</span>
 			</a>
 		}.bind(this));
 		return (
