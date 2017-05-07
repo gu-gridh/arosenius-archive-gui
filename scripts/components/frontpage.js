@@ -24,6 +24,8 @@ export default class FrontPage extends React.Component {
 	}
 
 	componentDidMount() {
+		(new WindowScroll()).scrollToY(0, 1000, 'easeInOutSine');
+
 		setTimeout(function() {
 			this.setState({
 				initialized: true,

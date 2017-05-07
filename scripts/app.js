@@ -12,7 +12,7 @@ ReactDOM.render(
 		<Route component={Application}>
 			<Route path="/(search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation))" component={FrontPage}/>
 			<Route path="/images" component={ImageList}/>
-			<Route path="/image/:imageId(/:imageIndex)" component={ImageDisplay}/>
+			<Route path="/image/:imageId(/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation))" component={ImageDisplay}/>
 		</Route>
 	</Router>,
 	document.getElementById('app')

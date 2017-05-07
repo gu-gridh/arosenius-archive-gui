@@ -28,20 +28,31 @@ export default class Search extends React.Component {
 		};
 	}
 
+	getOffsetTop(elem) {
+		var offsetTop = 0;
+		do {
+			if (!isNaN(elem.offsetTop )) {
+				offsetTop += elem.offsetTop;
+			}
+		} while (elem = elem.offsetParent);
+
+		return offsetTop;
+	}
+
 	componentWillReceiveProps(props) {
 		this.setState({
 			searchString: props.searchString || '',
 			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
-			open: Boolean(props.searchString || props.searchPersons || props.searchHue || props.searchSaturation),
+			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchHue || props.searchSaturation),
 			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : 'persons'
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
 			var scroll = new WindowScroll();
 
-			scroll.scrollToY(document.documentElement.clientHeight-200, 1000, 'easeInOutSine');			
+			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
 		}
 	}
 
@@ -50,7 +61,11 @@ export default class Search extends React.Component {
 			open: !this.state.open
 		}, function() {
 			if (this.state.open) {
-				(new WindowScroll()).scrollToY(document.documentElement.clientHeight-100, 1000, 'easeInOutSine');
+				var scroll = new WindowScroll();
+
+				console.log(this.getOffsetTop(this.refs.searchButton));
+	
+				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 1000, 'easeInOutSine');			
 			}
 		}.bind(this));
 	}
@@ -121,7 +136,7 @@ export default class Search extends React.Component {
 			};
 		}
 
-		hashHistory.push('/search/'+encodeQueryData(searchParams));
+		hashHistory.push((this.props.imageId ? '/image/'+this.props.imageId : '')+'/search/'+encodeQueryData(searchParams));
 	}
 
 	render() {
@@ -133,9 +148,9 @@ export default class Search extends React.Component {
 		;
 
 		return (
-			<div className="search-module">
+			<div className="search-module" ref="container">
 
-				<button className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
+				<button ref="searchButton" className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
 
 				<div className={'module-content'+(' mode-'+this.state.searchMode)+(this.state.open ? ' open' : '')}>
 					<input value={this.state.searchString} 

@@ -20,6 +20,8 @@ export default class ImageDisplay extends React.Component {
 		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
 		this.imageDisplayClickHandler = this.imageDisplayClickHandler.bind(this);
 
+		this.searchFormSearchHandler = this.searchFormSearchHandler.bind(this);
+
 		this.state = {
 			image: null,
 			imageUrl: null,
@@ -32,7 +34,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	fetchData() {
-		console.log('from config');
 		fetch(config.apiUrl+config.endpoints.document+this.props.params.imageId)
 			.then(function(response) {
 				return response.json()
@@ -144,6 +145,10 @@ export default class ImageDisplay extends React.Component {
 	imageErrorHandler(event) {
 	}
 
+	searchFormSearchHandler(event) {
+
+	}
+
 	componentDidMount() {
 		this.fetchData();
 
@@ -151,15 +156,19 @@ export default class ImageDisplay extends React.Component {
 		window.addEventListener('resize', this.windowResizeHandler);
 
 		this.positionImageButtons();
-	}
 
-	componentDidUpdate(prevProps) {
-		if (this.state.image && this.state.image.id != this.props.params.imageId) {
-			this.fetchData();
-			
-			window.scrollTo(0, 0);
-//			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
-		}
+		setTimeout(function() {
+			this.setState({
+				searchString: this.props.params.search,
+				searchPersons: this.props.params.person,
+				searchPlace: this.props.params.place,
+				searchMuseum: this.props.params.museum,
+				searchGenre: this.props.params.genre,
+				searchTags: this.props.params.tags,
+				searchHue: this.props.params.hue,
+				searchSaturation: this.props.params.saturation
+			});
+		}.bind(this), 200);
 	}
 
 	componentWillUnmount() {
@@ -168,6 +177,26 @@ export default class ImageDisplay extends React.Component {
 
 		if (this.mouseIdleTimer) {
 			clearTimeout(this.mouseIdleTimer);
+		}
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			searchString: props.params.search,
+			searchPersons: props.params.person,
+			searchPlace: props.params.place,
+			searchMuseum: props.params.museum,
+			searchGenre: props.params.genre,
+			searchTags: props.params.tags,
+			searchHue: props.params.hue,
+			searchSaturation: props.params.saturation
+		});
+
+		if (this.state.image && this.state.image.id != props.params.imageId) {
+			this.fetchData();
+			
+			window.scrollTo(0, 0);
+			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 		}
 	}
 
@@ -270,7 +299,7 @@ export default class ImageDisplay extends React.Component {
 				}
 			}) : [];
 
-			return <div onMouseMove={this.mouseMoveHandler}>
+			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
 				<div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
 					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
@@ -383,10 +412,21 @@ export default class ImageDisplay extends React.Component {
 					</div>
 				</div>
 
+				<Search imageId={this.state.image.id} />
+				<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
+					searchPerson={this.state.searchPersons} 
+					searchPlace={this.state.searchPlace} 
+					searchMuseum={this.state.searchMuseum}
+					searchGenre={this.state.searchGenre}
+					searchTags={this.state.searchTags}
+					searchHue={this.state.searchHue}
+					searchSaturation={this.state.searchSaturation} />
+
 			</div>;
 		}
 		else {
-			return <div></div>;
+			return <div>
+			</div>;
 		}
 	}
 }

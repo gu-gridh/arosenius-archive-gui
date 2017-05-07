@@ -68,6 +68,17 @@ export default class ImageList extends React.Component {
 		}
 	}
 
+	getOffsetTop(elem) {
+		var offsetTop = 0;
+		do {
+			if (!isNaN(elem.offsetTop )) {
+				offsetTop += elem.offsetTop;
+			}
+		} while (elem = elem.offsetParent);
+
+		return offsetTop;
+	}
+
 	componentWillReceiveProps(props) {
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
@@ -118,7 +129,7 @@ export default class ImageList extends React.Component {
 				saturation: props.searchSaturation
 			}, props.count, 1);
 
-			(new WindowScroll()).scrollToY(document.documentElement.clientHeight+200, 1000, 'easeInOutSine');
+			(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-50, 1000, 'easeInOutSine');
 		}
 	}
 
@@ -167,7 +178,7 @@ export default class ImageList extends React.Component {
 			</div>;
 		}
 		else {
-			return <div>
+			return <div ref="container">
 				{
 					this.props.related && this.state.total > this.state.images.length &&
 					<a className="view-more-link" href={'#/search/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
