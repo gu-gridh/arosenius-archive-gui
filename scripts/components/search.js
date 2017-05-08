@@ -62,8 +62,6 @@ export default class Search extends React.Component {
 		}, function() {
 			if (this.state.open) {
 				var scroll = new WindowScroll();
-
-				console.log(this.getOffsetTop(this.refs.searchButton));
 	
 				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 1000, 'easeInOutSine');			
 			}

@@ -129,7 +129,9 @@ export default class ImageList extends React.Component {
 				saturation: props.searchSaturation
 			}, props.count, 1);
 
-			(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-50, 1000, 'easeInOutSine');
+			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchHue || props.searchSaturation) {
+				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-50, 1000, 'easeInOutSine');
+			}
 		}
 	}
 

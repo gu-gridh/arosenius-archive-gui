@@ -33,8 +33,8 @@ export default class ImageDisplay extends React.Component {
 		};
 	}
 
-	fetchData() {
-		fetch(config.apiUrl+config.endpoints.document+this.props.params.imageId)
+	fetchData(imageId) {
+		fetch(config.apiUrl+config.endpoints.document+imageId)
 			.then(function(response) {
 				return response.json()
 			}).then(function(json) {
@@ -150,7 +150,7 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	componentDidMount() {
-		this.fetchData();
+		this.fetchData(this.props.params.imageId);
 
 		window.addEventListener('scroll', this.windowScrollHandler);
 		window.addEventListener('resize', this.windowResizeHandler);
@@ -193,9 +193,8 @@ export default class ImageDisplay extends React.Component {
 		});
 
 		if (this.state.image && this.state.image.id != props.params.imageId) {
-			this.fetchData();
+			this.fetchData(props.params.imageId);
 			
-			window.scrollTo(0, 0);
 			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 		}
 	}
