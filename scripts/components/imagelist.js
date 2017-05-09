@@ -50,7 +50,9 @@ export default class ImageList extends React.Component {
 
 	componentDidMount() {
 		if (this.props.enableAutoLoad) {
-			window.addEventListener('scroll', this.windowScrollHandler)
+			setTimeout(function() {
+				window.addEventListener('scroll', this.windowScrollHandler)
+			}.bind(this), 1000);
 		}
 	}
 
