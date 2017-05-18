@@ -112,6 +112,8 @@
 		}
 
 		@media screen and (max-width: 750px) {
+			display: none;
+/*
 			height: 0px;
 
 			margin-bottom: 0;
@@ -119,6 +121,7 @@
 			opacity: 0;
 
 			pointer-events: none;
+*/
 		}
 	}
 
@@ -128,6 +131,10 @@
 
 			li {
 				margin-bottom: 0.5rem;
+
+				@media screen and (max-width: 750px) {
+					margin-bottom: 0;
+				}
 			}
 
 			a {
@@ -139,6 +146,10 @@
 				text-decoration: none;
 
 				.small& {
+					font-size: 2.8rem;
+				}
+
+				@media screen and (max-width: 750px) {
 					font-size: 2.8rem;
 				}
 

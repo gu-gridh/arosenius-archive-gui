@@ -20,6 +20,11 @@
 
 		.transition(all 200ms ease-in-out);
 
+		@media screen and (max-width: 550px) {
+			width: 80px;
+			height: 80px;
+		}
+
 		&:hover, &.selected {
 			background-size: 120%;
 
@@ -51,6 +56,10 @@
 			opacity: 0;
 
  			.transition(all 200ms ease-in-out);
+
+ 			@media screen and (max-width: 550px) {
+ 				line-height: 80px;
+ 			}
 		}
 	}
 }

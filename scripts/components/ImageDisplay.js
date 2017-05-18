@@ -94,7 +94,7 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	mouseIdleHandler() {
-		document.body.classList.add('hide-ui');
+//		document.body.classList.add('hide-ui');
 	}
 
 	positionImageButtons() {
@@ -247,6 +247,8 @@ export default class ImageDisplay extends React.Component {
 
 	render() {
 		if (this.state.image && this.state.image.images[0]) {
+			document.title = 'Ivar Aroseniusarkivet - '+this.state.image.title;
+
 			var colorElements = this.state.image.images[0].color ? this.state.image.images[0].color.colors.five.map(function(color, index) {
 				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} className="color" style={{backgroundColor: color.hex}} ></a>
 			}) : [];

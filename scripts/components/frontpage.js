@@ -17,6 +17,8 @@ export default class FrontPage extends React.Component {
 			backgroundImage: null,
 			backgroundLoaded: false
 		};
+
+		document.title = 'Ivar Aroseniusarkivet';
 	}
 
 	arrowClick() {

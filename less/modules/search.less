@@ -1,9 +1,13 @@
 
 .search-module {
 	padding: 50px;
-	margin-bottom: 120px;
+	margin-bottom: 80px;
 
 	text-align: center;
+
+	@media screen and (max-width: 550px) {
+		margin-bottom: 0;
+	}
 
 	.front & {
 		position: relative;
@@ -50,7 +54,7 @@
 
 		&.open {
 			&.mode-persons {
-				max-height: 225px;
+				max-height: 1000px;
 			}
 
 			&.mode-colors {
