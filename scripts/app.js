@@ -7,8 +7,16 @@ import ImageList from './components/ImageList';
 import ImageDisplay from './components/ImageDisplay';
 import FrontPage from './components/FrontPage';
 
+var ReactGA = require('react-ga');
+ReactGA.initialize('UA-99610642-1');
+
+function logPageView() {
+	ReactGA.set({ page: window.location.pathname + window.location.search });
+	ReactGA.pageview(window.location.pathname + window.location.search);
+}
+
 ReactDOM.render(
-	<Router history={hashHistory}>
+	<Router history={hashHistory} onUpdate={logPageView}>
 		<Route component={Application}>
 			<Route path="/" component={FrontPage}/>
 			<Route path="/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation)" component={FrontPage}/>
