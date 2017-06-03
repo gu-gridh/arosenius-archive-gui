@@ -334,16 +334,16 @@ export default class ImageDisplay extends React.Component {
 
 					<div className="row">
 						{
-							(this.state.image.item_date || (this.state.image.size && this.state.image.size.inner) || this.state.image.material) &&
+							(this.state.image.item_date_str || (this.state.image.size && this.state.image.size.inner) || this.state.image.technique_material) &&
 
 							<div className="four columns">
 								{
-									this.state.image.item_date &&
-									<div><span className="label">Datering:</span> {this.state.image.item_date}</div>
+									this.state.image.item_date_str &&
+									<div><span className="label">Datering:</span> {this.state.image.item_date_str}</div>
 								}
 								{
-									this.state.image.material &&
-									<div><span className="label">Material:</span> {this.state.image.material}</div>
+									this.state.image.technique_material &&
+									<div><span className="label">Material:</span> {this.state.image.technique_material}</div>
 								}
 								{
 									this.state.image.size && this.state.image.size.inner &&
