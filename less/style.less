@@ -60,3 +60,30 @@ h3 {
 		font-size: 0.8em;
 	}
 }
+
+.button-link {
+	display: inline-block;
+
+	padding: 0 7px;
+	margin: 0 5px 5px 0;
+
+	background: #083240;
+	border-radius: 3px;
+
+	color: #fff;
+	font-size: 1.8rem;
+
+	.transition(all 200ms ease-in-out);
+
+	&:hover {
+		background: #125064;
+
+		color: #fff;
+	}
+}
+
+.button-links {
+	a {
+		.button-link();
+	}
+}

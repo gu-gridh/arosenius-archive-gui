@@ -1,4 +1,10 @@
 .color-list {
+	margin-top: 6px;
+
+	@media screen and (max-width: 550px) {
+		margin-top: 40px;
+	}
+
 	.color {
 		display: inline-block;
 
@@ -10,6 +16,10 @@
 		border: 1px solid rgba(255, 255, 255, 0.14);
 		border-radius: 100%;
 
-		.transition(all 400ms ease-in-out);
+		.transition(all 200ms ease-in-out);
+
+		&:hover {
+			.transform(scale(1.3));
+		}
 	}
 }

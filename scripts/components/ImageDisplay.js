@@ -19,17 +19,20 @@ export default class ImageDisplay extends React.Component {
 		this.hideUiClick = this.hideUiClick.bind(this);
 		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
 		this.imageDisplayClickHandler = this.imageDisplayClickHandler.bind(this);
+		this.pageClickHandler = this.pageClickHandler.bind(this);
 
 		this.searchFormSearchHandler = this.searchFormSearchHandler.bind(this);
 
 		this.state = {
 			image: null,
 			imageUrl: null,
+			currentImageUrl: null,
 			fullDisplay: false,
 			fullDisplayImageUrl: null,
 			fixedImageButtons: true,
 			flipped: false,
-			flippable: false
+			flippable: false,
+			currentPage: 1
 		};
 	}
 
@@ -41,7 +44,8 @@ export default class ImageDisplay extends React.Component {
 				this.setState({
 					image: json.data,
 					imageUrl: '',
-					flipped: false
+					flipped: false,
+					currentPage: 1
 				});
 
 				setTimeout(function() {
@@ -51,6 +55,10 @@ export default class ImageDisplay extends React.Component {
 				console.log('parsing failed', ex)
 			})
 		;
+	}
+
+	pageClickHandler(event) {
+		console.log(event.target.dataset.page);
 	}
 
 	toggleFullDisplay() {
@@ -67,9 +75,10 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	imageDisplayClickHandler() {
-		if (this.state.image.images.length == 2) {
+		if (this.state.image.images.length == 2 || this.getPage(this.state.currentPage, 'back')) {
 			this.setState({
-				flipped: !this.state.flipped
+				flipped: !this.state.flipped,
+				currentImageUrl: config.imageUrl+this.state.image.images[this.state.flipped ? 0 : 1].image+'.jpg'
 			});
 		}
 	}
@@ -127,14 +136,16 @@ export default class ImageDisplay extends React.Component {
 
 			image.onload = this.imageLoadedHandler;
 			image.onerror = this.imageErrorHandler;
-			image.src = 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg';
+			image.src = config.imageUrl+'1000x/'+this.state.image.images[0].image+'.jpg';
 		}
 	}
 
 	imageLoadedHandler() {
+		var imageUrl = config.imageUrl+'1000x/'+this.state.image.images[0].image+'.jpg';
 		this.setState({
-			imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/1000x/'+this.state.image.images[0].image+'.jpg',
-			flippable: this.state.image.images.length == 2
+			imageUrl: imageUrl,
+			currentImageUrl: config.imageUrl+this.state.image.images[0].image+'.jpg',
+			flippable: this.state.image.images.length == 2 || this.getPage(this.state.currentPage, 'back')
 		});
 
 		setTimeout(function() {
@@ -200,8 +211,8 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	getImageStyle(rearImage) {
-		if (rearImage && this.state.image.images.length == 2) {
-			var imgObj = this.state.image.images[1];
+		if (rearImage) {
+			var imgObj = rearImage;
 		}
 		else {
 			var imgObj = this.state.image.images[0];
@@ -236,13 +247,19 @@ export default class ImageDisplay extends React.Component {
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
 			backgroundColor: imgObj.color.dominant.hex,
-			backgroundImage: rearImage ? "url('http://cdh-vir-1.it.gu.se:8004/images/1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
+			backgroundImage: rearImage ? "url('"+config.imageUrl+"1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight
 		} : null;
 
 		return imageStyle;
+	}
+
+	getPage(page, side) {
+		return _.find(this.state.image.images, function(image) {
+			return image.page && image.page.number == page && image.page.side == side;
+		});
 	}
 
 	render() {
@@ -259,7 +276,7 @@ export default class ImageDisplay extends React.Component {
 
 			var personsEls = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
-					return <span key={index}><a href={'#/search/person/'+person}>{person}</a>{index == persons.length-1 ? '' : ', '}</span>;
+					return <a key={index} href={'#/search/person/'+person}>{person}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -287,18 +304,43 @@ export default class ImageDisplay extends React.Component {
 
 			var genreEls =genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <span key={index}><a href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>{index == genres.length-1 ? '' : ', '}</span>;
+					return <a key={index} href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
 			var relatedTagsImages = this.state.image.tags ? this.state.image.tags.map(function(tag, index) {
 				if (tag != '') {
 					return <div className="related-list" key={index}>
-						<h3>Fler objekt relaterad till {tag}</h3>
+						<h3>Fler objekt relaterade till {tag.toLowerCase()}</h3>
 						<ImageList related="tag" relatedValue={tag} count="10" />
 					</div>;
 				}
 			}) : [];
+
+			if (this.state.image.images.length > 2) {
+				var pages = _.filter(this.state.image.images, function(image) {
+					return image.page && image.page.side == 'front';
+				});
+
+				console.log(pages);
+
+				var imageEls = pages.map(function(page, index) {
+					return <a onClick={this.pageClickHandler} key={index} data-page={page.page.number} className={'thumb'+(page.page.number == this.state.currentPage ? ' selected' : '')}>
+						<img src={config.imageUrl+'255x/'+page.image+'.jpg'}/>
+					</a>
+				}.bind(this));
+
+			}
+
+			var rearImageEl;
+			if (this.state.image.images.length == 2 || this.getPage(this.state.currentPage, 'back')) {
+				if (this.getPage(this.state.currentPage, 'back')) {
+					rearImageEl = <div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(this.getPage(this.state.currentPage, 'back'))}></div>;
+				}
+				else {
+					rearImageEl = <div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(this.state.image.images[1])}></div>;
+				}
+			}
 
 			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
@@ -307,17 +349,15 @@ export default class ImageDisplay extends React.Component {
 						<div className="loader"></div>
 					</div>
 
-					{
-						this.state.image.images.length == 2 && 
-						<div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(true)}>
-						</div>
-					}
+					{rearImageEl}
 
 					<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 						
 						{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 
-						<button className="icon-plus"></button>
+						<a className="icon-download" href={this.state.currentImageUrl} target="_blank"></a>
+
+						{/*<button className="icon-plus"></button>*/}
 
 						<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleFullDisplay}>
 							<span className="icon-arrow arrow-1"></span>
@@ -327,6 +367,13 @@ export default class ImageDisplay extends React.Component {
 
 					</div>
 				</div>
+
+				{
+					(this.state.image.images.length > 2) &&
+					<div className="page-thumbnails">
+						{imageEls}
+					</div>
+				}
 
 				<div className="container">
 
@@ -343,7 +390,7 @@ export default class ImageDisplay extends React.Component {
 								}
 								{
 									this.state.image.technique_material &&
-									<div><span className="label">Material:</span> {this.state.image.technique_material}</div>
+									<div><span className="label">Teknik och material:</span> {this.state.image.technique_material}</div>
 								}
 								{
 									this.state.image.size && this.state.image.size.inner &&
@@ -353,11 +400,11 @@ export default class ImageDisplay extends React.Component {
 						}
 
 						<div className="four columns">
-							<div><span className="label">Plats:</span> <a href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
+							<div><span className="label">Plats:</span> <a className="button-link" href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
 								genreEls.length > 0 &&
 								<div>
-									<span className="label">Genre:</span> {genreEls}
+									<span className="label">Genre:</span> <span className="button-links">{genreEls}</span>
 								</div>
 							}
 						</div>
@@ -375,7 +422,7 @@ export default class ImageDisplay extends React.Component {
 							<div className="six columns">
 								<br/>
 								<span className="label">Personer:</span><br/>
-								{personsEls}
+								<span className="button-links">{personsEls}</span>
 							</div>
 						}
 					</div>

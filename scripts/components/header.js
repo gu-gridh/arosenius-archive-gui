@@ -40,12 +40,13 @@ export default class Header extends React.Component {
 				<div className="site-logo"><a href="#/">IA</a></div>
 
 				<div className="header-content">
-					<h1 className="site-title"><a href="#/">Ivar Aroseniusarkivet</a></h1>
+					<h1 className="site-title"><a href="#/">Aroseniusarkivet</a></h1>
 
 					<nav className="site-nav">
 						<ul>
-							<li><a href="http://aroseniusarkivet.org/projekt/">Projektet</a></li>
-							<li><a href="http://aroseniusarkivet.org/projekt/utoka-arkivet/">Utöka arkivet</a></li>
+							<li><a href="http://aroseniusarkivet.org/projekt/">Om projektet</a></li>
+							<li><a href="http://aroseniusarkivet.org/projekt/bidra-till-arkivet/">Bidra till arkivet</a></li>
+							<li><a href="http://aroseniusarkivet.org/projekt/ivar-arosenius/">Om Ivar Arosenius</a></li>
 						</ul>
 					</nav>
 				</div>
