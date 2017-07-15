@@ -2537,6 +2537,7 @@ stretchRight
 .page-thumbnails .thumb {
   display: inline-block;
   margin: 0 10px 10px 10px;
+  cursor: pointer;
 }
 .page-thumbnails .thumb img {
   display: block;

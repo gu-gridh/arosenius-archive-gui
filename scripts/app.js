@@ -4,7 +4,8 @@ import { Router, Route, Link, hashHistory } from 'react-router'
 
 import Application from './components/Application';
 import ImageList from './components/ImageList';
-import ImageDisplay from './components/ImageDisplay';
+import ImageView from './components/ImageView';
+import ImageDisplay from './components/ImageDisplay.v1';
 import FrontPage from './components/FrontPage';
 
 var ReactGA = require('react-ga');
@@ -18,9 +19,12 @@ function logPageView() {
 ReactDOM.render(
 	<Router history={hashHistory} onUpdate={logPageView}>
 		<Route component={Application}>
-			<Route path="/" component={FrontPage}/>
-			<Route path="/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation)" component={FrontPage}/>
-			<Route path="/image/:imageId(/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation))" component={ImageDisplay}/>
+			<Route path="/" 
+				component={FrontPage}/>
+			<Route path="/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation)" 
+				component={FrontPage}/>
+			<Route path="/image/:imageId(/search(/query/:search)(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation))" 
+				component={ImageView}/>
 		</Route>
 	</Router>,
 	document.getElementById('app')
