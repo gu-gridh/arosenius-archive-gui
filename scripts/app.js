@@ -5,7 +5,6 @@ import { Router, Route, Link, hashHistory } from 'react-router'
 import Application from './components/Application';
 import ImageList from './components/ImageList';
 import ImageView from './components/ImageView';
-import ImageDisplay from './components/ImageDisplay.v1';
 import FrontPage from './components/FrontPage';
 
 var ReactGA = require('react-ga');

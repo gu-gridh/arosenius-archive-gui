@@ -1,6 +1,9 @@
 import React from 'react';
+
 import 'whatwg-fetch';
 import _ from 'underscore';
+
+import ReactSwipeEvents from 'react-swipe-events';
 
 import ImageList from './ImageList';
 import ImageDisplay from './ImageDisplay';
@@ -14,6 +17,7 @@ export default class ImageView extends React.Component {
 		super(props);
 
 		this.pageClickHandler = this.pageClickHandler.bind(this);
+		this.imageSwipedHandler = this.imageSwipedHandler.bind(this);
 
 		this.searchFormSearchHandler = this.searchFormSearchHandler.bind(this);
 
@@ -45,6 +49,27 @@ export default class ImageView extends React.Component {
 
 	pageClickHandler(event) {
 		this.setPage(event.currentTarget.dataset.page);
+	}
+
+	imageSwipedHandler(event, originalX, originalY, endX, endY, deltaX, deltaY) {
+		if (Math.abs(deltaY) > 100 || Math.abs(deltaX) < 50) {
+			return;
+		}
+
+		if (originalX < endX) {
+			console.log('swipe right');
+			if (this.getPage(this.state.currentPage-1, 'front')) {
+				this.setPage(this.state.currentPage-1);
+			}
+		}
+		else {
+			console.log('swipe left');
+			if (this.getPage(this.state.currentPage+1, 'front')) {
+				this.setPage(this.state.currentPage+1);
+			}
+		}
+		console.log('deltaY: '+deltaY);
+		console.log('deltaX: '+deltaX);
 	}
 
 	setPage(page) {
@@ -189,7 +214,9 @@ export default class ImageView extends React.Component {
 
 			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
-				<ImageDisplay image={imageObj} />
+				<ReactSwipeEvents onSwiped={this.imageSwipedHandler}>
+					<ImageDisplay image={imageObj} />
+				</ReactSwipeEvents>
 
 				{
 					(this.state.image.images.length > 2) &&
