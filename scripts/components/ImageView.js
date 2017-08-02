@@ -205,8 +205,8 @@ export default class ImageView extends React.Component {
 				imageObj['back'] = this.state.image.images[1];
 			}
 			else if (this.state.image.images.length > 2) {
-				imageObj['front'] = this.getPage(this.state.currentPage, 'front');
-				imageObj['back'] = this.getPage(this.state.currentPage, 'back');
+				imageObj['front'] = this.getPage(this.state.currentPage, 'front') || this.state.image.images[0];
+				imageObj['back'] = this.getPage(this.state.currentPage, 'back') || this.state.image.images[1];
 			}
 			else {
 				imageObj['front'] = this.state.image.images[0];

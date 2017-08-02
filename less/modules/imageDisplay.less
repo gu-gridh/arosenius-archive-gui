@@ -13,6 +13,12 @@
 
 	.transition(all 400ms ease-in-out);
 
+	.image-wrapper {
+		pointer-events: none;
+
+		.transition(all 400ms ease-in-out);
+	}
+
 	.image-display {
 		display: inline-block;
 
@@ -33,6 +39,8 @@
 		-webkit-backface-visibility: hidden;
 
 		z-index: 10;
+
+		pointer-events: all;
 
 		.transform(translate3D(-50%, 0, 0) perspective(@3d-rotation-perspective) rotateY(0));
 
@@ -155,6 +163,17 @@
 
 			&.icon-download {
 				background-image: url('../img/icon-download.png');
+				background-size: 24px 24px;
+				background-position: center;
+				background-repeat: no-repeat;
+
+				@media screen and (max-width: 550px) {
+					background-size: 18px 18px;
+				}
+			}
+
+			&.icon-rotate {
+				background-image: url('../img/icon-rotate.png');
 				background-size: 24px 24px;
 				background-position: center;
 				background-repeat: no-repeat;

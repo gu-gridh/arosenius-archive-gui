@@ -13,11 +13,13 @@ export default class ImageDisplay extends React.Component {
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.imageDisplayClickHandler = this.imageDisplayClickHandler.bind(this);
 		this.toggleFullDisplay = this.toggleFullDisplay.bind(this);
+		this.rotateButtonClickHandler = this.rotateButtonClickHandler.bind(this);
 
 		this.state = {
 			image: null,
 			imageUrl: '',
-			flipped: false
+			flipped: false,
+			rotation: 0
 		};
 	}
 
@@ -37,6 +39,12 @@ export default class ImageDisplay extends React.Component {
 				flipped: !this.state.flipped
 			});
 		}
+	}
+
+	rotateButtonClickHandler() {
+		this.setState({
+			rotation: this.state.rotation+90
+		});
 	}
 
 	windowResizeHandler() {
@@ -98,7 +106,8 @@ export default class ImageDisplay extends React.Component {
 		this.setState({
 			imageUrl: imageUrl,
 			flippable: Boolean(this.state.image.back),
-			flipped: false
+			flipped: false,
+			rotation: 0
 		});
 
 		setTimeout(function() {
@@ -130,7 +139,8 @@ export default class ImageDisplay extends React.Component {
 			this.setState({
 				image: props.image,
 				imageUrl: '',
-				flipped: false
+				flipped: false,
+				rotation: 0
 			}, function() {
 				this.loadImage();
 			}.bind(this));
@@ -168,7 +178,7 @@ export default class ImageDisplay extends React.Component {
 			if (imageHeight > viewHeight){
 				ratio = viewHeight / imageHeight;
 				imageHeight = viewHeight;
-				imageWidth = imageWidth * ratio
+				imageWidth = imageWidth * ratio;
 			}
 		}
 
@@ -192,17 +202,24 @@ export default class ImageDisplay extends React.Component {
 			}
 
 			return <div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
-				<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
-					<div className="loader"></div>
-				</div>
 
-				{rearImageEl}
+				<div className="image-wrapper" style={{transform: 'rotate('+this.state.rotation+'deg)'}}>
+
+					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
+						<div className="loader"></div>
+					</div>
+
+					{rearImageEl}
+
+				</div>
 
 				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 					
 					{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 
 					<a className="icon-download" href={config.imageUrl+(this.state.flipped ? this.state.image.back.image : this.state.image.front.image)+'.jpg'} target="_blank"></a>
+
+					<a className="icon-rotate" onClick={this.rotateButtonClickHandler}></a>
 
 					{/*<button className="icon-plus"></button>*/}
 
