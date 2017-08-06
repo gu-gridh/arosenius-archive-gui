@@ -13,16 +13,17 @@ export default class ImageListCollection {
 		this.loading = false;
 	}
 
-	fetch(params, count, page, append) {
+	fetch(params, count, page, append, archiveMaterial) {
 		page = page || 1;
 
 		this.currentPage = page;
 
 		params = params || {};
 
+		var previousParams = this.currentParams;
 		this.currentParams = params;
 
-		if (this.url && !this.loading) {
+		if (JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) {
 			this.loading = true;
 
 			var fetchParams = [];
@@ -52,6 +53,9 @@ export default class ImageListCollection {
 			}
 			if (count) {
 				fetchParams.push('count='+count);
+			}
+			if (archiveMaterial) {
+				fetchParams.push('archivematerial='+archiveMaterial);
 			}
 
 			fetchParams.push('page='+page);

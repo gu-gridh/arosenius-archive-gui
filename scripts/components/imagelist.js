@@ -86,22 +86,22 @@ export default class ImageList extends React.Component {
 			if (props.related == 'person') {
 				this.collection.fetch({
 					person: props.relatedValue
-				}, props.count, 1);
+				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'museum') {
 				this.collection.fetch({
 					museum: props.relatedValue
-				}, props.count, 1);
+				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'genre') {
 				this.collection.fetch({
 					genre: props.relatedValue
-				}, props.count, 1);
+				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'tag') {
 				this.collection.fetch({
 					tags: props.relatedValue
-				}, props.count, 1);
+				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
 		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
@@ -183,10 +183,17 @@ export default class ImageList extends React.Component {
 		}
 		else {
 			return <div ref="container">
-				{
-					this.props.related && this.state.total > this.state.images.length &&
-					<a className="view-more-link" href={'#/search/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
-				}
+				<div>
+					{
+						this.props.title && this.state.images.length > 0 &&
+						<h3>{this.props.title}</h3>
+					}
+					{
+						this.props.related && this.state.total > this.state.images.length &&
+						<a className="view-more-link" href={'#/search/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
+					}
+				</div>
+
 				<Masonry
 					className={'grid'+(this.state.initialized ? ' initialized' : '')} // default ''
 					options={masonryOptions} // default {}

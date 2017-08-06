@@ -148,6 +148,8 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	getImageStyle(rearImage) {
+		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
+
 		if (rearImage) {
 			var imgObj = this.state.image.back;
 		}

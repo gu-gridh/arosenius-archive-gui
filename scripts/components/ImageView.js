@@ -16,6 +16,8 @@ export default class ImageView extends React.Component {
 	constructor(props) {
 		super(props);
 
+		window.imageView = this;
+
 		this.pageClickHandler = this.pageClickHandler.bind(this);
 		this.imageSwipedHandler = this.imageSwipedHandler.bind(this);
 
@@ -40,7 +42,9 @@ export default class ImageView extends React.Component {
 					image: json.data,
 					flipped: false,
 					currentPage: 1
-				});
+				}, function() {
+					this.forceUpdate();
+				}.bind(this));
 			}.bind(this)).catch(function(ex) {
 				console.log('parsing failed', ex)
 			})
@@ -57,19 +61,15 @@ export default class ImageView extends React.Component {
 		}
 
 		if (originalX < endX) {
-			console.log('swipe right');
 			if (this.getPage(this.state.currentPage-1, 'front')) {
 				this.setPage(this.state.currentPage-1);
 			}
 		}
 		else {
-			console.log('swipe left');
 			if (this.getPage(this.state.currentPage+1, 'front')) {
 				this.setPage(this.state.currentPage+1);
 			}
 		}
-		console.log('deltaY: '+deltaY);
-		console.log('deltaX: '+deltaX);
 	}
 
 	setPage(page) {
@@ -144,15 +144,22 @@ export default class ImageView extends React.Component {
 
 			var personsEls = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
-					return <a key={index} href={'#/search/person/'+person}>{person}</a>;
+					return <a key={person} href={'#/search/person/'+person}>{person}</a>;
 				}
 			}.bind(this)) : [];
 
 			var relatedPersonImages = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
-					return <div className="related-list" key={index}>
-						<h3>Flera bilder av {person}</h3>
-						<ImageList related="person" relatedValue={person} count="10" />
+					return <div className="related-list" key={person}>
+						<ImageList title={'Flera bilder av '+person} related="person" relatedValue={person} archiveMaterial="exclude" count="10" />
+					</div>;
+				}
+			}) : [];
+
+			var relatedPersonArchiveMaterial = persons.length > 0 ? persons.map(function(person, index) {
+				if (person != '') {
+					return <div className="related-list" key={person}>
+						<ImageList title={'Flera arkivdokument relaterade till '+person} related="person" relatedValue={person} archiveMaterial="only" count="10" />
 					</div>;
 				}
 			}) : [];
@@ -163,24 +170,22 @@ export default class ImageView extends React.Component {
 
 			var relatedGenreImages = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <div className="related-list" key={index}>
-						<h3>Flera {genre.toLowerCase()}</h3>
-						<ImageList related="genre" relatedValue={genre} count="10" />
+					return <div className="related-list" key={genre}>
+						<ImageList title={'Flera '+genre.toLowerCase()} related="genre" relatedValue={genre} count="10" />
 					</div>;
 				}
 			}) : [];
 
 			var genreEls =genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <a key={index} href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>;
+					return <a key={genre} href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
 			var relatedTagsImages = this.state.image.tags ? this.state.image.tags.map(function(tag, index) {
 				if (tag != '') {
-					return <div className="related-list" key={index}>
-						<h3>Fler objekt relaterade till {tag.toLowerCase()}</h3>
-						<ImageList related="tag" relatedValue={tag} count="10" />
+					return <div className="related-list" key={tag}>
+						<ImageList title={'Fler objekt relaterade till '+tag.toLowerCase()} related="tag" relatedValue={tag} count="10" />
 					</div>;
 				}
 			}) : [];
@@ -191,7 +196,7 @@ export default class ImageView extends React.Component {
 				});
 
 				var imageEls = pages.map(function(page, index) {
-					return <a onClick={this.pageClickHandler} key={index} data-page={page.page.number} className={'thumb'+(page.page.number == this.state.currentPage ? ' selected' : '')}>
+					return <a onClick={this.pageClickHandler} key={page.image} data-page={page.page.number} className={'thumb'+(page.page.number == this.state.currentPage ? ' selected' : '')}>
 						<img src={config.imageUrl+'255x/'+page.image+'.jpg'}/>
 					</a>
 				}.bind(this));
@@ -298,6 +303,13 @@ export default class ImageView extends React.Component {
 					}
 
 					{
+						relatedPersonArchiveMaterial.length > 0 &&
+						<div>
+							{relatedPersonArchiveMaterial}
+						</div>
+					}
+
+					{
 						relatedGenreImages.length > 0 &&
 						<div>
 							{relatedGenreImages}
@@ -305,8 +317,7 @@ export default class ImageView extends React.Component {
 					}
 
 					<div className="related-list">
-						<h3>Fler objekt från {this.state.image.collection.museum}</h3>
-						<ImageList related="museum" relatedValue={this.state.image.collection.museum} count="10" />
+						<ImageList title={'Fler objekt från '+this.state.image.collection.museum} related="museum" relatedValue={this.state.image.collection.museum} count="10" />
 					</div>
 				</div>
 
