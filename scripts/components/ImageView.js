@@ -190,7 +190,9 @@ export default class ImageView extends React.Component {
 				}
 			}) : [];
 
-			if (this.state.image.images.length > 2) {
+			if (_.filter(this.state.image.images, function(image) {
+					return image.page && (image.page.side == 'front' || image.page.side == 'back');
+				}).length > 2) {
 				var pages = _.filter(this.state.image.images, function(image) {
 					return image.page && image.page.side == 'front';
 				});
@@ -211,7 +213,10 @@ export default class ImageView extends React.Component {
 			}
 			else if (this.state.image.images.length > 2) {
 				imageObj['front'] = this.getPage(this.state.currentPage, 'front') || this.state.image.images[0];
-				imageObj['back'] = this.getPage(this.state.currentPage, 'back') || this.state.image.images[1];
+				if (this.getPage(this.state.currentPage, 'back')) {
+					imageObj['back'] = this.getPage(this.state.currentPage, 'back');
+				}
+//				imageObj['back'] = this.getPage(this.state.currentPage, 'back') || this.state.image.images[1];
 			}
 			else {
 				imageObj['front'] = this.state.image.images[0];

@@ -23,7 +23,7 @@ export default class ImageListCollection {
 		var previousParams = this.currentParams;
 		this.currentParams = params;
 
-		if (JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) {
+		if ((JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) || append) {
 			this.loading = true;
 
 			var fetchParams = [];
