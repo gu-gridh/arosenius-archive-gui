@@ -18,7 +18,11 @@ export default class DropdownMenu extends React.Component {
 	menuButtonClick() {
 		this.setState({
 			menuOpen: !this.state.menuOpen
-		});
+		}, function() {
+			if (this.state.menuOpen && this.props.onOpen) {
+				this.props.onOpen();
+			}
+		}.bind(this));
 	}
 
 	closeMenu() {
@@ -55,7 +59,6 @@ export default class DropdownMenu extends React.Component {
 	}
 
 	render() {
-		// another commit test
 		return (
 			<div ref="container" className={'dropdown-wrapper'+(this.props.dropdownDirection ? ' dropdown-direction-'+this.props.dropdownDirection : '')}>
 

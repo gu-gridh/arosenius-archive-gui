@@ -7,8 +7,6 @@ export default class ThumbnailCircles
 	constructor(props) {
 		super(props);
 
-		window.thumbs = this;
-
 		this.state = {
 			selectedPersons: [],
 			initialized: false

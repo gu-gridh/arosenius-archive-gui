@@ -138,10 +138,7 @@ export default class ImageList extends React.Component {
 	}
 
 	appendPage() {
-		console.log('ImageList: appendPage');
-		console.log('waitingForLoad: '+this.waitingForLoad);
 		if (!this.waitingForLoad) {
-			console.log('this.collection.fetch');
 			this.waitingForLoad = true;
 
 			this.collection.fetch({

@@ -5,6 +5,11 @@ export default {
 	
 	endpoints: {
 		documents: 'documents',
-		document: 'document/'
+		document: 'document/',
+
+		tags: 'tags',
+		persons: 'persons',
+		places: 'places',
+		genres: 'genres'
 	}
 };

@@ -93,7 +93,13 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search searchString={this.state.searchString} searchPersons={this.state.searchPersons} searchHue={this.state.searchHue} searchSaturation={this.state.searchSaturation} />
+				<Search searchString={this.state.searchString} 
+					searchPersons={this.state.searchPersons} 
+					searchHue={this.state.searchHue} 
+					searchSaturation={this.state.searchSaturation} 
+					searchGenre={this.state.searchGenre}
+					searchTags={this.state.searchTags}
+					searchPlace={this.state.searchPlace} />
 
 				<div className="site-content">
 					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 

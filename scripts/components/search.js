@@ -3,6 +3,7 @@ import { hashHistory } from 'react-router';
 
 import ThumbnailCircles from './ThumbnailCircles';
 import ColorSearchSelector from './ColorSearchSelector';
+import MultiTagsSelector from './MultiTagsSelector';
 import DropdownMenu from './DropdownMenu';
 
 import WindowScroll from './../utils/window-scroll';
@@ -23,7 +24,7 @@ export default class Search extends React.Component {
 			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
-			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchHue || this.props.searchSaturation),
+			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace || this.props.searchPerson),
 			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
 		};
 	}
@@ -40,13 +41,15 @@ export default class Search extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		console.log(props);
+
 		this.setState({
 			searchString: props.searchString || '',
 			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
-			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchHue || props.searchSaturation),
-			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : 'persons'
+			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchHue || props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace || this.props.searchPerson),
+			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : this.props.searchTags || this.props.searchGenre || this.props.searchPlace ? 'multi-tags' : 'persons'
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
@@ -142,6 +145,8 @@ export default class Search extends React.Component {
 				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
 				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
+			: this.state.searchMode == 'multi-tags' ?
+				<MultiTagsSelector />
 			: null
 		;
 
@@ -158,10 +163,13 @@ export default class Search extends React.Component {
 						onChange={this.searchInputChangeHandler} 
 						onKeyPress={this.searchInputKeyPress} />
 
-					<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
-						<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
-						<button onClick={this.setSearchMode.bind(this, 'colors')}>Färger</button>
-					</DropdownMenu>
+					<div className="filter-menu">
+						<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
+							<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
+							<button onClick={this.setSearchMode.bind(this, 'colors')}>Färger</button>
+							<button onClick={this.setSearchMode.bind(this, 'multi-tags')}>Multi-tags</button>
+						</DropdownMenu>
+					</div>
 
 					{searchElement}
 				</div>

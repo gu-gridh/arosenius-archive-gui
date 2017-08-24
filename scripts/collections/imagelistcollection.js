@@ -54,7 +54,11 @@ export default class ImageListCollection {
 			if (count) {
 				fetchParams.push('count='+count);
 			}
-			if (archiveMaterial) {
+
+			if (params.hue || params.saturation) {
+				fetchParams.push('archivematerial=exclude');
+			}
+			else if (archiveMaterial || params.hue || params.saturation) {
 				fetchParams.push('archivematerial='+archiveMaterial);
 			}
 
