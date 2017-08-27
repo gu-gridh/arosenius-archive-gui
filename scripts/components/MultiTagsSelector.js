@@ -11,7 +11,8 @@ export default class MultiTagsSelector extends React.Component {
 		super(props);
 
 		this.state = {
-			initialized: false
+			initialized: false,
+			version: 1
 		};
 	}
 
@@ -35,34 +36,80 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
+		var versionButtons = <div>
+			<br/><br/><br/>
+			<button onClick={function() {this.setState({version: 1})}.bind(this)}>v1</button> <button onClick={function() {this.setState({version: 2})}.bind(this)}>v2</button>
+		</div>;
 
-				<div className="row">
+		if (this.state.version == 1)
+			return (
+				<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
-					<div className="three columns">
-						<h3>Personer</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} dropdownHeaderText="Personer" expandable="true" limit="10" searchParam="person" endpoint={config.endpoints.persons} />
+					<div className="row">
+
+						<div className="three columns">
+							<h3>Personer</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} dropdownHeaderText="Personer" expandable="true" limit="10" searchParam="person" endpoint={config.endpoints.persons} />
+						</div>
+
+						<div className="three columns">
+							<h3>Ort</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} dropdownHeaderText="Ort" expandable="true" limit="10" searchParam="place" endpoint={config.endpoints.places} />
+						</div>
+
+						<div className="three columns">
+							<h3>Tags</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} dropdownHeaderText="Tags" expandable="true" limit="10" searchParam="tags" endpoint={config.endpoints.tags} />
+						</div>
+
+						<div className="three columns">
+							<h3>Genre</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} dropdownHeaderText="Genre" expandable="true" limit="10" searchParam="genre" endpoint={config.endpoints.genres} />
+						</div>
+
 					</div>
 
-					<div className="three columns">
-						<h3>Ort</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} dropdownHeaderText="Ort" expandable="true" limit="10" searchParam="place" endpoint={config.endpoints.places} />
-					</div>
-
-					<div className="three columns">
-						<h3>Tags</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} dropdownHeaderText="Tags" expandable="true" limit="10" searchParam="tags" endpoint={config.endpoints.tags} />
-					</div>
-
-					<div className="three columns">
-						<h3>Genre</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} dropdownHeaderText="Genre" expandable="true" limit="10" searchParam="genre" endpoint={config.endpoints.genres} />
-					</div>
+					{versionButtons}
 
 				</div>
+			);
+		if (this.state.version == 2)
+			return (
+				<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
-			</div>
-		)
+					<div className="row">
+
+						<div className="twelve columns">
+							<h3>Personer</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} dropdownHeaderText="Personer" expandable={false} limit={10} searchParam="person" endpoint={config.endpoints.persons} />
+
+							<br/><br/>
+						</div>
+
+					</div>
+
+					<div className="row">
+
+						<div className="four columns">
+							<h3>Ort</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} dropdownHeaderText="Ort" expandable={false} limit={10} searchParam="place" endpoint={config.endpoints.places} />
+						</div>
+
+						<div className="four columns">
+							<h3>Tags</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} dropdownHeaderText="Tags" expandable={false} limit={10} searchParam="tags" endpoint={config.endpoints.tags} />
+						</div>
+
+						<div className="four columns">
+							<h3>Genre</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} dropdownHeaderText="Genre" expandable={false} limit={10} searchParam="genre" endpoint={config.endpoints.genres} />
+						</div>
+
+					</div>
+
+					{versionButtons}
+
+				</div>
+			);
 	}
 }
