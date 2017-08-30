@@ -22,9 +22,10 @@ export default class Search extends React.Component {
 		this.state = {
 			searchString: this.props.searchString || '',
 			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
+			searchTaggedPersons: this.props.searchTaggedPersons ? this.props.searchTaggedPersons.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
-			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace || this.props.searchPerson),
+			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchTaggedPersons || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace),
 			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
 		};
 	}
@@ -46,10 +47,11 @@ export default class Search extends React.Component {
 		this.setState({
 			searchString: props.searchString || '',
 			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
+			searchTaggedPersons: props.searchTaggedPersons ? props.searchTaggedPersons.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
-			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchHue || props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace || this.props.searchPerson),
-			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : this.props.searchTags || this.props.searchGenre || this.props.searchPlace ? 'multi-tags' : 'persons'
+			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchTaggedPersons || props.searchHue || props.searchSaturation || props.searchTags || props.searchGenre || props.searchPlace),
+			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : props.searchTaggedPersons || props.searchTags || props.searchGenre || props.searchPlace ? 'multi-tags' : 'persons'
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
