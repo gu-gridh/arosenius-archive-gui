@@ -101,6 +101,7 @@ export default class MultiTagsSelector extends React.Component {
 							<h3>Personer</h3>
 							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
 								dropdownHeaderText="Personer" 
+								dropdownButtonLabel="Fler personer"
 								expandable={true} 
 								limit={30} 
 								searchParam="persontag" 

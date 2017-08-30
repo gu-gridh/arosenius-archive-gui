@@ -70,7 +70,7 @@ export default class TagsSelector extends React.Component {
 				{visibleContent ? visibleContent : buttons}
 				{
 					visibleContent && buttons.length > 0 &&
-					<DropdownMenu onOpen={this.props.onDropdownOpen} headerText={this.props.dropdownHeaderText} label="...">
+					<DropdownMenu onOpen={this.props.onDropdownOpen} headerText={this.props.dropdownHeaderText} label={this.props.dropdownButtonLabel || '...'}>
 						{buttons}
 					</DropdownMenu>
 				}

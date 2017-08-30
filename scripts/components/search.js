@@ -169,7 +169,7 @@ export default class Search extends React.Component {
 						<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
 							<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
 							<button onClick={this.setSearchMode.bind(this, 'colors')}>Färger</button>
-							<button onClick={this.setSearchMode.bind(this, 'multi-tags')}>Multi-tags</button>
+							<button onClick={this.setSearchMode.bind(this, 'multi-tags')}>Taggar</button>
 						</DropdownMenu>
 					</div>
 
