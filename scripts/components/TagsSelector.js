@@ -10,10 +10,13 @@ export default class TagsSelector extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.itemClickHandler = this.itemClickHandler.bind(this);
+
 		this.state = {
 			initialized: false,
 			loading: true,
-			data: []
+			data: [],
+			selectedTag: ''
 		};
 	}
 
@@ -26,6 +29,19 @@ export default class TagsSelector extends React.Component {
 			});
 		}.bind(this), 300);
 
+	}
+
+	itemClickHandler(event) {
+		if (this.props.onSelect) {
+			this.props.onSelect({
+				searchParam: this.props.searchParam,
+				value: this.state.selectedTag == event.currentTarget.dataset.value ? null : event.currentTarget.dataset.value
+			});
+		}
+
+		this.setState({
+			selectedTag: this.state.selectedTag == event.currentTarget.dataset.value ? null : event.currentTarget.dataset.value
+		});
 	}
 
 	fetchData() {
@@ -53,7 +69,7 @@ export default class TagsSelector extends React.Component {
 	render() {
 		var buttons = this.state.data.length > 0 ? this.state.data.map(function(item, index) {
 			if (item.value != '') {
-				return <a key={item.value} className="button-link" data-value={item.value} href={'#/search/'+this.props.searchParam+'/'+item.value}>{item.value}</a>
+				return <a key={item.value} className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} data-value={item.value} onClick={this.itemClickHandler}>{item.value}</a>
 			}
 		}.bind(this)) : [];
 

@@ -36,6 +36,7 @@ export default class FrontPage extends React.Component {
 				searchPlace: this.props.params.place,
 				searchTaggedPersons: this.props.params.persontag,
 				searchMuseum: this.props.params.museum,
+				searchTaggedMuseum: this.props.params.museumtag,
 				searchGenre: this.props.params.genre,
 				searchTags: this.props.params.tags,
 				searchHue: this.props.params.hue,
@@ -53,6 +54,7 @@ export default class FrontPage extends React.Component {
 			searchPlace: props.params.place,
 			searchTaggedPersons: props.params.persontag,
 			searchMuseum: props.params.museum,
+			searchTaggedMuseum: props.params.museumtag,
 			searchGenre: props.params.genre,
 			searchTags: props.params.tags,
 			searchHue: props.params.hue,
@@ -98,6 +100,7 @@ export default class FrontPage extends React.Component {
 				<Search searchString={this.state.searchString} 
 					searchPersons={this.state.searchPersons} 
 					searchTaggedPersons={this.state.searchTaggedPersons} 
+					searchTaggedMuseum={this.state.searchTaggedMuseum} 
 					searchHue={this.state.searchHue} 
 					searchSaturation={this.state.searchSaturation} 
 					searchGenre={this.state.searchGenre}
@@ -108,7 +111,7 @@ export default class FrontPage extends React.Component {
 					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
 						searchPerson={this.state.searchPersons || this.state.searchTaggedPersons} 
 						searchPlace={this.state.searchPlace} 
-						searchMuseum={this.state.searchMuseum}
+						searchMuseum={this.state.searchMuseum || this.state.searchTaggedMuseum}
 						searchGenre={this.state.searchGenre}
 						searchTags={this.state.searchTags}
 						searchHue={this.state.searchHue}

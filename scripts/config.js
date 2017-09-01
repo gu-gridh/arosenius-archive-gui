@@ -10,6 +10,7 @@ export default {
 		tags: 'tags',
 		persons: 'persons',
 		places: 'places',
-		genres: 'genres'
+		genres: 'genres',
+		museums: 'museums'
 	}
 };

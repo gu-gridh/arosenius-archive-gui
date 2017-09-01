@@ -20,7 +20,7 @@ ReactDOM.render(
 		<Route component={Application}>
 			<Route path="/" 
 				component={FrontPage}/>
-			<Route path="/search(/query/:search)(/person/:person)(/persontag/:persontag)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation)" 
+			<Route path="/search(/query/:search)(/person/:person)(/persontag/:persontag)(/place/:place)(/museum/:museum)(/museumtag/:museumtag)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation)" 
 				component={FrontPage}/>
 			<Route path="/image/:imageId(/search(/query/:search)(/person/:person)(/persontag/:persontag)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/color/:hue/:saturation))" 
 				component={ImageView}/>
