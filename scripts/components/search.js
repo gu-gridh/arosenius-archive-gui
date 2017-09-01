@@ -18,18 +18,29 @@ export default class Search extends React.Component {
 		this.searchInputChangeHandler = this.searchInputChangeHandler.bind(this);
 		this.personSelectorChangeHandler = this.personSelectorChangeHandler.bind(this);
 		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
+		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
+
+		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
 		this.state = {
 			searchString: this.props.searchString || '',
 			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
 			searchTaggedPersons: this.props.searchTaggedPersons ? this.props.searchTaggedPersons.split(';') : [],
 			searchTaggedMuseum: this.props.searchTaggedMuseum ? this.props.searchTaggedMuseum.split(';') : [],
+			searchTags: this.props.searchTags ? this.props.searchTags.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
 			manualOpen: Boolean(this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchTags || this.props.searchGenre || this.props.searchPlace),
 			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace),
 			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
 		};
+	}
+
+	eventBusOpenTagsHandler() {
+		this.setSearchMode('multi-tags');
+
+		var scroll = new WindowScroll();
+		scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
 	}
 
 	getOffsetTop(elem) {
@@ -49,6 +60,7 @@ export default class Search extends React.Component {
 			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
 			searchTaggedPersons: props.searchTaggedPersons ? props.searchTaggedPersons.split(';') : [],
 			searchTaggedMuseum: props.searchTaggedMuseum ? props.searchTaggedMuseum.split(';') : [],
+			searchTags: props.searchTags ? props.searchTags.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
 			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchTaggedPersons || props.searchTaggedMuseum || props.searchHue || props.searchSaturation || props.searchTags || props.searchGenre || props.searchPlace),
@@ -152,7 +164,12 @@ export default class Search extends React.Component {
 			: this.state.searchMode == 'colors' ?
 				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: this.state.searchMode == 'multi-tags' ?
-				<MultiTagsSelector />
+				<MultiTagsSelector 
+					searchTaggedMuseum={this.state.searchTaggedMuseum} 
+					searchGenre={this.state.searchGenre} 
+					searchTags={this.state.searchTags} 
+					searchTaggedPersons={this.state.searchTaggedPersons} 
+					searchPlace={this.state.searchPlace} />
 			: null
 		;
 
@@ -172,7 +189,7 @@ export default class Search extends React.Component {
 					<div className="filter-menu">
 						<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
 							<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
-							<button onClick={this.setSearchMode.bind(this, 'colors')}>Färger</button>
+							<button onClick={this.setSearchMode.bind(this, 'colors')} style={{display: 'none'}}>Färger</button>
 							<button onClick={this.setSearchMode.bind(this, 'multi-tags')}>Nyckelord</button>
 						</DropdownMenu>
 					</div>

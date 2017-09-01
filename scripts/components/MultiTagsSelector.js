@@ -12,16 +12,15 @@ export default class MultiTagsSelector extends React.Component {
 		super(props);
 
 		this.tagSelectChangeHandler = this.tagSelectChangeHandler.bind(this);
-
+		console.log(this.props);
 		this.state = {
 			initialized: false,
-			version: 2,
 			selectedTags: {
-				persontag: null,
-				place: null,
-				museumtag: null,
-				genre: null,
-				tags: null
+				persontag: this.props.searchTaggedPerson || null,
+				place: this.props.searchPlace || null,
+				museumtag: this.props.searchTaggedMuseum || null,
+				genre: this.props.searchGenre || null,
+				tags: this.props.searchTags || null
 			}
 		};
 	}
@@ -36,7 +35,6 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	onDropdownOpen(dropDownName) {
-		console.log(dropDownName);
 		this.setState({
 			openDropdown: dropDownName
 		});
@@ -77,152 +75,97 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	render() {
-		var versionButtons = <div>
-			<br/><br/><br/>
-			<button onClick={function() {this.setState({version: 1})}.bind(this)}>v1</button> <button onClick={function() {this.setState({version: 2})}.bind(this)}>v2</button>
-		</div>;
 
 		var selectedTagsButtons = [];
 
 		var selectedTags = this.state.selectedTags;
 
 		for (var key in selectedTags) {
-			selectedTagsButtons.push(<span className="button-link">{selectedTags[key]}</span>);
+			if (selectedTags[key]) {
+				selectedTagsButtons.push(<span key={selectedTags[key]} className="button-link">{selectedTags[key]}</span>);
+			}
 		}
 
-		console.log(selectedTagsButtons);
+		return (
+			<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
-		if (this.state.version == 1)
-			return (
-				<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
+				<div className="selected-tags">{selectedTagsButtons}</div>
+				<div className="row">
 
+					<div className="twelve columns">
+						<h3>Personer</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Personer" 
+							dropdownButtonLabel="Fler personer"
+							expandable={true} 
+							limit={30} 
+							searchParam="persontag" 
+							selectedTag={this.state.selectedTags.persontag}
+							endpoint={config.endpoints.persons} />
 
-					<div className="row">
-
-						<div className="three columns">
-							<h3>Personer</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
-								onChange={this.tagSelectChangeHandler}
-								dropdownHeaderText="Personer" 
-								expandable="true" 
-								limit="10" 
-								searchParam="persontag" 
-								endpoint={config.endpoints.persons} />
-						</div>
-
-						<div className="three columns">
-							<h3>Platser</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-								onChange={this.tagSelectChangeHandler}
-								dropdownHeaderText="Platser" 
-								expandable="true" 
-								limit="10" 
-								searchParam="place" 
-								endpoint={config.endpoints.places} />
-						</div>
-
-						<div className="three columns">
-							<h3>Taggar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
-								onChange={this.tagSelectChangeHandler}
-								dropdownHeaderText="Taggar" 
-								expandable="true" 
-								limit="10" 
-								searchParam="tags" 
-								endpoint={config.endpoints.tags} />
-						</div>
-
-						<div className="three columns">
-							<h3>Genre</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
-								onChange={this.tagSelectChangeHandler}
-								dropdownHeaderText="Genre" 
-								expandable="true" 
-								limit="10" 
-								searchParam="genre" 
-								endpoint={config.endpoints.genres} />
-						</div>
-
+						<br/><br/>
 					</div>
 
 				</div>
-			);
-		if (this.state.version == 2)
-			return (
-				<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
-					<div className="selected-tags">{selectedTagsButtons}</div>
-					<div className="row">
+				<div className="row">
 
-						<div className="twelve columns">
-							<h3>Personer</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Personer" 
-								dropdownButtonLabel="Fler personer"
-								expandable={true} 
-								limit={30} 
-								searchParam="persontag" 
-								endpoint={config.endpoints.persons} />
-
-							<br/><br/>
-						</div>
-
+					<div className="four columns">
+						<h3>Samling</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Samling" 
+							expandable={false} 
+							limit={10} 
+							searchParam="museumtag" 
+							selectedTag={this.state.selectedTags.museumtag}
+							endpoint={config.endpoints.museums} />
 					</div>
 
-					<div className="row">
-
-						<div className="four columns">
-							<h3>Samling</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Samling" 
-								expandable={false} 
-								limit={10} 
-								searchParam="museumtag" 
-								endpoint={config.endpoints.museums} />
-						</div>
-
-						<div className="four columns">
-							<h3>Platser</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Platser" 
-								expandable={false} 
-								limit={10} 
-								searchParam="place" 
-								endpoint={config.endpoints.places} />
-						</div>
-
-						<div className="four columns">
-							<h3>Taggar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Taggar" 
-								expandable={false} 
-								limit={10} 
-								searchParam="tags" 
-								endpoint={config.endpoints.tags} />
-						</div>
-
+					<div className="four columns">
+						<h3>Platser</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Platser" 
+							expandable={false} 
+							limit={10} 
+							searchParam="place" 
+							selectedTag={this.state.selectedTags.place}
+							endpoint={config.endpoints.places} />
 					</div>
 
-					<div className="row">
-
-						<div className="twelve columns">
-							<h3>Genre</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Genre" 
-								expandable={false} 
-								limit={10} 
-								searchParam="genre" 
-								endpoint={config.endpoints.genres} />
-						</div>
-
+					<div className="four columns">
+						<h3>Taggar</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Taggar" 
+							expandable={false} 
+							limit={10} 
+							selectedTag={this.state.selectedTags.tags}
+							searchParam="tags" 
+							endpoint={config.endpoints.tags} />
 					</div>
 
 				</div>
-			);
+
+				<div className="row">
+
+					<div className="twelve columns">
+						<h3>Genre</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Genre" 
+							expandable={false} 
+							limit={10} 
+							selectedTag={this.state.selectedTags.genre}
+							searchParam="genre" 
+							endpoint={config.endpoints.genres} />
+					</div>
+
+				</div>
+
+			</div>
+		);
 	}
 }

@@ -2,11 +2,15 @@ import React from 'react';
 
 import Header from './Header';
 
+import EventBus from 'eventbusjs';
+
 export default class Application extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
+
+		window.eventBus = EventBus;
 
 		this.state = {
 			noUiDistract: false

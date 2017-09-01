@@ -4,12 +4,18 @@ export default class Header extends React.Component {
 	constructor(props) {
 		super(props);
 
-		window.header = this;
+		this.openTagSearchButtonClickHandler = this.openTagSearchButtonClickHandler.bind(this);
 
 		this.state = {
 			smallHeader: false,
 			initialized: false
 		};
+	}
+
+	openTagSearchButtonClickHandler(event) {
+		event.stopPropagation();
+
+		window.eventBus.dispatch('search.open-tags');
 	}
 
 	componentDidMount() {
@@ -44,9 +50,9 @@ export default class Header extends React.Component {
 
 					<nav className="site-nav">
 						<ul>
-							<li><a href="http://aroseniusarkivet.org/projekt/">Om projektet</a></li>
+							<li><a href="http://aroseniusarkivet.org/projekt/">Om projektet och Ivar Arosenius</a></li>
 							<li><a href="http://aroseniusarkivet.org/projekt/bidra-till-arkivet/">Bidra till arkivet</a></li>
-							<li><a href="http://aroseniusarkivet.org/projekt/ivar-arosenius/">Om Ivar Arosenius</a></li>
+							<li><a onClick={this.openTagSearchButtonClickHandler} href="#">Upptäck arkivet</a></li>
 						</ul>
 					</nav>
 				</div>

@@ -16,7 +16,7 @@ export default class TagsSelector extends React.Component {
 			initialized: false,
 			loading: true,
 			data: [],
-			selectedTag: ''
+			selectedTag: this.props.selectedTag || ''
 		};
 	}
 

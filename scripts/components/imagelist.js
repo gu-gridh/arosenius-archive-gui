@@ -132,7 +132,7 @@ export default class ImageList extends React.Component {
 			}, props.count, 1);
 
 			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchHue || props.searchSaturation) {
-				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-50, 1000, 'easeInOutSine');
+//				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
 	}
@@ -168,7 +168,13 @@ export default class ImageList extends React.Component {
 		var items = _.map(this.state.images, function(image, index) {
 			return <ImageListItem key={image.id} image={image} index={index} />;
 		});
-		items.push(<div key="grid-sizer" className="grid-sizer"/>);
+
+		if (items.length == 0) {
+			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
+		}
+		else {
+			items.push(<div key="grid-sizer" className="grid-sizer"/>);
+		}
 
 		var masonryOptions = {
 			columnWidth: '.grid-sizer',
