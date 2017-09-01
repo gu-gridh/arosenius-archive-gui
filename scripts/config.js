@@ -11,6 +11,7 @@ export default {
 		persons: 'persons',
 		places: 'places',
 		genres: 'genres',
-		museums: 'museums'
+		museums: 'museums',
+		types: 'types'
 	}
 };

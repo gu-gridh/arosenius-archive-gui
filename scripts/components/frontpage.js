@@ -39,6 +39,7 @@ export default class FrontPage extends React.Component {
 				searchTaggedMuseum: this.props.params.museumtag,
 				searchGenre: this.props.params.genre,
 				searchTags: this.props.params.tags,
+				searchType: this.props.params.type,
 				searchHue: this.props.params.hue,
 				searchSaturation: this.props.params.saturation
 			});
@@ -57,6 +58,7 @@ export default class FrontPage extends React.Component {
 			searchTaggedMuseum: props.params.museumtag,
 			searchGenre: props.params.genre,
 			searchTags: props.params.tags,
+			searchType: props.params.type,
 			searchHue: props.params.hue,
 			searchSaturation: props.params.saturation
 		});
@@ -105,6 +107,7 @@ export default class FrontPage extends React.Component {
 					searchSaturation={this.state.searchSaturation} 
 					searchGenre={this.state.searchGenre}
 					searchTags={this.state.searchTags}
+					searchType={this.state.searchType}
 					searchPlace={this.state.searchPlace} />
 
 				<div className="site-content">
@@ -114,6 +117,7 @@ export default class FrontPage extends React.Component {
 						searchMuseum={this.state.searchMuseum || this.state.searchTaggedMuseum}
 						searchGenre={this.state.searchGenre}
 						searchTags={this.state.searchTags}
+						searchType={this.state.searchType}
 						searchHue={this.state.searchHue}
 						searchSaturation={this.state.searchSaturation} />
 				</div>

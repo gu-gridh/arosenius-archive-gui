@@ -104,7 +104,7 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
-		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			this.collection.fetch(null, props.count, 1);
@@ -115,7 +115,9 @@ export default class ImageList extends React.Component {
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
+			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
+			
 			this.props.searchSaturation != props.searchSaturation
 		) {
 			this.waitingForLoad = true;
@@ -126,12 +128,13 @@ export default class ImageList extends React.Component {
 				place: props.searchPlace, 
 				museum: props.searchMuseum, 
 				genre: props.searchGenre, 
-				tags: props.searchTags, 
+				tags: props.searchTags,
+				type: props.searchType, 
 				hue: props.searchHue, 
 				saturation: props.searchSaturation
 			}, props.count, 1);
 
-			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchHue || props.searchSaturation) {
+			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
 //				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
@@ -147,7 +150,8 @@ export default class ImageList extends React.Component {
 				place: this.props.searchPlace, 
 				museum: this.props.searchMuseum, 
 				genre: this.props.searchGenre, 
-				tags: this.props.searchTags, 
+				tags: this.props.searchTags,
+				type: this.props.searchType, 
 				hue: this.props.searchHue, 
 				saturation: this.props.searchSaturation
 			}, this.props.count, this.collection.currentPage+1, true);

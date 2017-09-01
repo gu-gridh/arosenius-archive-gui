@@ -20,7 +20,8 @@ export default class MultiTagsSelector extends React.Component {
 				place: this.props.searchPlace || null,
 				museumtag: this.props.searchTaggedMuseum || null,
 				genre: this.props.searchGenre || null,
-				tags: this.props.searchTags || null
+				tags: this.props.searchTags || null,
+				type: this.props.searchType || null
 			}
 		};
 	}
@@ -63,7 +64,7 @@ export default class MultiTagsSelector extends React.Component {
 		var route = [];
 
 		for (var key in selectedTags) {
-			if (selectedTags[key]) {
+			if (selectedTags[key] && selectedTags[key] != '') {
 				route.push(key+'/'+selectedTags[key]);
 			}
 		}
@@ -72,6 +73,10 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+	}
+
+	personsTagSort(x, y) {
+		var sortOrder = ['Arosenius', 'Eva', 'Adler', 'Kruse', 'Henning', 'Sahlin'];
 	}
 
 	render() {
@@ -89,78 +94,100 @@ export default class MultiTagsSelector extends React.Component {
 		return (
 			<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
-				<div className="selected-tags">{selectedTagsButtons}</div>
-				<div className="row">
+				{
+					selectedTagsButtons.length > 0 &&
+					<div className="selected-tags">{selectedTagsButtons}</div>
+				}
 
-					<div className="twelve columns">
-						<h3>Personer</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
-							onSelect={this.tagSelectChangeHandler}
-							dropdownHeaderText="Personer" 
-							dropdownButtonLabel="Fler personer"
-							expandable={true} 
-							limit={30} 
-							searchParam="persontag" 
-							selectedTag={this.state.selectedTags.persontag}
-							endpoint={config.endpoints.persons} />
+				<div className="tags-container">
 
-						<br/><br/>
+					<div className="row">
+
+						<div className="three columns">
+							<h3>Samling</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Samling" 
+								expandable={false} 
+								limit={10} 
+								searchParam="museumtag" 
+								selectedTag={this.state.selectedTags.museumtag}
+								endpoint={config.endpoints.museums} />
+						</div>
+
+						<div className="three columns">
+							<h3>Kategori</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Kategori" 
+								expandable={false} 
+								limit={10} 
+								searchParam="type" 
+								selectedTag={this.state.selectedTags.type}
+								endpoint={config.endpoints.types} />
+						</div>
+
+						<div className="three columns">
+							<h3>Platser</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Platser" 
+								expandable={false} 
+								limit={10} 
+								searchParam="place" 
+								selectedTag={this.state.selectedTags.place}
+								endpoint={config.endpoints.places} />
+						</div>
+
+						<div className="three columns">
+							<h3>Taggar</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Taggar" 
+								expandable={false} 
+								limit={10} 
+								selectedTag={this.state.selectedTags.tags}
+								searchParam="tags" 
+								endpoint={config.endpoints.tags} />
+						</div>
+
 					</div>
 
-				</div>
+					<div className="row">
 
-				<div className="row">
+						<div className="twelve columns">
+							<h3>Genre</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Genre" 
+								expandable={false} 
+								limit={10} 
+								selectedTag={this.state.selectedTags.genre}
+								searchParam="genre" 
+								endpoint={config.endpoints.genres} />
 
-					<div className="four columns">
-						<h3>Samling</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
-							onSelect={this.tagSelectChangeHandler}
-							dropdownHeaderText="Samling" 
-							expandable={false} 
-							limit={10} 
-							searchParam="museumtag" 
-							selectedTag={this.state.selectedTags.museumtag}
-							endpoint={config.endpoints.museums} />
+							<br/><br/>
+						</div>
+
 					</div>
 
-					<div className="four columns">
-						<h3>Platser</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-							onSelect={this.tagSelectChangeHandler}
-							dropdownHeaderText="Platser" 
-							expandable={false} 
-							limit={10} 
-							searchParam="place" 
-							selectedTag={this.state.selectedTags.place}
-							endpoint={config.endpoints.places} />
-					</div>
+					<div className="row">
 
-					<div className="four columns">
-						<h3>Taggar</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
-							onSelect={this.tagSelectChangeHandler}
-							dropdownHeaderText="Taggar" 
-							expandable={false} 
-							limit={10} 
-							selectedTag={this.state.selectedTags.tags}
-							searchParam="tags" 
-							endpoint={config.endpoints.tags} />
-					</div>
+						<div className="twelve columns">
+							<h3>Personer</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
+								onSelect={this.tagSelectChangeHandler}
+								dropdownHeaderText="Personer" 
+								dropdownButtonLabel="Fler personer"
+								expandable={true} 
+								limit={30} 
+								searchParam="persontag" 
+								selectedTag={this.state.selectedTags.persontag}
+								endpoint={config.endpoints.persons} />
 
-				</div>
+							<br/><br/>
+						</div>
 
-				<div className="row">
-
-					<div className="twelve columns">
-						<h3>Genre</h3>
-						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
-							onSelect={this.tagSelectChangeHandler}
-							dropdownHeaderText="Genre" 
-							expandable={false} 
-							limit={10} 
-							selectedTag={this.state.selectedTags.genre}
-							searchParam="genre" 
-							endpoint={config.endpoints.genres} />
 					</div>
 
 				</div>

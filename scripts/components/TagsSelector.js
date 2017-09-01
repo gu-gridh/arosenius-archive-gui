@@ -12,6 +12,8 @@ export default class TagsSelector extends React.Component {
 
 		this.itemClickHandler = this.itemClickHandler.bind(this);
 
+		console.log(this.props);
+
 		this.state = {
 			initialized: false,
 			loading: true,
@@ -53,9 +55,15 @@ export default class TagsSelector extends React.Component {
 			}).then(function(json) {
 				this.loading = false;
 
+				var data = json;
+
+				if (this.props.sortFunction) {
+					data = data.sort(this.props.sortFunction);
+				}
+
 				this.setState({
 					loading: false,
-					data: json
+					data: data
 				});
 			}.bind(this)).catch(function(ex) {
 				console.log('parsing failed', ex)

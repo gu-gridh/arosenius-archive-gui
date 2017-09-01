@@ -27,11 +27,13 @@ export default class Search extends React.Component {
 			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
 			searchTaggedPersons: this.props.searchTaggedPersons ? this.props.searchTaggedPersons.split(';') : [],
 			searchTaggedMuseum: this.props.searchTaggedMuseum ? this.props.searchTaggedMuseum.split(';') : [],
+			searchGenre: this.props.searchGenre ? this.props.searchGenre.split(';') : [],
 			searchTags: this.props.searchTags ? this.props.searchTags.split(';') : [],
+			searchType: this.props.searchType ? this.props.searchType.split(';') : [],
 			searchHue: this.props.searchHue,
 			searchSaturation: this.props.searchSaturation,
-			manualOpen: Boolean(this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchTags || this.props.searchGenre || this.props.searchPlace),
-			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchGenre || this.props.searchPlace),
+			manualOpen: Boolean(this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchTags || this.props.searchGenre || this.props.searchType || this.props.searchGenre || this.props.searchPlace),
+			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchType || this.props.searchGenre || this.props.searchPlace),
 			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
 		};
 	}
@@ -60,11 +62,13 @@ export default class Search extends React.Component {
 			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
 			searchTaggedPersons: props.searchTaggedPersons ? props.searchTaggedPersons.split(';') : [],
 			searchTaggedMuseum: props.searchTaggedMuseum ? props.searchTaggedMuseum.split(';') : [],
+			searchGenre: props.searchGenre ? props.searchGenre.split(';') : [],
 			searchTags: props.searchTags ? props.searchTags.split(';') : [],
+			searchType: props.searchType ? props.searchType.split(';') : [],
 			searchHue: props.searchHue,
 			searchSaturation: props.searchHue,
-			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchTaggedPersons || props.searchTaggedMuseum || props.searchHue || props.searchSaturation || props.searchTags || props.searchGenre || props.searchPlace),
-			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : props.searchTaggedPersons || props.searchTaggedMuseum || props.searchTags || props.searchGenre || props.searchPlace ? 'multi-tags' : this.state.searchMode
+			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchTaggedPersons || props.searchTaggedMuseum || props.searchHue || props.searchSaturation || props.searchTags || props.searchType || props.searchGenre || props.searchPlace),
+			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : props.searchTaggedPersons || props.searchTaggedMuseum || props.searchTags || props.searchType || props.searchGenre || props.searchPlace ? 'multi-tags' : this.state.searchMode
 		});
 
 		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
@@ -168,6 +172,7 @@ export default class Search extends React.Component {
 					searchTaggedMuseum={this.state.searchTaggedMuseum} 
 					searchGenre={this.state.searchGenre} 
 					searchTags={this.state.searchTags} 
+					searchType={this.state.searchType}
 					searchTaggedPersons={this.state.searchTaggedPersons} 
 					searchPlace={this.state.searchPlace} />
 			: null

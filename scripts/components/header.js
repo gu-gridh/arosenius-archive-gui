@@ -13,7 +13,7 @@ export default class Header extends React.Component {
 	}
 
 	openTagSearchButtonClickHandler(event) {
-		event.stopPropagation();
+		event.preventDefault();
 
 		window.eventBus.dispatch('search.open-tags');
 	}
