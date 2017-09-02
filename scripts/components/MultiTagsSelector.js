@@ -241,16 +241,15 @@ export default class MultiTagsSelector extends React.Component {
 						</div>
 
 						<div className="tags-container width-50">
-							<h3>Genre</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
+							<h3>Taggar</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
 								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Genre"
-								dropdownButtonLabel="Fler genre" 
-								expandable={true} 
-								limit={18} 
-								selectedTag={this.state.selectedTags.genre}
-								searchParam="genre" 
-								endpoint={config.endpoints.genres} />
+								dropdownHeaderText="Taggar" 
+								expandable={false} 
+								limit={10} 
+								selectedTag={this.state.selectedTags.tags}
+								searchParam="tags" 
+								endpoint={config.endpoints.tags} />
 						</div>
 
 						<div className="tags-container">
@@ -265,16 +264,17 @@ export default class MultiTagsSelector extends React.Component {
 								endpoint={config.endpoints.places} />
 						</div>
 
-						<div className="tags-container width-50">
-							<h3>Taggar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
+						<div className="tags-container width-75">
+							<h3>Genre</h3>
+							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
 								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Taggar" 
+								dropdownHeaderText="Genre"
+								dropdownButtonLabel="Fler genre" 
 								expandable={false} 
-								limit={10} 
-								selectedTag={this.state.selectedTags.tags}
-								searchParam="tags" 
-								endpoint={config.endpoints.tags} />
+								limit={18} 
+								selectedTag={this.state.selectedTags.genre}
+								searchParam="genre" 
+								endpoint={config.endpoints.genres} />
 						</div>
 
 					</Masonry>
