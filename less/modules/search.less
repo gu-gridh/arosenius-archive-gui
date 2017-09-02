@@ -158,9 +158,33 @@
 		}
 	}
 
-	.tags-container {
+	.tags-wrapper {
 		.row {
 			position: relative;
+		}
+	}
+
+	.tags-grid {
+		.grid-sizer {
+			width: 25%;
+		}
+
+		.tags-container {
+			float: left;
+
+			width: 25%;
+
+			padding: 0 20px 30px 10px;
+
+			box-sizing: border-box;
+
+			&.width-75 {
+				width: 75%;
+			}
+
+			&.width-50 {
+				width: 50%;
+			}
 		}
 	}
 
@@ -194,6 +218,7 @@
 			left: 0;
 			right: 0;
 
+			padding-left: 10px;
 			padding-bottom: 150px;
 
 			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#191919+0,191919+51,191919+100&0+0,1+2,1+71,0+100 */
