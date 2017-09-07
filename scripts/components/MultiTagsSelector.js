@@ -13,7 +13,8 @@ export default class MultiTagsSelector extends React.Component {
 		super(props);
 
 		this.tagSelectChangeHandler = this.tagSelectChangeHandler.bind(this);
-		console.log(this.props);
+		this.searchModeChangedHandler = this.searchModeChangedHandler.bind(this);
+
 		this.state = {
 			initialized: false,
 			selectedTags: {
@@ -26,6 +27,8 @@ export default class MultiTagsSelector extends React.Component {
 			},
 			version: 2
 		};
+
+		window.eventBus.addEventListener('search.mode-changed', this.searchModeChangedHandler);
 	}
 
 	componentDidMount() {
@@ -35,6 +38,19 @@ export default class MultiTagsSelector extends React.Component {
 			});
 		}.bind(this), 300);
 
+	}
+
+	searchModeChangedHandler() {
+		this.setState({
+			selectedTags: {
+				persontag: null,
+				place: null,
+				museumtag: null,
+				genre: null,
+				tags: null,
+				type: null
+			}
+		});
 	}
 
 	onDropdownOpen(dropDownName) {

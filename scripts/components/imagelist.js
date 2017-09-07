@@ -135,7 +135,7 @@ export default class ImageList extends React.Component {
 			}, props.count, 1);
 
 			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
-//				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
+				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
 	}

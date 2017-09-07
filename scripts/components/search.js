@@ -121,10 +121,18 @@ export default class Search extends React.Component {
 	setSearchMode(mode) {
 		this.refs.searchModeDropdownMenu.closeMenu();
 
+		if (mode != this.state.searchMode) {
+//			hashHistory.push('/search');
+			window.eventBus.dispatch('search.mode-changed');
+		}
+
 		this.setState({
 			searchMode: mode,
-			manualOpen: mode == 'multi-tags'
-		});
+			manualOpen: true
+		}, function() {
+			console.log('Done settin state.');
+			console.log(this.state);
+		}.bind(this));
 	}
 
 	triggerSearch() {
@@ -161,8 +169,6 @@ export default class Search extends React.Component {
 	}
 
 	render() {
-		console.log(this.state);
-
 		var searchElement = this.state.searchMode == 'persons' ?
 				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
