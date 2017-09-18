@@ -227,27 +227,16 @@ export default class ImageDisplay extends React.Component {
 		var imageWidth = imgObj.imagesize.width;
 		var imageHeight = imgObj.imagesize.height;
 
-		if (this.state.fullDisplay) {
-			var calcViewWidth = viewWidth;
-			var calcImageWidth = imageWidth;
-			var calcImageHeight = imageHeight;
-
-			ratio = calcViewWidth / calcImageWidth;
-			imageWidth = calcViewWidth;
-			imageHeight = calcImageHeight * ratio;
+		if (imageWidth > viewWidth){
+			ratio = viewWidth / imageWidth;
+			imageWidth = viewWidth;
+			imageHeight = imageHeight * ratio;
 		}
-		else {
-			if (imageWidth > viewWidth){
-				ratio = viewWidth / imageWidth;
-				imageWidth = viewWidth;
-				imageHeight = imageHeight * ratio;
-			}
 
-			if (imageHeight > viewHeight){
-				ratio = viewHeight / imageHeight;
-				imageHeight = viewHeight;
-				imageWidth = imageWidth * ratio;
-			}
+		if (imageHeight > viewHeight){
+			ratio = viewHeight / imageHeight;
+			imageHeight = viewHeight;
+			imageWidth = imageWidth * ratio;
 		}
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
