@@ -19,23 +19,15 @@ export default class Search extends React.Component {
 		this.personSelectorChangeHandler = this.personSelectorChangeHandler.bind(this);
 		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
 		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
+		this.receivedSearchParamsHandler = this.receivedSearchParamsHandler.bind(this);
+
+		this.state = {
+			searchParams: {}
+		};
 
 		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
-		this.state = {
-			searchString: this.props.searchString || '',
-			searchPersons: this.props.searchPersons ? this.props.searchPersons.split(';') : [],
-			searchTaggedPersons: this.props.searchTaggedPersons ? this.props.searchTaggedPersons.split(';') : [],
-			searchTaggedMuseum: this.props.searchTaggedMuseum ? this.props.searchTaggedMuseum.split(';') : [],
-			searchGenre: this.props.searchGenre ? this.props.searchGenre.split(';') : [],
-			searchTags: this.props.searchTags ? this.props.searchTags.split(';') : [],
-			searchType: this.props.searchType ? this.props.searchType.split(';') : [],
-			searchHue: this.props.searchHue,
-			searchSaturation: this.props.searchSaturation,
-			manualOpen: Boolean(this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchTags || this.props.searchGenre || this.props.searchType || this.props.searchGenre || this.props.searchPlace),
-			open: Boolean(this.props.searchString || this.props.searchPersons || this.props.searchTaggedPersons || this.props.searchTaggedMuseum || this.props.searchHue || this.props.searchSaturation || this.props.searchTags || this.props.searchType || this.props.searchGenre || this.props.searchPlace),
-			searchMode: this.props.searchPersons ? 'persons' : this.props.searchHue && this.props.searchSaturation ? 'colors' : 'persons'
-		};
+		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
 	}
 
 	eventBusOpenTagsHandler() {
@@ -45,33 +37,25 @@ export default class Search extends React.Component {
 		scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
 	}
 
-	getOffsetTop(elem) {
+	getOffsetTop(el) {
 		var offsetTop = 0;
 		do {
-			if (!isNaN(elem.offsetTop )) {
-				offsetTop += elem.offsetTop;
+			if (!isNaN(el.offsetTop )) {
+				offsetTop += el.offsetTop;
 			}
-		} while (elem = elem.offsetParent);
+		} while (el = el.offsetParent);
 
 		return offsetTop;
 	}
 
-	componentWillReceiveProps(props) {
+	receivedSearchParamsHandler(event, params) {
 		this.setState({
-			searchString: props.searchString || '',
-			searchPersons: props.searchPersons ? props.searchPersons.split(';') : [],
-			searchTaggedPersons: props.searchTaggedPersons ? props.searchTaggedPersons.split(';') : [],
-			searchTaggedMuseum: props.searchTaggedMuseum ? props.searchTaggedMuseum.split(';') : [],
-			searchGenre: props.searchGenre ? props.searchGenre.split(';') : [],
-			searchTags: props.searchTags ? props.searchTags.split(';') : [],
-			searchType: props.searchType ? props.searchType.split(';') : [],
-			searchHue: props.searchHue,
-			searchSaturation: props.searchHue,
-			open: Boolean(this.state.open || props.searchString || props.searchPersons || props.searchTaggedPersons || props.searchTaggedMuseum || props.searchHue || props.searchSaturation || props.searchTags || props.searchType || props.searchGenre || props.searchPlace),
-			searchMode: props.searchPersons ? 'persons' : props.searchHue && props.searchSaturation ? 'colors' : props.searchTaggedPersons || props.searchTaggedMuseum || props.searchTags || props.searchType || props.searchGenre || props.searchPlace ? 'multi-tags' : this.state.searchMode
+			searchParams: params,
+			open: Boolean(this.state.open || params.search || params.searchpersons || params.persons || params.museum || params.hue || params.saturation || params.tags || params.type || params.genre || params.place),
+			searchMode: params.searchpersons ? 'persons' : params.hue && params.saturation ? 'colors' : params.persons || params.museum || params.tags || params.type || params.genre || params.place ? 'multi-tags' : this.state.searchMode
 		});
 
-		if (!this.state.open && Boolean(props.searchString || props.searchPersons)) {
+		if (!this.state.open && Boolean(params.searchString || params.searchpersons)) {
 			var scroll = new WindowScroll();
 
 			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
@@ -97,24 +81,33 @@ export default class Search extends React.Component {
 	}
 
 	searchInputChangeHandler(event) {
+		var searchParams = this.state.searchParams;
+		searchParams.search = event.target.value;
+
 		this.setState({
-			searchString: event.target.value
+			searchParams: searchParams
 		});
 	}
 
 	personSelectorChangeHandler(event) {
+		var searchParams = this.state.searchParams;
+		searchParams.searchpersons = event.selectedPersons;
+		searchParams.hue = null;
+		searchParams.saturation = null;
+
 		this.setState({
-			searchPersons: event.selectedPersons,
-			searchHue: null,
-			searchSaturation: null
+			searchParams: searchParams
 		}, this.triggerSearch);
 	}
 
 	colorSelectorSelect(event) {
+		var searchParams = this.state.searchParams;
+		searchParams.searchpersons = [];
+		searchParams.hue = event.hue;
+		searchParams.saturation = event.saturation;
+
 		this.setState({
-			searchPersons: [],
-			searchHue: event.hue,
-			searchSaturation: event.saturation
+			searchParams: searchParams
 		}, this.triggerSearch);
 	}
 
@@ -130,8 +123,6 @@ export default class Search extends React.Component {
 			searchMode: mode,
 			manualOpen: true
 		}, function() {
-			console.log('Done settin state.');
-			console.log(this.state);
 		}.bind(this));
 	}
 
@@ -140,47 +131,44 @@ export default class Search extends React.Component {
 			var ret = [];
 			for (var d in data) {
 				if (data[d].param && data[d].disableEncoding) {
-					ret.push(encodeURIComponent(d) + '/' + data[d].param);
+					ret.push(encodeURIComponent(d)+'/'+data[d].param);
 				}
 				else {
-					ret.push(encodeURIComponent(d) + '/' + encodeURIComponent(data[d]));
+					ret.push(encodeURIComponent(d)+'/'+encodeURIComponent(data[d]));
 				}
 			}
 			return ret.join('/');
 		}
-		var searchParams = {};
+		var searchParams = '';
 
-		if (this.state.searchString != '') {
-			searchParams['query'] = this.state.searchString;
+		if (this.state.searchParams.search != '') {
+			searchParams += '/query/'+this.state.searchParams.search;
 		}
 
-		if (this.state.searchPersons.length > 0) {
-			searchParams['person'] = this.state.searchPersons.join(';');
+		if (this.state.searchParams.searchpersons.length > 0) {
+			searchParams += '/persons/'+this.state.searchParams.searchpersons.join(';');
 		}
 
-		if (this.state.searchHue && this.state.searchSaturation) {
-			searchParams['color'] = {
-				param: this.state.searchHue+'/'+this.state.searchSaturation,
-				disableEncoding: true
-			};
+		if (this.state.searchParams.hue && this.state.searchParams.saturation) {
+			searchParams += '/color/'+this.state.searchParams.hue+'/'+this.state.searchParams.saturation;
 		}
 
-		hashHistory.push((this.props.imageId ? '/image/'+this.props.imageId : '')+'/search/'+encodeQueryData(searchParams));
+		hashHistory.push((this.props.imageId ? '/image/'+this.props.imageId : '')+'/search'+searchParams);
 	}
 
 	render() {
 		var searchElement = this.state.searchMode == 'persons' ?
-				<ThumbnailCircles selectedPersons={this.state.searchPersons} selectionChanged={this.personSelectorChangeHandler} />
+				<ThumbnailCircles selectedPersons={this.state.searchParams.searchpersons} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
 				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: this.state.searchMode == 'multi-tags' ?
 				<MultiTagsSelector 
-					searchTaggedMuseum={this.state.searchTaggedMuseum} 
-					searchGenre={this.state.searchGenre} 
-					searchTags={this.state.searchTags} 
-					searchType={this.state.searchType}
-					searchTaggedPersons={this.state.searchTaggedPersons} 
-					searchPlace={this.state.searchPlace} />
+					museum={this.state.searchParams.museum} 
+					genre={this.state.searchParams.genre} 
+					tags={this.state.searchParams.tags} 
+					type={this.state.searchParams.type}
+					persons={this.state.searchParams.persons} 
+					place={this.state.searchParams.place} />
 			: null
 		;
 
@@ -189,8 +177,8 @@ export default class Search extends React.Component {
 
 				<button ref="searchButton" className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
 
-				<div className={'module-content'+(' mode-'+this.state.searchMode)+(this.state.open || this.state.manualOpen ? ' open' : '')}>
-					<input value={this.state.searchString} 
+				<div className={'module-content'+(' mode-'+(this.state.searchMode || 'persons'))+(this.state.open || this.state.manualOpen ? ' open' : '')}>
+					<input value={this.state.searchParams.search} 
 						type="text" 
 						placeholder="Skriv här..." 
 						className="search-input" 

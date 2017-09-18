@@ -25,7 +25,9 @@ export default class ImageList extends React.Component {
 		};
 
 		this.collection = new ImageListCollection(function(event) {
-			this.waitingForLoad = false;
+			setTimeout(function() {
+				this.waitingForLoad = false;
+			}.bind(this), 500);
 
 			var imageArray = [];
 
@@ -104,13 +106,13 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
-		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.searchString && !props.searchPersons && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			this.collection.fetch(null, props.count, 1);
 		}
 		else if (this.props.searchString != props.searchString || 
-			this.props.searchPerson != props.searchPerson || 
+			this.props.searchPersons != props.searchPersons || 
 			this.props.searchPlace != props.searchPlace || 
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
@@ -124,7 +126,7 @@ export default class ImageList extends React.Component {
 
 			this.collection.fetch({
 				searchString: props.searchString, 
-				person: props.searchPerson, 
+				person: props.searchPersons, 
 				place: props.searchPlace, 
 				museum: props.searchMuseum, 
 				genre: props.searchGenre, 
@@ -134,7 +136,7 @@ export default class ImageList extends React.Component {
 				saturation: props.searchSaturation
 			}, props.count, 1);
 
-			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
+			if (props.searchString || props.searchPersons || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
 				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
@@ -142,11 +144,12 @@ export default class ImageList extends React.Component {
 
 	appendPage() {
 		if (!this.waitingForLoad) {
+			console.log('appendPage')
 			this.waitingForLoad = true;
 
 			this.collection.fetch({
 				searchString: this.props.searchString, 
-				person: this.props.searchPerson, 
+				person: this.props.searchPersons, 
 				place: this.props.searchPlace, 
 				museum: this.props.searchMuseum, 
 				genre: this.props.searchGenre, 
@@ -155,6 +158,11 @@ export default class ImageList extends React.Component {
 				hue: this.props.searchHue, 
 				saturation: this.props.searchSaturation
 			}, this.props.count, this.collection.currentPage+1, true);
+		}
+		else {
+			console.log('wont append');
+			console.log('this.waitingForLoad = '+this.waitingForLoad);
+			console.log('this.state.images.length = '+this.state.images.length);
 		}
 	}
 

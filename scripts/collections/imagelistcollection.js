@@ -23,35 +23,40 @@ export default class ImageListCollection {
 		var previousParams = this.currentParams;
 		this.currentParams = params;
 
-		if ((JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) || append) {
+		if (!((this.url && !this.loading) || append)) {
+//			console.log('JSON.stringify(previousParams) == JSON.stringify(params) : '+(JSON.stringify(previousParams) == JSON.stringify(params)));
+		}
+
+//		if ((JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) || append) {
+		if (!this.loading) {
 			this.loading = true;
 
 			var fetchParams = [];
 			if (params.searchString) {
 				fetchParams.push('search='+params.searchString);
 			}
-			if (params.person) {
-				fetchParams.push('person='+params.person);
+			if (params.person && params.person != '') {
+				fetchParams.push('person='+(params.person.join ? params.person.join(';') : params.person));
 			}
-			if (params.place) {
+			if (params.place && params.place != '') {
 				fetchParams.push('place='+params.place);
 			}
-			if (params.museum) {
+			if (params.museum && params.museum != '') {
 				fetchParams.push('museum='+params.museum);
 			}
-			if (params.genre) {
+			if (params.genre && params.genre != '') {
 				fetchParams.push('genre='+params.genre);
 			}
-			if (params.tags) {
+			if (params.tags && params.tags != '') {
 				fetchParams.push('tags='+params.tags);
 			}
-			if (params.type) {
+			if (params.type && params.type != '') {
 				fetchParams.push('type='+params.type);
 			}
-			if (params.hue) {
+			if (params.hue && params.hue != '') {
 				fetchParams.push('hue='+params.hue);
 			}
-			if (params.saturation) {
+			if (params.saturation && params.saturation != '') {
 				fetchParams.push('saturation='+params.saturation);
 			}
 			if (count) {

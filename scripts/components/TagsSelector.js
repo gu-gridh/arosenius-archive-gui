@@ -12,8 +12,6 @@ export default class TagsSelector extends React.Component {
 
 		this.itemClickHandler = this.itemClickHandler.bind(this);
 
-		console.log(this.props);
-
 		this.state = {
 			initialized: false,
 			loading: true,
@@ -76,7 +74,7 @@ export default class TagsSelector extends React.Component {
 
 	render() {
 		var buttons = this.state.data.length > 0 ? this.state.data.map(function(item, index) {
-			if (item.value != '') {
+			if (item.value && item.value != '') {
 				return <a key={item.value} className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} data-value={item.value} onClick={this.itemClickHandler}>{item.value}</a>
 			}
 		}.bind(this)) : [];

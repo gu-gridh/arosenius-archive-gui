@@ -2,6 +2,8 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 
+import ImageMap from './ImageMap';
+
 import config from './../config';
 
 export default class ImageDisplay extends React.Component {
@@ -27,6 +29,12 @@ export default class ImageDisplay extends React.Component {
 		this.setState({
 			fullDisplay: !this.state.fullDisplay
 		}, function() {
+			if (this.state.fullDisplay) {
+				document.body.classList.add('hide-scroll');
+			}
+			else {
+				document.body.classList.remove('hide-scroll');
+			}
 			setTimeout(function() {
 				this.positionImageButtons();
 			}.bind(this), 500);
@@ -147,15 +155,22 @@ export default class ImageDisplay extends React.Component {
 		}
 	}
 
-	getImageStyle(rearImage) {
-		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
+	getImageObj(rearImage) {
+		var imgObj;
 
 		if (rearImage) {
-			var imgObj = this.state.image.back;
+			imgObj = this.state.image.back;
 		}
 		else {
-			var imgObj = this.state.image.front;
+			imgObj = this.state.image.front;
 		}
+		return imgObj;
+	}
+
+	_getImageStyle(rearImage) {
+		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
+
+		var imgObj = this.getImageObj(rearImage);
 
 		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -199,6 +214,52 @@ export default class ImageDisplay extends React.Component {
 		return imageStyle;
 	}
 
+	getImageStyle(rearImage) {
+		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
+
+		var imgObj = this.getImageObj(rearImage);
+
+		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+		var ratio = 0;
+
+		var imageWidth = imgObj.imagesize.width;
+		var imageHeight = imgObj.imagesize.height;
+
+		if (this.state.fullDisplay) {
+			var calcViewWidth = viewWidth;
+			var calcImageWidth = imageWidth;
+			var calcImageHeight = imageHeight;
+
+			ratio = calcViewWidth / calcImageWidth;
+			imageWidth = calcViewWidth;
+			imageHeight = calcImageHeight * ratio;
+		}
+		else {
+			if (imageWidth > viewWidth){
+				ratio = viewWidth / imageWidth;
+				imageWidth = viewWidth;
+				imageHeight = imageHeight * ratio;
+			}
+
+			if (imageHeight > viewHeight){
+				ratio = viewHeight / imageHeight;
+				imageHeight = viewHeight;
+				imageWidth = imageWidth * ratio;
+			}
+		}
+
+		var imageStyle = imgObj.color && imgObj.color.colors ? {
+			backgroundColor: imgObj.color.dominant.hex,
+			backgroundImage: rearImage ? "url('"+config.imageUrl+"1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
+
+			width: imageWidth,
+			height: imageHeight
+		} : null;
+
+		return imageStyle;
+	}
 
 	render() {
 		if (this.state.image) {
@@ -219,7 +280,12 @@ export default class ImageDisplay extends React.Component {
 
 				</div>
 
-				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
+				{
+					this.state.fullDisplay &&
+					<ImageMap imageObj={this.getImageObj(this.state.flipped)} />
+				}
+
+				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons || this.state.fullDisplay ? ' fixed' : '')}>
 					
 					{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 

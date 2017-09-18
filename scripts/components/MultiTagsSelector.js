@@ -18,12 +18,12 @@ export default class MultiTagsSelector extends React.Component {
 		this.state = {
 			initialized: false,
 			selectedTags: {
-				persontag: this.props.searchTaggedPerson || null,
-				place: this.props.searchPlace || null,
-				museumtag: this.props.searchTaggedMuseum || null,
-				genre: this.props.searchGenre || null,
-				tags: this.props.searchTags || null,
-				type: this.props.searchType || null
+				persons: this.props.persons || null,
+				place: this.props.place || null,
+				museum: this.props.museum || null,
+				genre: this.props.genre || null,
+				tags: this.props.tags || null,
+				type: this.props.type || null
 			},
 			version: 2
 		};
@@ -43,9 +43,9 @@ export default class MultiTagsSelector extends React.Component {
 	searchModeChangedHandler() {
 		this.setState({
 			selectedTags: {
-				persontag: null,
+				person: null,
 				place: null,
-				museumtag: null,
+				museum: null,
 				genre: null,
 				tags: null,
 				type: null
@@ -87,7 +87,7 @@ export default class MultiTagsSelector extends React.Component {
 			}
 		}
 
-		hashHistory.push('/search/'+route.join('/'));
+		hashHistory.push('/search/tags/'+route.join('/'));
 	}
 
 	componentWillReceiveProps(props) {
@@ -130,8 +130,8 @@ export default class MultiTagsSelector extends React.Component {
 									dropdownHeaderText="Samling" 
 									expandable={false} 
 									limit={10} 
-									searchParam="museumtag" 
-									selectedTag={this.state.selectedTags.museumtag}
+									searchParam="museums" 
+									selectedTag={this.state.selectedTags.museum}
 									endpoint={config.endpoints.museums} />
 							</div>
 
@@ -201,8 +201,8 @@ export default class MultiTagsSelector extends React.Component {
 									dropdownButtonLabel="Fler personer"
 									expandable={true} 
 									limit={30} 
-									searchParam="persontag" 
-									selectedTag={this.state.selectedTags.persontag}
+									searchParam="persons" 
+									selectedTag={this.state.selectedTags.persons}
 									endpoint={config.endpoints.persons} />
 
 								<br/><br/>
@@ -226,8 +226,8 @@ export default class MultiTagsSelector extends React.Component {
 								dropdownHeaderText="Samling" 
 								expandable={false} 
 								limit={10} 
-								searchParam="museumtag" 
-								selectedTag={this.state.selectedTags.museumtag}
+								searchParam="museum" 
+								selectedTag={this.state.selectedTags.museum}
 								endpoint={config.endpoints.museums} />
 						</div>
 
@@ -239,8 +239,8 @@ export default class MultiTagsSelector extends React.Component {
 								dropdownButtonLabel="Fler personer"
 								expandable={true} 
 								limit={20} 
-								searchParam="persontag" 
-								selectedTag={this.state.selectedTags.persontag}
+								searchParam="persons" 
+								selectedTag={this.state.selectedTags.persons}
 								endpoint={config.endpoints.persons} />
 						</div>
 

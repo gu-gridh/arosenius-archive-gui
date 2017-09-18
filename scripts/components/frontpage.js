@@ -9,11 +9,13 @@ export default class FrontPage extends React.Component {
 		super(props);
 
 		this.arrowClick = this.arrowClick.bind(this);
+		this.receivedSearchParamsHandler = this.receivedSearchParamsHandler.bind(this);
+
+		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
 
 		this.state = {
+			searchParams: {},
 			initialized: false,
-			searchString: null,
-			searchPersons: null,
 			backgroundImage: null,
 			backgroundLoaded: false
 		};
@@ -25,43 +27,22 @@ export default class FrontPage extends React.Component {
 		(new WindowScroll()).scrollToY(document.documentElement.clientHeight-100, 1000, 'easeInOutSine');
 	}
 
+	receivedSearchParamsHandler(event, params) {
+		this.setState({
+			searchParams: params
+		});
+	}
+
 	componentDidMount() {
 		(new WindowScroll()).scrollToY(0, 1000, 'easeInOutSine');
 
 		setTimeout(function() {
 			this.setState({
-				initialized: true,
-				searchString: this.props.params.search,
-				searchPersons: this.props.params.person,
-				searchPlace: this.props.params.place,
-				searchTaggedPersons: this.props.params.persontag,
-				searchMuseum: this.props.params.museum,
-				searchTaggedMuseum: this.props.params.museumtag,
-				searchGenre: this.props.params.genre,
-				searchTags: this.props.params.tags,
-				searchType: this.props.params.type,
-				searchHue: this.props.params.hue,
-				searchSaturation: this.props.params.saturation
+				initialized: true
 			});
 		}.bind(this), 200);
 
 		this.loadBackgroundImage();
-	}
-
-	componentWillReceiveProps(props) {
-		this.setState({
-			searchString: props.params.search,
-			searchPersons: props.params.person,
-			searchPlace: props.params.place,
-			searchTaggedPersons: props.params.persontag,
-			searchMuseum: props.params.museum,
-			searchTaggedMuseum: props.params.museumtag,
-			searchGenre: props.params.genre,
-			searchTags: props.params.tags,
-			searchType: props.params.type,
-			searchHue: props.params.hue,
-			searchSaturation: props.params.saturation
-		});
 	}
 
 	loadBackgroundImage() {
@@ -99,27 +80,18 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search searchString={this.state.searchString} 
-					searchPersons={this.state.searchPersons} 
-					searchTaggedPersons={this.state.searchTaggedPersons} 
-					searchTaggedMuseum={this.state.searchTaggedMuseum} 
-					searchHue={this.state.searchHue} 
-					searchSaturation={this.state.searchSaturation} 
-					searchGenre={this.state.searchGenre}
-					searchTags={this.state.searchTags}
-					searchType={this.state.searchType}
-					searchPlace={this.state.searchPlace} />
+				<Search />
 
 				<div className="site-content">
-					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
-						searchPerson={this.state.searchPersons || this.state.searchTaggedPersons} 
-						searchPlace={this.state.searchPlace} 
-						searchMuseum={this.state.searchMuseum || this.state.searchTaggedMuseum}
-						searchGenre={this.state.searchGenre}
-						searchTags={this.state.searchTags}
-						searchType={this.state.searchType}
-						searchHue={this.state.searchHue}
-						searchSaturation={this.state.searchSaturation} />
+					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchParams.search} 
+						searchPersons={this.state.searchParams.searchpersons && this.state.searchParams.searchpersons.length > 0 ? this.state.searchParams.searchpersons : this.state.searchParams.persons} 
+						searchPlace={this.state.searchParams.place} 
+						searchMuseum={this.state.searchParams.museum}
+						searchGenre={this.state.searchParams.genre}
+						searchTags={this.state.searchParams.tags}
+						searchType={this.state.searchParams.type}
+						searchHue={this.state.searchParams.hue}
+						searchSaturation={this.state.searchParams.saturation} />
 				</div>
 			</div>
 		)

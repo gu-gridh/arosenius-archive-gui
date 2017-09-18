@@ -49,7 +49,7 @@ export default class ThumbnailCircles
 	}
 
 	thumbnailClick(index) {
-		var selectedPersons = this.state.selectedPersons;
+		var selectedPersons = this.state.selectedPersons || [];
 
 		if (_.indexOf(selectedPersons, this.thumbnails[index].label) == -1) {
 			selectedPersons.push(this.thumbnails[index].label);
@@ -71,7 +71,7 @@ export default class ThumbnailCircles
 
 	componentDidMount() {
 		this.setState({
-			selectedPersons: this.props.selectedPersons
+			selectedPersons: this.props.selectedPersons || []
 		});
 
 		setTimeout(function() {
@@ -84,7 +84,7 @@ export default class ThumbnailCircles
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			selectedPersons: props.selectedPersons
+			selectedPersons: props.selectedPersons || []
 		})
 	}
 
