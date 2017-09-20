@@ -88,7 +88,7 @@ export default class ImageView extends React.Component {
 		setTimeout(function() {
 			this.setState({
 				searchString: this.props.params.search,
-				searchPersons: this.props.params.person,
+				searchPerson: this.props.params.person,
 				searchPlace: this.props.params.place,
 				searchMuseum: this.props.params.museum,
 				searchGenre: this.props.params.genre,
@@ -108,7 +108,7 @@ export default class ImageView extends React.Component {
 	componentWillReceiveProps(props) {
 		this.setState({
 			searchString: props.params.search,
-			searchPersons: props.params.person,
+			searchPerson: props.params.person,
 			searchPlace: props.params.place,
 			searchMuseum: props.params.museum,
 			searchGenre: props.params.genre,
@@ -142,16 +142,26 @@ export default class ImageView extends React.Component {
 				return item != '';
 			}) : [];
 
-			var personsEls = persons.length > 0 ? persons.map(function(person, index) {
+			var places = this.state.image.places ? _.filter(this.state.image.places, function(item) {
+				return item != '';
+			}) : [];
+
+			var personEls = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
 					return <a key={person} href={'#/search/person/'+person}>{person}</a>;
+				}
+			}.bind(this)) : [];
+
+			var placeEls = places.length > 0 ? places.map(function(place, index) {
+				if (place != '') {
+					return <a key={place} href={'#/search/tags/place/'+place}>{place}</a>;
 				}
 			}.bind(this)) : [];
 
 			var relatedPersonImages = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
 					return <div className="related-list" key={person}>
-						<ImageList title={'Flera bilder av '+person} related="person" relatedValue={person} archiveMaterial="exclude" count="10" />
+						<ImageList title={'Fler bilder av '+person} related="person" relatedValue={person} archiveMaterial="exclude" count="10" />
 					</div>;
 				}
 			}) : [];
@@ -159,7 +169,7 @@ export default class ImageView extends React.Component {
 			var relatedPersonArchiveMaterial = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
 					return <div className="related-list" key={person}>
-						<ImageList title={'Flera arkivdokument relaterade till '+person} related="person" relatedValue={person} archiveMaterial="only" count="10" />
+						<ImageList title={'Fler arkivdokument relaterade till '+person} related="person" relatedValue={person} archiveMaterial="only" count="10" />
 					</div>;
 				}
 			}) : [];
@@ -171,12 +181,12 @@ export default class ImageView extends React.Component {
 			var relatedGenreImages = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
 					return <div className="related-list" key={genre}>
-						<ImageList title={'Flera '+genre.toLowerCase()} related="genre" relatedValue={genre} count="10" />
+						<ImageList title={'Fler objekt av typen '+genre.toLowerCase()} related="genre" relatedValue={genre} count="10" />
 					</div>;
 				}
 			}) : [];
 
-			var genreEls =genres.length > 0 ? genres.map(function(genre, index) {
+			var genreEls = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
 					return <a key={genre} href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>;
 				}
@@ -189,6 +199,16 @@ export default class ImageView extends React.Component {
 					</div>;
 				}
 			}) : [];
+
+			var tags = this.state.image.tags ? _.filter(this.state.image.tags, function(item) {
+				return item != '';
+			}) : [];
+
+			var tagEls = tags.length > 0 ? tags.map(function(tag, index) {
+				if (tag != '') {
+					return <a key={tag} href={'#/search/tags/tags/'+tag}>{tag.toLowerCase()}</a>;
+				}
+			}.bind(this)) : [];
 
 			if (_.filter(this.state.image.images, function(image) {
 					return image.page && (image.page.side == 'front' || image.page.side == 'back');
@@ -267,6 +287,12 @@ export default class ImageView extends React.Component {
 									<span className="label">Genre:</span> <span className="button-links">{genreEls}</span>
 								</div>
 							}
+							{
+								tagEls.length > 0 &&
+								<div>
+									<span className="label">Taggar:</span> <span className="button-links">{tagEls}</span>
+								</div>
+							}
 						</div>
 
 						<div className="four columns">
@@ -278,11 +304,19 @@ export default class ImageView extends React.Component {
 
 					<div className="row">
 						{
-							personsEls.length > 0 &&
+							personEls.length > 0 &&
 							<div className="six columns">
 								<br/>
 								<span className="label">Personer:</span><br/>
-								<span className="button-links">{personsEls}</span>
+								<span className="button-links">{personEls}</span>
+							</div>
+						}
+						{
+							placeEls.length > 0 &&
+							<div className="six columns">
+								<br/>
+								<span className="label">Platser:</span><br/>
+								<span className="button-links">{placeEls}</span>
 							</div>
 						}
 					</div>
@@ -325,16 +359,20 @@ export default class ImageView extends React.Component {
 						<ImageList title={'Fler objekt från '+this.state.image.collection.museum} related="museum" relatedValue={this.state.image.collection.museum} count="10" />
 					</div>
 				</div>
-
-				<Search imageId={this.state.image.id} />
-				<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
-					searchPerson={this.state.searchPersons} 
-					searchPlace={this.state.searchPlace} 
-					searchMuseum={this.state.searchMuseum}
-					searchGenre={this.state.searchGenre}
-					searchTags={this.state.searchTags}
-					searchHue={this.state.searchHue}
-					searchSaturation={this.state.searchSaturation} />
+				{
+					true == false &&
+					<div>
+						<Search imageId={this.state.image.id} />
+						<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
+							searchPerson={this.state.searchPerson} 
+							searchPlace={this.state.searchPlace} 
+							searchMuseum={this.state.searchMuseum}
+							searchGenre={this.state.searchGenre}
+							searchTags={this.state.searchTags}
+							searchHue={this.state.searchHue}
+							searchSaturation={this.state.searchSaturation} />
+					</div>
+				}
 
 			</div>;
 		}

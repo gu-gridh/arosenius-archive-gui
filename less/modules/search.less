@@ -154,7 +154,28 @@
 		text-align: center;
 
 		.button-link {
+			position: relative;
+
+			padding-right: 30px;
+
 			background: #788f9b;
+
+			.remove-button {
+				position: absolute;
+			
+				right: 5px;
+			
+				font-size: 3rem;
+				line-height: 16px;
+			
+				opacity: 0.5;
+			}
+
+			&:hover {
+				.remove-button {
+					opacity: 1;
+				}
+			}
 		}
 	}
 

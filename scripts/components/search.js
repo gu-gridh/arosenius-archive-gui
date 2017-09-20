@@ -24,10 +24,41 @@ export default class Search extends React.Component {
 		this.state = {
 			searchParams: {}
 		};
+	}
 
+	componentDidMount() {
+		this.setState({
+			searchParams: this.props.searchParams,
+			open: Boolean(this.state.open || this.props.searchParams.search || this.props.searchParams.searchperson || this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.hue || this.props.searchParams.saturation || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place),
+			searchMode: this.props.searchParams.searchperson ? 'persons' : this.props.searchParams.hue && this.props.searchParams.saturation ? 'colors' : this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place ? 'multi-tags' : this.state.searchMode
+		});
 		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
-		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
+//		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
+	}
+
+	componentWillUnmount() {
+		window.eventBus.removeEventListener('search.open-tags', this.eventBusOpenTagsHandler);
+
+		window.eventBus.removeEventListener('application.searchParams', this.receivedSearchParamsHandler);		
+	}
+
+	componentWillReceiveProps(props) {
+		if (!props.searchParams) {
+			return;
+		}
+
+		this.setState({
+			searchParams: props.searchParams,
+			open: Boolean(this.state.open || props.searchParams.search || props.searchParams.searchperson || props.searchParams.person || props.searchParams.museum || props.searchParams.hue || props.searchParams.saturation || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place),
+			searchMode: props.searchParams.searchperson ? 'persons' : props.searchParams.hue && props.searchParams.saturation ? 'colors' : props.searchParams.person || props.searchParams.museum || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place ? 'multi-tags' : this.state.searchMode
+		});
+
+		if (!this.state.open && Boolean(props.searchParams.searchString || props.searchParams.searchperson)) {
+			var scroll = new WindowScroll();
+
+//			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
+		}
 	}
 
 	eventBusOpenTagsHandler() {
@@ -39,6 +70,10 @@ export default class Search extends React.Component {
 
 	getOffsetTop(el) {
 		var offsetTop = 0;
+		if (!el) {
+			return 0;
+		}
+
 		do {
 			if (!isNaN(el.offsetTop )) {
 				offsetTop += el.offsetTop;
@@ -51,11 +86,11 @@ export default class Search extends React.Component {
 	receivedSearchParamsHandler(event, params) {
 		this.setState({
 			searchParams: params,
-			open: Boolean(this.state.open || params.search || params.searchpersons || params.persons || params.museum || params.hue || params.saturation || params.tags || params.type || params.genre || params.place),
-			searchMode: params.searchpersons ? 'persons' : params.hue && params.saturation ? 'colors' : params.persons || params.museum || params.tags || params.type || params.genre || params.place ? 'multi-tags' : this.state.searchMode
+			open: Boolean(this.state.open || params.search || params.searchperson || params.person || params.museum || params.hue || params.saturation || params.tags || params.type || params.genre || params.place),
+			searchMode: params.searchperson ? 'persons' : params.hue && params.saturation ? 'colors' : params.person || params.museum || params.tags || params.type || params.genre || params.place ? 'multi-tags' : this.state.searchMode
 		});
 
-		if (!this.state.open && Boolean(params.searchString || params.searchpersons)) {
+		if (!this.state.open && Boolean(params.searchString || params.searchperson)) {
 			var scroll = new WindowScroll();
 
 			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
@@ -91,7 +126,7 @@ export default class Search extends React.Component {
 
 	personSelectorChangeHandler(event) {
 		var searchParams = this.state.searchParams;
-		searchParams.searchpersons = event.selectedPersons;
+		searchParams.searchperson = event.selectedPersons;
 		searchParams.hue = null;
 		searchParams.saturation = null;
 
@@ -102,7 +137,7 @@ export default class Search extends React.Component {
 
 	colorSelectorSelect(event) {
 		var searchParams = this.state.searchParams;
-		searchParams.searchpersons = [];
+		searchParams.searchperson = [];
 		searchParams.hue = event.hue;
 		searchParams.saturation = event.saturation;
 
@@ -141,12 +176,12 @@ export default class Search extends React.Component {
 		}
 		var searchParams = '';
 
-		if (this.state.searchParams.search != '') {
+		if (this.state.searchParams.search && this.state.searchParams.search != '') {
 			searchParams += '/query/'+this.state.searchParams.search;
 		}
 
-		if (this.state.searchParams.searchpersons.length > 0) {
-			searchParams += '/persons/'+this.state.searchParams.searchpersons.join(';');
+		if (this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0) {
+			searchParams += '/person/'+this.state.searchParams.searchperson.join(';');
 		}
 
 		if (this.state.searchParams.hue && this.state.searchParams.saturation) {
@@ -158,7 +193,7 @@ export default class Search extends React.Component {
 
 	render() {
 		var searchElement = this.state.searchMode == 'persons' ?
-				<ThumbnailCircles selectedPersons={this.state.searchParams.searchpersons} selectionChanged={this.personSelectorChangeHandler} />
+				<ThumbnailCircles selectedPersons={this.state.searchParams.searchperson} selectionChanged={this.personSelectorChangeHandler} />
 			: this.state.searchMode == 'colors' ?
 				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: this.state.searchMode == 'multi-tags' ?
@@ -167,7 +202,7 @@ export default class Search extends React.Component {
 					genre={this.state.searchParams.genre} 
 					tags={this.state.searchParams.tags} 
 					type={this.state.searchParams.type}
-					persons={this.state.searchParams.persons} 
+					person={this.state.searchParams.person} 
 					place={this.state.searchParams.place} />
 			: null
 		;

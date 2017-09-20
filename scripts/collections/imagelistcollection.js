@@ -4,11 +4,12 @@ import _ from 'underscore';
 import config from './../config';
 
 export default class ImageListCollection {
-	constructor(onComplete) {
+	constructor(onComplete, onFail) {
 		this.url = config.apiUrl+config.endpoints.documents;
 		this.lastUrl = '';
 
 		this.onComplete = onComplete;
+		this.onFail = onFail;
 
 		this.loading = false;
 	}
@@ -75,6 +76,10 @@ export default class ImageListCollection {
 			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
 
 			if (this.lastUrl == url) {
+				if (this.onFail) {
+					this.onFail();
+				}
+
 				return;
 			}
 
@@ -95,6 +100,11 @@ export default class ImageListCollection {
 					console.log('parsing failed', ex)
 				})
 			;
+		}
+		else {
+			if (this.onFail) {
+				this.onFail();
+			}
 		}
 	}
 }

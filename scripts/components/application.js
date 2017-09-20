@@ -26,8 +26,8 @@ export default class Application extends React.Component {
 	componentDidMount() {
 		eventBus.dispatch('application.searchParams', this, {
 			search: this.props.params.search || '',
-			searchpersons: this.props.params.searchpersons ? this.props.params.searchpersons.split(';') : null,
-			persons: this.props.params.persons ? this.props.params.persons.split(';') : null,
+			searchperson: this.props.params.searchperson ? this.props.params.searchperson.split(';') : null,
+			person: this.props.params.person ? this.props.params.person.split(';') : null,
 			place: this.props.params.place ? this.props.params.place.split(';') : null,
 			museum: this.props.params.museum ? this.props.params.museum.split(';') : null,
 			genre: this.props.params.genre ? this.props.params.genre.split(';') : null,
@@ -41,8 +41,8 @@ export default class Application extends React.Component {
 	componentWillReceiveProps(props) {
 		eventBus.dispatch('application.searchParams', this, {
 			search: props.params.search || '',
-			searchpersons: props.params.searchpersons ? props.params.searchpersons.split(';') : null,
-			persons: props.params.persons ? props.params.persons.split(';') : null,
+			searchperson: props.params.searchperson ? props.params.searchperson.split(';') : null,
+			person: props.params.person ? props.params.person.split(';') : null,
 			place: props.params.place ? props.params.place.split(';') : null,
 			museum: props.params.museum ? props.params.museum.split(';') : null,
 			genre: props.params.genre ? props.params.genre.split(';') : null,

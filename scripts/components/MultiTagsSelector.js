@@ -14,18 +14,21 @@ export default class MultiTagsSelector extends React.Component {
 
 		this.tagSelectChangeHandler = this.tagSelectChangeHandler.bind(this);
 		this.searchModeChangedHandler = this.searchModeChangedHandler.bind(this);
+		this.tagRemoveButtonClickHandler = this.tagRemoveButtonClickHandler.bind(this);
+		this.tagListLoadHandler = this.tagListLoadHandler.bind(this);
+
+		window.tags = this;
 
 		this.state = {
 			initialized: false,
 			selectedTags: {
-				persons: this.props.persons || null,
+				person: this.props.person || null,
 				place: this.props.place || null,
 				museum: this.props.museum || null,
 				genre: this.props.genre || null,
 				tags: this.props.tags || null,
 				type: this.props.type || null
-			},
-			version: 2
+			}
 		};
 
 		window.eventBus.addEventListener('search.mode-changed', this.searchModeChangedHandler);
@@ -76,6 +79,23 @@ export default class MultiTagsSelector extends React.Component {
 		}.bind(this));
 	}
 
+	tagRemoveButtonClickHandler(event) {
+		var selectedTags = this.state.selectedTags;
+
+		selectedTags[event.currentTarget.dataset.tagname] = null;
+
+		this.setState({
+			selectedTags: selectedTags
+		}, function() {
+			this.updateRoute();
+		}.bind(this));
+	}
+
+	tagListLoadHandler() {
+		console.log('performLayout');
+		this.refs.masonry.performLayout();
+	}
+
 	updateRoute() {
 		var selectedTags = this.state.selectedTags;
 
@@ -91,9 +111,19 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		this.setState({
+			selectedTags: {
+				person: props.person || null,
+				place: props.place || null,
+				museum: props.museum || null,
+				genre: props.genre || null,
+				tags: props.tags || null,
+				type: props.type || null
+			}
+		});
 	}
 
-	personsTagSort(x, y) {
+	personTagSort(x, y) {
 		var sortOrder = ['Arosenius', 'Eva', 'Adler', 'Kruse', 'Henning', 'Sahlin'];
 	}
 
@@ -105,7 +135,7 @@ export default class MultiTagsSelector extends React.Component {
 
 		for (var key in selectedTags) {
 			if (selectedTags[key]) {
-				selectedTagsButtons.push(<span key={selectedTags[key]} className="button-link">{selectedTags[key]}</span>);
+				selectedTagsButtons.push(<span key={selectedTags[key]} className="button-link" onClick={this.tagRemoveButtonClickHandler} data-tagname={key}>{selectedTags[key]}<span className="remove-button" dangerouslySetInnerHTML={{__html: '&#xd7'}} /></span>);
 			}
 		}
 
@@ -117,184 +147,95 @@ export default class MultiTagsSelector extends React.Component {
 					<div className="selected-tags">{selectedTagsButtons}</div>
 				}
 
-				{
-					this.state.version == 1 &&
-					<div className="tags-wrapper">
+				<Masonry ref="masonry" className={'tags-grid'} options={{columnWidth: '.grid-sizer', percentPosition: true}} >
 
-						<div className="row">
+					<div className="grid-sizer"></div>
 
-							<div className="three columns">
-								<h3>Samling</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Samling" 
-									expandable={false} 
-									limit={10} 
-									searchParam="museums" 
-									selectedTag={this.state.selectedTags.museum}
-									endpoint={config.endpoints.museums} />
-							</div>
-
-							<div className="three columns">
-								<h3>Kategori</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Kategori" 
-									expandable={false} 
-									limit={10} 
-									searchParam="type" 
-									selectedTag={this.state.selectedTags.type}
-									endpoint={config.endpoints.types} />
-							</div>
-
-							<div className="three columns">
-								<h3>Platser</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Platser" 
-									expandable={false} 
-									limit={10} 
-									searchParam="place" 
-									selectedTag={this.state.selectedTags.place}
-									endpoint={config.endpoints.places} />
-							</div>
-
-							<div className="three columns">
-								<h3>Taggar</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Taggar" 
-									expandable={false} 
-									limit={10} 
-									selectedTag={this.state.selectedTags.tags}
-									searchParam="tags" 
-									endpoint={config.endpoints.tags} />
-							</div>
-
-						</div>
-
-						<div className="row">
-
-							<div className="twelve columns">
-								<h3>Genre</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Genre" 
-									expandable={false} 
-									limit={10} 
-									selectedTag={this.state.selectedTags.genre}
-									searchParam="genre" 
-									endpoint={config.endpoints.genres} />
-
-								<br/><br/>
-							</div>
-
-						</div>
-
-						<div className="row">
-
-							<div className="twelve columns">
-								<h3>Personer</h3>
-								<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
-									onSelect={this.tagSelectChangeHandler}
-									dropdownHeaderText="Personer" 
-									dropdownButtonLabel="Fler personer"
-									expandable={true} 
-									limit={30} 
-									searchParam="persons" 
-									selectedTag={this.state.selectedTags.persons}
-									endpoint={config.endpoints.persons} />
-
-								<br/><br/>
-							</div>
-
-						</div>
-
+					<div className="tags-container">
+						<h3>Samlingar</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Samling" 
+							expandable={false} 
+							limit={10} 
+							searchParam="museum" 
+							selectedTag={this.state.selectedTags.museum}
+							endpoint={config.endpoints.museums}
+							onLoad={this.tagListLoadHandler} />
 					</div>
-				}
+
+					<div className="tags-container width-75">
+						<h3>Personer</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Personer" 
+							dropdownButtonLabel="Fler personer"
+							expandable={true} 
+							limit={20} 
+							searchParam="person" 
+							selectedTag={this.state.selectedTags.person}
+							endpoint={config.endpoints.persons}
+							onLoad={this.tagListLoadHandler} />
+					</div>
+
+					<div className="tags-container">
+						<h3>Kategorier</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Kategori" 
+							expandable={false} 
+							limit={10} 
+							searchParam="type" 
+							selectedTag={this.state.selectedTags.type}
+							endpoint={config.endpoints.types}
+							onLoad={this.tagListLoadHandler} />
+					</div>
+
+					<div className="tags-container width-50">
+						<h3>Taggar</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Taggar" 
+							expandable={true} 
+							limit={20} 
+							searchParam="tags" 
+							selectedTag={this.state.selectedTags.tags}
+							endpoint={config.endpoints.tags}
+							onLoad={this.tagListLoadHandler} />
+					</div>
+
+					<div className="tags-container">
+						<h3>Platser</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Platser" 
+							expandable={false} 
+							limit={10} 
+							searchParam="place" 
+							selectedTag={this.state.selectedTags.place}
+							endpoint={config.endpoints.places}
+							onLoad={this.tagListLoadHandler} />
+					</div>
+
+					<div className="tags-container width-75">
+						<h3>Genrer</h3>
+						<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
+							onSelect={this.tagSelectChangeHandler}
+							dropdownHeaderText="Genre"
+							dropdownButtonLabel="Fler genre" 
+							expandable={false} 
+							limit={18} 
+							selectedTag={this.state.selectedTags.genre}
+							searchParam="genre" 
+							endpoint={config.endpoints.genres}
+							onLoad={this.tagListLoadHandler} />
+					</div>
+
+				</Masonry>
 
 				{
-					this.state.version == 2 &&
-					<Masonry className={'tags-grid'} options={{columnWidth: '.grid-sizer', percentPosition: true}} >
-
-						<div className="grid-sizer"></div>
-
-						<div className="tags-container">
-							<h3>Samling</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Samling" 
-								expandable={false} 
-								limit={10} 
-								searchParam="museum" 
-								selectedTag={this.state.selectedTags.museum}
-								endpoint={config.endpoints.museums} />
-						</div>
-
-						<div className="tags-container width-75">
-							<h3>Personer</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Personer" 
-								dropdownButtonLabel="Fler personer"
-								expandable={true} 
-								limit={20} 
-								searchParam="persons" 
-								selectedTag={this.state.selectedTags.persons}
-								endpoint={config.endpoints.persons} />
-						</div>
-
-						<div className="tags-container">
-							<h3>Kategori</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Kategori" 
-								expandable={false} 
-								limit={10} 
-								searchParam="type" 
-								selectedTag={this.state.selectedTags.type}
-								endpoint={config.endpoints.types} />
-						</div>
-
-						<div className="tags-container width-50">
-							<h3>Taggar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Taggar" 
-								expandable={false} 
-								limit={10} 
-								selectedTag={this.state.selectedTags.tags}
-								searchParam="tags" 
-								endpoint={config.endpoints.tags} />
-						</div>
-
-						<div className="tags-container">
-							<h3>Platser</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Platser" 
-								expandable={false} 
-								limit={10} 
-								searchParam="place" 
-								selectedTag={this.state.selectedTags.place}
-								endpoint={config.endpoints.places} />
-						</div>
-
-						<div className="tags-container width-75">
-							<h3>Genre</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
-								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Genre"
-								dropdownButtonLabel="Fler genre" 
-								expandable={false} 
-								limit={18} 
-								selectedTag={this.state.selectedTags.genre}
-								searchParam="genre" 
-								endpoint={config.endpoints.genres} />
-						</div>
-
-					</Masonry>
-
+					selectedTagsButtons.length > 0 &&
+					<div className="selected-tags">{selectedTagsButtons}</div>
 				}
 
 			</div>

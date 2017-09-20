@@ -62,7 +62,13 @@ export default class TagsSelector extends React.Component {
 				this.setState({
 					loading: false,
 					data: data
-				});
+				}, function() {
+					if (this.props.onLoad) {
+						setTimeout(function() {
+							this.props.onLoad();
+						}.bind(this), 100);
+					}
+				}.bind(this));
 			}.bind(this)).catch(function(ex) {
 				console.log('parsing failed', ex)
 			})
@@ -70,9 +76,13 @@ export default class TagsSelector extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		this.setState({
+			selectedTag: props.selectedTag
+		});
 	}
 
 	render() {
+		
 		var buttons = this.state.data.length > 0 ? this.state.data.map(function(item, index) {
 			if (item.value && item.value != '') {
 				return <a key={item.value} className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} data-value={item.value} onClick={this.itemClickHandler}>{item.value}</a>

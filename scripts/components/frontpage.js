@@ -11,8 +11,6 @@ export default class FrontPage extends React.Component {
 		this.arrowClick = this.arrowClick.bind(this);
 		this.receivedSearchParamsHandler = this.receivedSearchParamsHandler.bind(this);
 
-		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
-
 		this.state = {
 			searchParams: {},
 			initialized: false,
@@ -34,7 +32,11 @@ export default class FrontPage extends React.Component {
 	}
 
 	componentDidMount() {
-		(new WindowScroll()).scrollToY(0, 1000, 'easeInOutSine');
+//		(new WindowScroll()).scrollToY(0, 1000, 'easeInOutSine');
+
+		this.setState({
+			searchParams: this.props.params
+		});
 
 		setTimeout(function() {
 			this.setState({
@@ -43,6 +45,14 @@ export default class FrontPage extends React.Component {
 		}.bind(this), 200);
 
 		this.loadBackgroundImage();
+
+//		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			searchParams: props.params
+		});
 	}
 
 	loadBackgroundImage() {
@@ -80,11 +90,11 @@ export default class FrontPage extends React.Component {
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search />
+				<Search searchParams={this.state.searchParams} />
 
 				<div className="site-content">
 					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchParams.search} 
-						searchPersons={this.state.searchParams.searchpersons && this.state.searchParams.searchpersons.length > 0 ? this.state.searchParams.searchpersons : this.state.searchParams.persons} 
+						searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
 						searchPlace={this.state.searchParams.place} 
 						searchMuseum={this.state.searchParams.museum}
 						searchGenre={this.state.searchParams.genre}

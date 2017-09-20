@@ -140,15 +140,20 @@ export default class ImageDisplay extends React.Component {
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.windowScrollHandler);
 		window.removeEventListener('resize', this.windowResizeHandler);
+
+		document.body.classList.remove('hide-scroll');
 	}
 
 	componentWillReceiveProps(props) {
 		if (props.image.front.image != this.state.image.front.image) {
+			document.body.classList.remove('hide-scroll');
+
 			this.setState({
 				image: props.image,
 				imageUrl: '',
 				flipped: false,
-				rotation: 0
+				rotation: 0,
+				fullDisplay: false
 			}, function() {
 				this.loadImage();
 			}.bind(this));

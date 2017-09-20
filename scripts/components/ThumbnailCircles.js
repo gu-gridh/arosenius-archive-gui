@@ -71,7 +71,7 @@ export default class ThumbnailCircles
 
 	componentDidMount() {
 		this.setState({
-			selectedPersons: this.props.selectedPersons || []
+			selectedPersons: this.props.selectedPersons ? this.props.selectedPersons.split(';') : []
 		});
 
 		setTimeout(function() {
@@ -84,7 +84,7 @@ export default class ThumbnailCircles
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			selectedPersons: props.selectedPersons || []
+			selectedPersons: props.selectedPersons ? (props.selectedPersons.split ? props.selectedPersons.split(';') : props.selectedPersons) : []
 		})
 	}
 

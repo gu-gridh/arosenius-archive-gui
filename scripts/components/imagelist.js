@@ -19,6 +19,7 @@ export default class ImageList extends React.Component {
 
 		this.state = {
 			images: [],
+			loading: false,
 			initialized: false,
 			columns: false,
 			waitingForLoad: false
@@ -45,8 +46,13 @@ export default class ImageList extends React.Component {
 			}
 			this.setState({
 				images: imageArray,
-				total: event.data.total
-			})
+				total: event.data.total,
+				loading: false
+			});
+		}.bind(this), function(event) {
+			this.setState({
+				loading: false
+			});
 		}.bind(this));
 	}
 
@@ -106,13 +112,13 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
-		else if (!props.searchString && !props.searchPersons && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			this.collection.fetch(null, props.count, 1);
 		}
 		else if (this.props.searchString != props.searchString || 
-			this.props.searchPersons != props.searchPersons || 
+			this.props.searchPerson != props.searchPerson || 
 			this.props.searchPlace != props.searchPlace || 
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
@@ -124,9 +130,13 @@ export default class ImageList extends React.Component {
 		) {
 			this.waitingForLoad = true;
 
+			this.setState({
+				loading: true
+			});
+
 			this.collection.fetch({
 				searchString: props.searchString, 
-				person: props.searchPersons, 
+				person: props.searchPerson, 
 				place: props.searchPlace, 
 				museum: props.searchMuseum, 
 				genre: props.searchGenre, 
@@ -136,7 +146,7 @@ export default class ImageList extends React.Component {
 				saturation: props.searchSaturation
 			}, props.count, 1);
 
-			if (props.searchString || props.searchPersons || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
+			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
 				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
@@ -144,12 +154,11 @@ export default class ImageList extends React.Component {
 
 	appendPage() {
 		if (!this.waitingForLoad) {
-			console.log('appendPage')
 			this.waitingForLoad = true;
 
 			this.collection.fetch({
 				searchString: this.props.searchString, 
-				person: this.props.searchPersons, 
+				person: this.props.searchPerson, 
 				place: this.props.searchPlace, 
 				museum: this.props.searchMuseum, 
 				genre: this.props.searchGenre, 
@@ -158,11 +167,6 @@ export default class ImageList extends React.Component {
 				hue: this.props.searchHue, 
 				saturation: this.props.searchSaturation
 			}, this.props.count, this.collection.currentPage+1, true);
-		}
-		else {
-			console.log('wont append');
-			console.log('this.waitingForLoad = '+this.waitingForLoad);
-			console.log('this.state.images.length = '+this.state.images.length);
 		}
 	}
 
@@ -200,7 +204,7 @@ export default class ImageList extends React.Component {
 			</div>;
 		}
 		else {
-			return <div ref="container">
+			return <div ref="container" data-title={this.props.title} className={'image-list'+(this.state.loading ? ' loading' : '')} style={this.state.images == 0 && this.props.related ? {display: 'none'} : null}>
 				<div>
 					{
 						this.props.title && this.state.images.length > 0 &&
@@ -208,7 +212,7 @@ export default class ImageList extends React.Component {
 					}
 					{
 						this.props.related && this.state.total > this.state.images.length &&
-						<a className="view-more-link" href={'#/search/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
+						<a className="view-more-link" href={'#/search/tags/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
 					}
 				</div>
 
@@ -221,6 +225,8 @@ export default class ImageList extends React.Component {
 					>
 					{items}
 				</Masonry>
+
+				<div className="loading-overlay" />
 			</div>;
 		}
 	}

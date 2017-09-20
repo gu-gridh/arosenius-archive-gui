@@ -1,3 +1,32 @@
+.image-list {
+	position: relative;
+
+	.loading-overlay {
+		position: absolute;
+
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		background-color: rgba(25, 25, 25, 0.5);
+		background-image: url(../img/loading-white.gif);
+		background-size: 60px;
+		background-repeat: no-repeat;
+		background-position: center 100px;
+
+		opacity: 0;
+
+		pointer-events: none;
+
+		.transition(all 300ms ease-in-out);
+
+		.loading& {
+			opacity: 1;
+		}
+	}
+}
+
 .grid {
 	background-image: url(../img/loading.gif);
 	background-repeat: no-repeat;
@@ -14,7 +43,6 @@
 	}
 
 	.initialized& {
-
 		background-image: none;
 	}
 
