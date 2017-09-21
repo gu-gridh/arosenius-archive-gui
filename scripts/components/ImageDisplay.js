@@ -4,6 +4,8 @@ import _ from 'underscore';
 
 import ImageMap from './ImageMap';
 
+import imageSizes from './../utils/imageSizes';
+
 import config from './../config';
 
 export default class ImageDisplay extends React.Component {
@@ -104,12 +106,12 @@ export default class ImageDisplay extends React.Component {
 
 			image.onload = this.imageLoadedHandler;
 			image.onerror = this.imageErrorHandler;
-			image.src = config.imageUrl+'1000x/'+this.state.image.front.image+'.jpg';
+			image.src = config.imageUrl+imageSizes.getImageUrl()+'x/'+this.state.image.front.image+'.jpg';
 		}
 	}
 
 	imageLoadedHandler() {
-		var imageUrl = config.imageUrl+'1000x/'+this.state.image.front.image+'.jpg';
+		var imageUrl = config.imageUrl+imageSizes.getImageUrl()+'x/'+this.state.image.front.image+'.jpg';
 
 		this.setState({
 			imageUrl: imageUrl,
@@ -210,7 +212,7 @@ export default class ImageDisplay extends React.Component {
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
 			backgroundColor: imgObj.color.dominant.hex,
-			backgroundImage: rearImage ? "url('"+config.imageUrl+"1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
+			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight
@@ -246,7 +248,7 @@ export default class ImageDisplay extends React.Component {
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
 			backgroundColor: imgObj.color.dominant.hex,
-			backgroundImage: rearImage ? "url('"+config.imageUrl+"1000x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
+			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight

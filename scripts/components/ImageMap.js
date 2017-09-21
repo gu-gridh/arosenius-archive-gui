@@ -5,6 +5,8 @@ import L from 'leaflet';
 
 import config from './../config';
 
+import imageSizes from './../utils/imageSizes';
+
 export default class ImageMap extends React.Component {
 	constructor(props) {
 		super(props);
@@ -36,7 +38,7 @@ export default class ImageMap extends React.Component {
 		var factor = windowWidth/imageWidth;
 		var bounds = [[0, 0], [imageHeight*factor, imageWidth*factor]];
 
-		var lowResOverlay = L.imageOverlay(config.imageUrl+'1000x/'+url+'.jpg', bounds);
+		var lowResOverlay = L.imageOverlay(config.imageUrl+imageSizes.getImageUrl()+'x/'+url+'.jpg', bounds);
 		lowResOverlay.addTo(this.map);
 
 		var highResOverlay = L.imageOverlay(config.imageUrl+url+'.jpg', bounds);
