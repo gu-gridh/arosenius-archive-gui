@@ -17,8 +17,6 @@ export default class MultiTagsSelector extends React.Component {
 		this.tagRemoveButtonClickHandler = this.tagRemoveButtonClickHandler.bind(this);
 		this.tagListLoadHandler = this.tagListLoadHandler.bind(this);
 
-		window.tags = this;
-
 		this.state = {
 			initialized: false,
 			selectedTags: {
@@ -92,7 +90,6 @@ export default class MultiTagsSelector extends React.Component {
 	}
 
 	tagListLoadHandler() {
-		console.log('performLayout');
 		this.refs.masonry.performLayout();
 	}
 

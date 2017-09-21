@@ -22,9 +22,9 @@ ReactDOM.render(
 		<Route component={Application}>
 			<Route path="/" 
 				component={FrontPage}/>
-			<Route path="/search(/query/:search)(/persons/:searchpersons)(/color/:hue/:saturation)(/tags(/persons/:persons)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type))" 
+			<Route path="/search(/query/:search)(/person/:searchperson)(/color/:hue/:saturation)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type))" 
 				component={FrontPage}/>
-			<Route path="/image/:imageId(/search(/query/:search)(/persons/:searchpersons)(/color/:hue/:saturation)(/tags(/persons/:persons)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type)))" 
+			<Route path="/image/:imageId(/search(/query/:search)(/person/:searchperson)(/color/:hue/:saturation)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type)))" 
 				component={ImageView}/>
 		</Route>
 	</Router>,

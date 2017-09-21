@@ -96,6 +96,11 @@ export default class ImageList extends React.Component {
 					person: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
+			if (props.related == 'place') {
+				this.collection.fetch({
+					place: props.relatedValue
+				}, props.count, 1, false, props.archiveMaterial || null);
+			}
 			if (props.related == 'museum') {
 				this.collection.fetch({
 					museum: props.relatedValue

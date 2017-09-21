@@ -158,6 +158,14 @@ export default class ImageView extends React.Component {
 				}
 			}.bind(this)) : [];
 
+			var relatedPlacesImages = places.length > 0 ? places.map(function(place, index) {
+				if (place != '') {
+					return <div className="related-list" key={place}>
+						<ImageList title={'Fler bilder från '+place} related="place" relatedValue={place} count="10" />
+					</div>;
+				}
+			}) : [];
+
 			var relatedPersonImages = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
 					return <div className="related-list" key={person}>
@@ -345,6 +353,13 @@ export default class ImageView extends React.Component {
 						relatedPersonArchiveMaterial.length > 0 &&
 						<div>
 							{relatedPersonArchiveMaterial}
+						</div>
+					}
+
+					{
+						relatedPlacesImages.length > 0 &&
+						<div>
+							{relatedPlacesImages}
 						</div>
 					}
 
