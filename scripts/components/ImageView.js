@@ -97,6 +97,8 @@ export default class ImageView extends React.Component {
 				searchSaturation: this.props.params.saturation
 			});
 		}.bind(this), 200);
+
+		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 	}
 
 	componentWillUnmount() {

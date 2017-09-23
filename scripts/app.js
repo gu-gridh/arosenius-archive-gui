@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, hashHistory } from 'react-router'
+import { Router, Route, Link, hashHistory, Redirect } from 'react-router'
 
 import Application from './components/Application';
 import ImageList from './components/ImageList';
@@ -19,9 +19,8 @@ function logPageView() {
 
 ReactDOM.render(
 	<Router history={hashHistory} onUpdate={logPageView}>
-		<Route component={Application}>
-			<Route path="/" 
-				component={FrontPage}/>
+		<Redirect from="/" to="/search" />
+		<Route path="/" component={Application}>
 			<Route path="/search(/query/:search)(/person/:searchperson)(/color/:hue/:saturation)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type))" 
 				component={FrontPage}/>
 			<Route path="/image/:imageId(/search(/query/:search)(/person/:searchperson)(/color/:hue/:saturation)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type)))" 
