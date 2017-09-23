@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Search from './Search';
-import ImageList from './ImageList';
 import WindowScroll from './../utils/window-scroll';
 
 export default class FrontPage extends React.Component {
@@ -84,25 +82,13 @@ export default class FrontPage extends React.Component {
 	render() {
 		return (
 			<div className={"front"+(this.state.initialized ? ' initialized' : '')}>
+
 				<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
 					<div className="overlay"></div>
 
 					<button className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
-				<Search searchParams={this.state.searchParams} />
-
-				<div className="site-content">
-					<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchParams.search} 
-						searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
-						searchPlace={this.state.searchParams.place} 
-						searchMuseum={this.state.searchParams.museum}
-						searchGenre={this.state.searchParams.genre}
-						searchTags={this.state.searchParams.tags}
-						searchType={this.state.searchParams.type}
-						searchHue={this.state.searchParams.hue}
-						searchSaturation={this.state.searchParams.saturation} />
-				</div>
 			</div>
 		)
 	}
