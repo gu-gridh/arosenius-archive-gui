@@ -164,9 +164,9 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		bottom: 0;
+		bottom: 90px;
 
-		background: @page-background;
+		background-color: @page-background;
 
 		.transition(all 500ms ease-in-out);
 
@@ -179,8 +179,12 @@
 			height: 100%;
 
 			background: @page-background;
+			background-image: url(../img/loading-white.gif);
+			background-repeat: no-repeat;
+			background-size: 80px 80px;
+			background-position: center;
 
-			.transform(scale(0.8));
+//			.transform(scale(0.8));
 			.transition(all 500ms ease-in-out);
 
 			.leaflet-control-attribution {
@@ -192,7 +196,7 @@
 			opacity: 1;
 
 			.map-container {
-				.transform(scale(1));
+//				.transform(scale(1));
 			}
 		}
 

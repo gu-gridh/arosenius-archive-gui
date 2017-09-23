@@ -1,4 +1,6 @@
 import React from 'react';
+import { hashHistory } from 'react-router';
+
 import 'whatwg-fetch';
 import _ from 'underscore';
 
@@ -28,19 +30,24 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	toggleFullDisplay() {
-		this.setState({
-			fullDisplay: !this.state.fullDisplay
-		}, function() {
-			if (this.state.fullDisplay) {
-				document.body.classList.add('hide-scroll');
-			}
-			else {
-				document.body.classList.remove('hide-scroll');
-			}
-			setTimeout(function() {
-				this.positionImageButtons();
-			}.bind(this), 500);
-		}.bind(this));
+		if (!this.props.pathname.match('/display/full')) {
+			hashHistory.push(this.props.pathname+'/display/full');
+		}
+		else {
+			hashHistory.push(this.props.pathname.replace('/display/full', ''));
+		}
+	}
+
+	checkFullDisplay() {
+		if (this.state.fullDisplay) {
+			document.body.classList.add('image-fullscreen');
+		}
+		else {
+			document.body.classList.remove('image-fullscreen');
+		}
+		setTimeout(function() {
+			this.positionImageButtons();
+		}.bind(this), 500);
 	}
 
 	imageDisplayClickHandler() {
@@ -133,7 +140,8 @@ export default class ImageDisplay extends React.Component {
 		window.addEventListener('resize', this.windowResizeHandler);
 
 		this.setState({
-			image: this.props.image
+			image: this.props.image,
+			fullDisplay: this.props.params && this.props.params.fullDisplay
 		}, function() {
 			this.loadImage();
 		}.bind(this));
@@ -143,20 +151,22 @@ export default class ImageDisplay extends React.Component {
 		window.removeEventListener('scroll', this.windowScrollHandler);
 		window.removeEventListener('resize', this.windowResizeHandler);
 
-		document.body.classList.remove('hide-scroll');
+		document.body.classList.remove('image-fullscreen');
 	}
 
 	componentWillReceiveProps(props) {
-		if (props.image.front.image != this.state.image.front.image) {
-			document.body.classList.remove('hide-scroll');
+		if ((props.image.front.image != this.state.image.front.image) || (props.fullDisplay != this.state.fullDisplay)) {
+			document.body.classList.remove('image-fullscreen');
 
 			this.setState({
 				image: props.image,
 				imageUrl: '',
 				flipped: false,
 				rotation: 0,
-				fullDisplay: false
+				fullDisplay: props.fullDisplay
 			}, function() {
+				this.checkFullDisplay();
+
 				this.loadImage();
 			}.bind(this));
 		}

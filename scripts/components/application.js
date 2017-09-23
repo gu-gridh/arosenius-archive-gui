@@ -61,7 +61,6 @@ export default class Application extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<div onMouseMove={this.mouseMoveHandler} className={this.state.noUiDistract ? 'hide-ui' : ''}>
 				<Header routerPath={this.props.location.pathname} />

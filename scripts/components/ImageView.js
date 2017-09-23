@@ -87,14 +87,7 @@ export default class ImageView extends React.Component {
 
 		setTimeout(function() {
 			this.setState({
-				searchString: this.props.params.search,
-				searchPerson: this.props.params.person,
-				searchPlace: this.props.params.place,
-				searchMuseum: this.props.params.museum,
-				searchGenre: this.props.params.genre,
-				searchTags: this.props.params.tags,
-				searchHue: this.props.params.hue,
-				searchSaturation: this.props.params.saturation
+				fullDisplay: this.props.params.display == 'full'
 			});
 		}.bind(this), 200);
 
@@ -109,14 +102,7 @@ export default class ImageView extends React.Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			searchString: props.params.search,
-			searchPerson: props.params.person,
-			searchPlace: props.params.place,
-			searchMuseum: props.params.museum,
-			searchGenre: props.params.genre,
-			searchTags: props.params.tags,
-			searchHue: props.params.hue,
-			searchSaturation: props.params.saturation
+			fullDisplay: props.params.display == 'full'
 		});
 
 		if (this.state.image && this.state.image.id != props.params.imageId) {
@@ -198,7 +184,7 @@ export default class ImageView extends React.Component {
 
 			var genreEls = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <a key={genre} href={'#/search/genre/'+genre}>{genre.toLowerCase()}</a>;
+					return <a key={genre} href={'#/search/tags/genre/'+genre}>{genre.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -255,7 +241,7 @@ export default class ImageView extends React.Component {
 			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
 				<ReactSwipeEvents onSwiped={this.imageSwipedHandler}>
-					<ImageDisplay image={imageObj} />
+					<ImageDisplay pathname={this.props.location.pathname} image={imageObj} fullDisplay={this.state.fullDisplay} />
 				</ReactSwipeEvents>
 
 				{
@@ -376,20 +362,6 @@ export default class ImageView extends React.Component {
 						<ImageList title={'Fler objekt från '+this.state.image.collection.museum} related="museum" relatedValue={this.state.image.collection.museum} count="10" />
 					</div>
 				</div>
-				{
-					true == false &&
-					<div>
-						<Search imageId={this.state.image.id} />
-						<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchString} 
-							searchPerson={this.state.searchPerson} 
-							searchPlace={this.state.searchPlace} 
-							searchMuseum={this.state.searchMuseum}
-							searchGenre={this.state.searchGenre}
-							searchTags={this.state.searchTags}
-							searchHue={this.state.searchHue}
-							searchSaturation={this.state.searchSaturation} />
-					</div>
-				}
 
 			</div>;
 		}

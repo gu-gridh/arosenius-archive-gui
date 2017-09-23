@@ -18,13 +18,6 @@ export default class ImageMap extends React.Component {
 
 	componentDidMount() {
 		console.log(this.props);
-		var windowWidth = window.innerWidth;
-		var windowHeight = window.innerHeight;
-
-		var imageWidth = this.props.imageObj ? this.props.imageObj.imagesize.width : 4936;
-		var imageHeight = this.props.imageObj ? this.props.imageObj.imagesize.height : 5048;
-		var url = this.props.imageObj ? this.props.imageObj.image : 'nationalmuseum-B2710-fram-före kons';
-
 		this.map = L.map(this.refs.mapView, {
 			minZoom: 0,
 			maxZoom: 3,
@@ -35,14 +28,40 @@ export default class ImageMap extends React.Component {
 
 		window.map = this.map;
 
+		if (this.props.imageObj) {
+			this.loadImage(this.props.imageObj);
+		}
+	}
+
+	componentWillReceiveProps(props) {
+		if (props.imageObj) {
+			this.loadImage(props.imageObj);
+		}
+	}
+
+	loadImage(imageObj) {
+		if (this.lowResOverlay) {
+			this.map.removeLayer(this.lowResOverlay);
+		}
+		if (this.highResOverlay) {
+			this.map.removeLayer(this.highResOverlay);
+		}
+
+		var windowWidth = window.innerWidth;
+		var windowHeight = window.innerHeight;
+
+		var imageWidth = imageObj ? imageObj.imagesize.width : 4936;
+		var imageHeight = imageObj ? imageObj.imagesize.height : 5048;
+		var url = imageObj ? imageObj.image : 'nationalmuseum-B2710-fram-före kons';
+
 		var factor = windowWidth/imageWidth;
 		var bounds = [[0, 0], [imageHeight*factor, imageWidth*factor]];
 
-		var lowResOverlay = L.imageOverlay(config.imageUrl+imageSizes.getImageUrl()+'x/'+url+'.jpg', bounds);
-		lowResOverlay.addTo(this.map);
+		this.lowResOverlay = L.imageOverlay(config.imageUrl+imageSizes.getImageUrl()+'x/'+url+'.jpg', bounds);
+		this.lowResOverlay.addTo(this.map);
 
-		var highResOverlay = L.imageOverlay(config.imageUrl+url+'.jpg', bounds);
-		highResOverlay.addTo(this.map);
+		this.highResOverlay = L.imageOverlay(config.imageUrl+url+'.jpg', bounds);
+		this.highResOverlay.addTo(this.map);
 
 		this.map.setMaxBounds(bounds);
 
@@ -53,9 +72,6 @@ export default class ImageMap extends React.Component {
 				initialized: true
 			});
 		}.bind(this), 100);
-	}
-
-	componentWillReceiveProps(props) {
 	}
 
 	zoomButtonClickHandler(zoomValue) {
