@@ -288,40 +288,37 @@ export default class ImageView extends React.Component {
 								</div>
 							}
 							{
+								placeEls.length > 0 &&
+								<div>
+									<span className="label">Platser:</span> <span className="button-links">{placeEls}</span>
+								</div>
+							}
+						</div>
+
+						<div className="four columns">
+							{
+								personEls.length > 0 &&
+								<div>
+									<span className="label">Personer:</span> <span className="button-links">{personEls}</span>
+								</div>
+							}
+							{
 								tagEls.length > 0 &&
 								<div>
 									<span className="label">Taggar:</span> <span className="button-links">{tagEls}</span>
 								</div>
 							}
 						</div>
-
-						<div className="four columns">
-							<div className="color-list">
-								{colorElements}
-							</div>
-						</div>
 					</div>
 
 					<div className="row">
-						{
-							personEls.length > 0 &&
-							<div className="six columns">
-								<br/>
-								<span className="label">Personer:</span><br/>
-								<span className="button-links">{personEls}</span>
-							</div>
-						}
-						{
-							placeEls.length > 0 &&
-							<div className="six columns">
-								<br/>
-								<span className="label">Platser:</span><br/>
-								<span className="button-links">{placeEls}</span>
-							</div>
-						}
+						<br />
+						<div className="color-list">
+							{colorElements}
+						</div>
 					</div>
 
-					<br/>
+					<br />
 					<p>{this.state.image.description}</p>
 
 				</div>

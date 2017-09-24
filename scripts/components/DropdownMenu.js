@@ -9,6 +9,7 @@ export default class DropdownMenu extends React.Component {
 		this.menuButtonClick = this.menuButtonClick.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
 		this.windowClickHandler = this.windowClickHandler.bind(this);
+		this.closeButtonClickHandler = this.closeButtonClickHandler.bind(this);
 
 		this.state = {
 			menuOpen: false
@@ -23,6 +24,10 @@ export default class DropdownMenu extends React.Component {
 				this.props.onOpen();
 			}
 		}.bind(this));
+	}
+
+	closeButtonClickHandler() {
+		this.closeMenu();
 	}
 
 	closeMenu() {
@@ -65,6 +70,10 @@ export default class DropdownMenu extends React.Component {
 				<a className={'dropdown-link'+(this.props.className ? ' '+this.props.className : '')} onClick={this.menuButtonClick}>{this.props.label || ''}</a>
 
 				<div className={'dropdown-container dropdown-list'+(this.state.menuOpen || this.props.keepOpen ? ' open' : '')+(this.props.headerText ? ' has-header' : '')}>
+					{
+						this.props.showCloseButton &&
+						<span className="close-button" onClick={this.closeButtonClickHandler} dangerouslySetInnerHTML={{__html: '&#xd7'}} />
+					}
 					{
 						this.props.headerText &&
 						<div className="panel-heading dropdown-heading">

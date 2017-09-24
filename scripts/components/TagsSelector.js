@@ -16,7 +16,7 @@ export default class TagsSelector extends React.Component {
 			initialized: false,
 			loading: true,
 			data: [],
-			selectedTag: this.props.selectedTag || ''
+			selectedTag: this.props.selectedTag[this.props.searchParam] || ''
 		};
 	}
 
@@ -42,6 +42,10 @@ export default class TagsSelector extends React.Component {
 		this.setState({
 			selectedTag: this.state.selectedTag == event.currentTarget.dataset.value ? null : event.currentTarget.dataset.value
 		});
+
+		if (this.refs.dropdown) {
+			this.refs.dropdown.closeMenu();
+		}
 	}
 
 	fetchData() {
@@ -77,7 +81,7 @@ export default class TagsSelector extends React.Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			selectedTag: props.selectedTag
+			selectedTag: props.selectedTag[this.props.searchParam]
 		});
 	}
 
@@ -85,7 +89,11 @@ export default class TagsSelector extends React.Component {
 		
 		var buttons = this.state.data.length > 0 ? this.state.data.map(function(item, index) {
 			if (item.value && item.value != '') {
-				return <a key={item.value} className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} data-value={item.value} onClick={this.itemClickHandler}>{item.value}</a>
+				return <a key={item.value} 
+					className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} 
+					data-value={item.value} 
+					onClick={this.itemClickHandler}
+				>{item.value}</a>
 			}
 		}.bind(this)) : [];
 
@@ -102,7 +110,12 @@ export default class TagsSelector extends React.Component {
 				{visibleContent ? visibleContent : buttons}
 				{
 					visibleContent && buttons.length > 0 &&
-					<DropdownMenu onOpen={this.props.onDropdownOpen} headerText={this.props.dropdownHeaderText} label={this.props.dropdownButtonLabel || '...'}>
+					<DropdownMenu ref="dropdown" 
+						showCloseButton={true}
+						onOpen={this.props.onDropdownOpen} 
+						headerText={this.props.dropdownHeaderText} 
+						label={this.props.dropdownButtonLabel || '...'}
+					>
 						{buttons}
 					</DropdownMenu>
 				}

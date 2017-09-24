@@ -209,7 +209,7 @@ export default class ImageList extends React.Component {
 			</div>;
 		}
 		else {
-			return <div ref="container" data-title={this.props.title} className={'image-list'+(this.state.loading ? ' loading' : '')} style={this.state.images == 0 && this.props.related ? {display: 'none'} : null}>
+			return <div ref="container" data-title={this.props.title} className={'image-list'+(this.state.loading ? ' loading' : '')} style={this.state.images.length < 2 && this.props.related ? {display: 'none'} : null}>
 				<div>
 					{
 						this.props.title && this.state.images.length > 0 &&
