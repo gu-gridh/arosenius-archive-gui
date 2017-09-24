@@ -17,7 +17,6 @@ export default class ImageMap extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props);
 		this.map = L.map(this.refs.mapView, {
 			minZoom: 0,
 			maxZoom: 3,
@@ -67,11 +66,9 @@ export default class ImageMap extends React.Component {
 
 		this.map.panTo([imageHeight, 0]);
 
-		setTimeout(function() {
-			this.setState({
-				initialized: true
-			});
-		}.bind(this), 100);
+		this.setState({
+			initialized: true
+		});
 	}
 
 	zoomButtonClickHandler(zoomValue) {

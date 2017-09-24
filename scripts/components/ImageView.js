@@ -16,8 +16,6 @@ export default class ImageView extends React.Component {
 	constructor(props) {
 		super(props);
 
-		window.imageView = this;
-
 		this.pageClickHandler = this.pageClickHandler.bind(this);
 		this.imageSwipedHandler = this.imageSwipedHandler.bind(this);
 
@@ -56,6 +54,12 @@ export default class ImageView extends React.Component {
 	}
 
 	imageSwipedHandler(event, originalX, originalY, endX, endY, deltaX, deltaY) {
+		// Do nothing if component in fullDisplay mode
+		if (this.state.fullDisplay) {
+			return;
+		}
+
+		// Do nothing if only a minor swipe
 		if (Math.abs(deltaY) > 100 || Math.abs(deltaX) < 50) {
 			return;
 		}

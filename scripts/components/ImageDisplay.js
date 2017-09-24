@@ -111,9 +111,15 @@ export default class ImageDisplay extends React.Component {
 		if (this.state.image) {
 			var image = new Image();
 
+			this.setState({
+				lowresImageUrl: config.imageUrl+'255x/'+this.state.image.front.image+'.jpg'
+			});
+
 			image.onload = this.imageLoadedHandler;
 			image.onerror = this.imageErrorHandler;
 			image.src = config.imageUrl+imageSizes.getImageUrl()+'x/'+this.state.image.front.image+'.jpg';
+
+			this.setState
 		}
 	}
 
@@ -156,18 +162,24 @@ export default class ImageDisplay extends React.Component {
 
 	componentWillReceiveProps(props) {
 		if ((props.image.front.image != this.state.image.front.image) || (props.fullDisplay != this.state.fullDisplay)) {
+			// Check if component received new image object or just other params
+			var imageChanged = props.image.front.image != this.state.image.front.image;
+
 			document.body.classList.remove('image-fullscreen');
 
 			this.setState({
 				image: props.image,
-				imageUrl: '',
-				flipped: false,
+				imageUrl: imageChanged ? '' : this.state.imageUrl, // only change this if component received new image object
+				flipped: imageChanged ? false : this.state.flipped, // only change this if component received new image object
 				rotation: 0,
 				fullDisplay: props.fullDisplay
 			}, function() {
 				this.checkFullDisplay();
 
-				this.loadImage();
+				// Load new image if component received new image object
+				if (imageChanged) {
+					this.loadImage();
+				}
 			}.bind(this));
 		}
 	}
@@ -258,8 +270,8 @@ export default class ImageDisplay extends React.Component {
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
 			backgroundColor: imgObj.color.dominant.hex,
-			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
-
+			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : "url('"+this.state.lowresImageUrl+"')",
+//			opacity: !this.state.imageUrl && this.state.lowresImageUrl ? 0.2 : 1,
 			width: imageWidth,
 			height: imageHeight
 		} : null;
@@ -279,7 +291,7 @@ export default class ImageDisplay extends React.Component {
 				<div className="image-wrapper" style={{transform: 'rotate('+this.state.rotation+'deg)'}}>
 
 					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
-						<div className="loader"></div>
+						<div className="loader" style={{backgroundColor: this.getImageObj().color.dominant.hex}}></div>
 					</div>
 
 					{rearImageEl}
