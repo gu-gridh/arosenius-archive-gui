@@ -40,10 +40,10 @@ export default class ImageDisplay extends React.Component {
 
 	checkFullDisplay() {
 		if (this.state.fullDisplay) {
-			document.body.classList.add('image-fullscreen');
+			document.body.classList.add('disable-scroll');
 		}
 		else {
-			document.body.classList.remove('image-fullscreen');
+			document.body.classList.remove('disable-scroll');
 		}
 		setTimeout(function() {
 			this.positionImageButtons();
@@ -157,7 +157,7 @@ export default class ImageDisplay extends React.Component {
 		window.removeEventListener('scroll', this.windowScrollHandler);
 		window.removeEventListener('resize', this.windowResizeHandler);
 
-		document.body.classList.remove('image-fullscreen');
+		document.body.classList.remove('disable-scroll');
 	}
 
 	componentWillReceiveProps(props) {
@@ -165,7 +165,7 @@ export default class ImageDisplay extends React.Component {
 			// Check if component received new image object or just other params
 			var imageChanged = props.image.front.image != this.state.image.front.image;
 
-			document.body.classList.remove('image-fullscreen');
+			document.body.classList.remove('disable-scroll');
 
 			this.setState({
 				image: props.image,

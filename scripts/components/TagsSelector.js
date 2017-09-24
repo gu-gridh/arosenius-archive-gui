@@ -111,7 +111,8 @@ export default class TagsSelector extends React.Component {
 				{
 					visibleContent && buttons.length > 0 &&
 					<DropdownMenu ref="dropdown" 
-						showCloseButton={true}
+						showCloseButton={true} 
+						disableScrollOnOpen={true} 
 						onOpen={this.props.onDropdownOpen} 
 						headerText={this.props.dropdownHeaderText} 
 						label={this.props.dropdownButtonLabel || '...'}

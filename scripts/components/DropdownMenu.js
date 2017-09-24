@@ -23,6 +23,14 @@ export default class DropdownMenu extends React.Component {
 			if (this.state.menuOpen && this.props.onOpen) {
 				this.props.onOpen();
 			}
+			if (this.props.disableScrollOnOpen) {
+				if (this.state.menuOpen) {
+					document.body.classList.add('disable-scroll');
+				}
+				else {
+					document.body.classList.remove('disable-scroll');
+				}
+			}
 		}.bind(this));
 	}
 
@@ -34,6 +42,8 @@ export default class DropdownMenu extends React.Component {
 		this.setState({
 			menuOpen: false
 		});
+
+		document.body.classList.remove('disable-scroll');
 	}
 
 	windowClickHandler(event) {
@@ -58,6 +68,7 @@ export default class DropdownMenu extends React.Component {
 		if (!this.props.manuallyClose) {
 			document.getElementById('app').removeEventListener('click', this.windowClickHandler);
 		}
+		document.body.classList.remove('disable-scroll');
 	}
 
 	componentWillReceiveProps(props) {
