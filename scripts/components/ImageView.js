@@ -280,7 +280,7 @@ export default class ImageView extends React.Component {
 						}
 
 						<div className="four columns">
-							<div><span className="label">Samling:</span> <a className="button-link" href={'#/search/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
+							<div><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
 								genreEls.length > 0 &&
 								<div>
