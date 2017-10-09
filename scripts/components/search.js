@@ -5,6 +5,7 @@ import ThumbnailCircles from './ThumbnailCircles';
 import ColorSearchSelector from './ColorSearchSelector';
 import MultiTagsSelector from './MultiTagsSelector';
 import DropdownMenu from './DropdownMenu';
+import SearchAutocompleteInput from './SearchAutocompleteInput';
 
 import WindowScroll from './../utils/window-scroll';
 
@@ -121,7 +122,12 @@ export default class Search extends React.Component {
 
 		this.setState({
 			searchParams: searchParams
-		});
+		}, function() {
+			if (event.triggerSearch) {
+				console.log('do triggerSearch');
+				this.triggerSearch();
+			}
+		}.bind(this));
 	}
 
 	personSelectorChangeHandler(event) {
@@ -213,10 +219,10 @@ export default class Search extends React.Component {
 				<button ref="searchButton" className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
 
 				<div className={'module-content'+(' mode-'+(this.state.searchMode || 'persons'))+(this.state.open || this.state.manualOpen ? ' open' : '')}>
-					<input value={this.state.searchParams.search} 
+					<SearchAutocompleteInput value={this.state.searchParams.search} 
 						type="text" 
 						placeholder="Skriv här..." 
-						className="search-input" 
+						inputClassName="search-input" 
 						onChange={this.searchInputChangeHandler} 
 						onKeyPress={this.searchInputKeyPress} />
 

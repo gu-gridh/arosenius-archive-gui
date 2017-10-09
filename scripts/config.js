@@ -6,6 +6,7 @@ export default {
 	endpoints: {
 		documents: 'documents',
 		document: 'document/',
+		autocomplete: 'autocomplete',
 
 		tags: 'tags',
 		persons: 'persons',
