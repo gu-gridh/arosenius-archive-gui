@@ -411,6 +411,22 @@
 		margin-top: -30px;
 		margin-bottom: 50px;
 
+		opacity: 0;
+
+		.transform(translateY(-20px));
+
+		pointer-events: none;
+
+		.transition(all 300ms ease-in-out);
+
+		&.visible {
+			opacity: 1;
+
+			.transform(translateY(0));
+
+			pointer-events: all;
+		}
+
 		.tags-list {
 			font-size: 2.2rem;
 
