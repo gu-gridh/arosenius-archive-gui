@@ -39,11 +39,12 @@ export default class DropdownMenu extends React.Component {
 	}
 
 	closeMenu() {
-		this.setState({
-			menuOpen: false
-		});
-
-		document.body.classList.remove('disable-scroll');
+		if (this.state.menuOpen) {
+			this.setState({
+				menuOpen: false
+			});
+			document.body.classList.remove('disable-scroll');
+		}
 	}
 
 	windowClickHandler(event) {

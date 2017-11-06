@@ -86,7 +86,7 @@ export default class FrontPage extends React.Component {
 				<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
 					<div className="overlay"></div>
 
-					<button className="arrow" onClick={this.arrowClick}></button>
+					<button style={{display: 'none'}} className="arrow" onClick={this.arrowClick}></button>
 				</div>
 
 			</div>

@@ -71,6 +71,15 @@ export default class ImageListCollection {
 				fetchParams.push('archivematerial='+archiveMaterial);
 			}
 
+			console.log('wildcardSearch: '+window.wildcardSearch);
+			if (window.wildcardSearch) {
+				fetchParams.push('wildcard=true');
+			}
+			console.log('generousSearch: '+window.generousSearch);
+			if (window.generousSearch) {
+				fetchParams.push('generous=true');
+			}
+
 			fetchParams.push('page='+page);
 
 			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');

@@ -18,7 +18,7 @@ var minifyCSS = require('gulp-csso');
 var path = require('path');
 var gulpif = require('gulp-if');
 
-var production = false;
+var production = true;
 
 if (production) {
 	process.env.NODE_ENV = 'production';

@@ -2,7 +2,9 @@ import React from 'react';
 import { hashHistory } from 'react-router';
 import _ from 'underscore';
 
-export default class SearchAutocompleteInput extends React.Component {
+import config from './../config';
+
+export default class AutocompleteDiscoverInput extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -12,7 +14,7 @@ export default class SearchAutocompleteInput extends React.Component {
 
 		this.state = {
 			inputValue: props.value || '',
-			data: [],
+			data: {},
 			listIndex: -1
 		};
 	}
@@ -26,7 +28,9 @@ export default class SearchAutocompleteInput extends React.Component {
 	}
 
 	focus() {
-		this.refs.textInput.focus();
+		if (this.refs.input) {
+			this.refs.input.focus();
+		}
 	}
 
 	inputValueChangeHandler(event) {
@@ -52,16 +56,18 @@ export default class SearchAutocompleteInput extends React.Component {
 			this.setState({
 				inputValue: event.target.value
 			}, function() {
-				if (this.state.inputValue.indexOf(',') > -1) {
-					var inputStrings = this.state.inputValue.split(',');
-					var searchValue = inputStrings[inputStrings.length-1];
+				if (event.target.value.length > 2) {
+					if (this.state.inputValue.indexOf(',') > -1) {
+						var inputStrings = this.state.inputValue.split(',');
+						var searchValue = inputStrings[inputStrings.length-1];
 
-					if (searchValue != '') {
-						this.fetchData(searchValue);
+						if (searchValue != '') {
+							this.fetchData(searchValue);
+						}
 					}
-				}
-				else {
-					this.fetchData(this.state.inputValue);
+					else {
+						this.fetchData(this.state.inputValue);
+					}
 				}
 
 				if (this.props.onChange) {
@@ -136,7 +142,28 @@ export default class SearchAutocompleteInput extends React.Component {
 		return ret;
 	}
 
-	itemClickHandler(item) {		
+	itemClickHandler(item, route, valueField) {
+		if (route && !this.props.defaultAction == 'setValue') {
+			hashHistory.push(route+(valueField ? item[valueField] : item.key));
+		}
+		else {
+			this.setState({
+				inputValue: item.key
+			}, function() {
+				if (this.props.onChange) {
+					this.props.onChange({
+						target: {
+							name: this.props.inputName || '',
+							value: this.state.inputValue
+						},
+						triggerSearch: true
+					});
+				}
+			}.bind(this));
+		}
+
+		return;
+
 		this.setState({
 			inputValue: this.assignInputValue(item)
 		}, function() {
@@ -158,24 +185,13 @@ export default class SearchAutocompleteInput extends React.Component {
 
 		this.waitingForFetch = true;
 
-		fetch(this.props.searchUrl.replace('$s', str))
+		fetch(config.apiUrl+config.endpoints.autocomplete+'?search='+str)
 			.then(function(response) {
 				return response.json()
 			})
 			.then(function(json) {
-				var data = json.titles;
-
-				data = data.concat(json.tags);
-				data = data.concat(json.persons);
-				data = data.concat(json.places);
-
-				data = _.uniq(data, function(item) {
-					return item.key
-				});
-
 				this.setState({
-					data: data,
-//					data: json[this.props.dataField || 'data'],
+					data: json,
 					listIndex: -1
 				});
 				this.waitingForFetch = false;
@@ -187,23 +203,55 @@ export default class SearchAutocompleteInput extends React.Component {
 	}
 
 	render() {
-		var items = this.state.data.map(function(item, index) {
-			return <div className={'item'+(this.state.listIndex == index ? ' selected' : '')} 
-				key={index} 
-				onClick={this.itemClickHandler.bind(this, this.props.valueField ? item[this.props.valueField] : item)}>
-				{
-					this.props.listLabelFormatFunc ? this.props.listLabelFormatFunc(item) : this.props.valueField ? item[this.props.valueField] : item
-				}
-			</div>
-		}.bind(this));
-		console.log(items.length);
+		var getBucketElements = function(field) {
+			var elements = this.state.data[field].map(function(item, index) {
+				return <div className={'item'+(this.state.listIndex == index ? ' selected' : '')} 
+					key={field+index} 
+					onClick={this.itemClickHandler.bind(this, item.key)}>
+					{
+						item.key+' ('+item.doc_count+')'
+					}
+				</div>
+			}.bind(this));
+
+			return elements;
+		}.bind(this);
+
+		var items = [];
+
+		if (this.state.data.documents) {
+			items = _.union(items, getBucketElements('documents'));
+		}
+		if (this.state.data.tags) {
+			items = _.union(items, getBucketElements('tags'));
+		}
+		if (this.state.data.persons) {
+			items = _.union(items, getBucketElements('persons'));
+		}
+		if (this.state.data.places) {
+			items = _.union(items, getBucketElements('places'));
+		}
+
+		var getListElements = function(field, route, valueField) {
+			return this.state.data[field].map(function(item, index) {
+				return <span className="item-wrapper" key={field+index} >
+					<a className={'item'+(this.state.listIndex == index ? ' selected' : '')} 
+						onClick={this.itemClickHandler.bind(this, item, route, valueField)}>
+						{
+							item.key.length > 35 ? item.key.substr(0, 35)+'...' : item.key
+						}
+					</a>
+				</span>;
+			}.bind(this))
+		}.bind(this);
+
 		return <div ref="container" className="autocomplete-input">
-			<input ref="textInput" 
+			<input ref="input" 
 				className={this.props.inputClassName} 
 				type="text" 
-				name={this.props.inputName || ''}
-				value={this.state.inputValue} 
+				name={this.props.inputName || ''} 
 				placeholder={this.props.placeholder}
+				value={this.state.inputValue} 
 				onChange={this.inputValueChangeHandler}
 				onBlur={this.inputBlurHandler}
 				onKeyDown={this.inputKeyDownHandler}
@@ -212,12 +260,46 @@ export default class SearchAutocompleteInput extends React.Component {
 						this.props.onKeyPress(event);
 					}
 				}.bind(this)} />
-			{
-				items.length > 0 &&
-				<div className="autocomplete-list">
-					{items}
-				</div>
-			}
+			<div className={'autocomplete-tags'+(this.state.data && items && items.length > 0 ? ' visible' : '')}>
+				{
+					/*
+					this.state.data.documents && this.state.data.documents.length > 0 &&
+					<div className="tags-list">
+						<h4>Titlar</h4>
+						{
+							getListElements('documents', '/image/', 'id')
+						}
+					</div>
+					*/
+				}
+				{
+					this.state.data.persons && this.state.data.persons.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Personer: </span>
+						{
+							getListElements('persons', '/search/tags/person/')
+						}
+					</div>
+				}
+				{
+					this.state.data.places && this.state.data.places.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Platser</span>
+						{
+							getListElements('places', '/search/tags/place/')
+						}
+					</div>
+				}
+				{
+					this.state.data.tags && this.state.data.tags.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Taggar</span>
+						{
+							getListElements('tags', '/search/tags/tags/')
+						}
+					</div>
+				}
+			</div>
 		</div>
 	}
 }

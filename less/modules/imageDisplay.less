@@ -172,7 +172,7 @@
 
 		opacity: 0;
 
-		z-index: 10;
+		z-index: 1100;
 
 		.map-container {
 			width: 100%;
@@ -200,22 +200,39 @@
 			}
 		}
 
-		.zoom-control {
+		.map-toolbar {
 			position: fixed;
 
-			top: 40px;
-			left: 40px;
+			bottom: 0;
+			right: 0;
+			height: 90px;
+			left: 113px;
 
-			z-index: 400;
+			background: @page-background;
 
-			@media screen and (max-width: 550px) {
-				left: 20px;
-				top: 20px;
+			.toolbar-links {
+				float: left;
+
+				padding: 0 30px;
+
+				line-height: 90px;
+
+				a, button {
+					color: #fff;
+					font-size: 2.4rem;
+
+					cursor: pointer;
+				}
 			}
 
-			.image-button {
-				&:first-child {
-					margin-top: 0;
+			.toolbar-buttons {
+				padding: 0 20px;
+
+				a, button {
+					float: left;
+
+					margin-top: 25px;
+					margin-right: 20px;
 				}
 			}
 		}

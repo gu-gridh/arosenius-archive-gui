@@ -5,9 +5,11 @@ import ThumbnailCircles from './ThumbnailCircles';
 import ColorSearchSelector from './ColorSearchSelector';
 import MultiTagsSelector from './MultiTagsSelector';
 import DropdownMenu from './DropdownMenu';
-import SearchAutocompleteInput from './SearchAutocompleteInput';
+import AutocompleteDiscoverInput from './AutocompleteDiscoverInput';
 
 import WindowScroll from './../utils/window-scroll';
+
+import config from './../config';
 
 export default class Search extends React.Component {
 	constructor(props) {
@@ -105,7 +107,9 @@ export default class Search extends React.Component {
 			if (this.state.open) {
 				var scroll = new WindowScroll();
 	
-				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 1000, 'easeInOutSine');			
+				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 1000, 'easeInOutSine');
+
+				this.refs.searchInput.focus();
 			}
 		}.bind(this));
 	}
@@ -214,17 +218,23 @@ export default class Search extends React.Component {
 		;
 
 		return (
-			<div className="search-module" ref="container">
+			<div className={'search-module'+(this.state.open || this.state.manualOpen ? ' open' : '')} ref="container">
 
 				<button ref="searchButton" className="toggle-search-button" onClick={this.toggleButtonClick}>Search</button>
 
-				<div className={'module-content'+(' mode-'+(this.state.searchMode || 'persons'))+(this.state.open || this.state.manualOpen ? ' open' : '')}>
-					<SearchAutocompleteInput value={this.state.searchParams.search} 
+				<div className={'module-content'+(' mode-'+(this.state.searchMode || 'persons'))}>
+					<AutocompleteDiscoverInput 
+						ref="searchInput" 
+						searchUrl={config.apiUrl+config.endpoints.autocomplete+'?search=$s'}
+						dataField="titles"
+						valueField="key"
+						value={this.state.searchParams.search} 
 						type="text" 
 						placeholder="Skriv här..." 
 						inputClassName="search-input" 
 						onChange={this.searchInputChangeHandler} 
-						onKeyPress={this.searchInputKeyPress} />
+						onKeyPress={this.searchInputKeyPress} 
+						defaultAction="setValue" />
 
 					<div className="filter-menu">
 						<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
@@ -235,6 +245,7 @@ export default class Search extends React.Component {
 					</div>
 
 					{searchElement}
+
 				</div>
 
 			</div>

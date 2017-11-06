@@ -39,12 +39,6 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	checkFullDisplay() {
-		if (this.state.fullDisplay) {
-			document.body.classList.add('disable-scroll');
-		}
-		else {
-			document.body.classList.remove('disable-scroll');
-		}
 		setTimeout(function() {
 			this.positionImageButtons();
 		}.bind(this), 500);
@@ -164,8 +158,6 @@ export default class ImageDisplay extends React.Component {
 		if ((props.image.front.image != this.state.image.front.image) || (props.fullDisplay != this.state.fullDisplay)) {
 			// Check if component received new image object or just other params
 			var imageChanged = props.image.front.image != this.state.image.front.image;
-
-			document.body.classList.remove('disable-scroll');
 
 			this.setState({
 				image: props.image,
@@ -307,7 +299,7 @@ export default class ImageDisplay extends React.Component {
 					
 					{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 
-					<a className="icon-download" href={config.imageUrl+(this.state.flipped ? this.state.image.back.image : this.state.image.front.image)+'.jpg'} target="_blank"></a>
+					<a className="icon-download" href={config.imageUrl+(this.state.flipped ? this.state.image.back.image : this.state.image.front.image)+'.jpg'} target="_blank" download></a>
 
 					<a className="icon-rotate" onClick={this.rotateButtonClickHandler}></a>
 
