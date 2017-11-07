@@ -308,6 +308,24 @@ export default class AutocompleteDiscoverInput extends React.Component {
 						}
 					</div>
 				}
+				{
+					this.state.data.type && this.state.data.type.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Kategorier </span>
+						{
+							getListElements('type', '/search/tags/type/')
+						}
+					</div>
+				}
+				{
+					this.state.data.museum && this.state.data.museum.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Samlingar </span>
+						{
+							getListElements('museum', '/search/tags/museum/')
+						}
+					</div>
+				}
 			</div>
 		</div>
 	}
