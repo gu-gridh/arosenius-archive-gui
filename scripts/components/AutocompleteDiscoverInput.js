@@ -275,7 +275,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 				{
 					this.state.data.persons && this.state.data.persons.length > 0 &&
 					<div className="tags-list">
-						<span className="tag-name">Personer: </span>
+						<span className="tag-name">Personer </span>
 						{
 							getListElements('persons', '/search/tags/person/')
 						}
@@ -284,7 +284,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 				{
 					this.state.data.places && this.state.data.places.length > 0 &&
 					<div className="tags-list">
-						<span className="tag-name">Platser</span>
+						<span className="tag-name">Platser </span>
 						{
 							getListElements('places', '/search/tags/place/')
 						}
@@ -293,9 +293,18 @@ export default class AutocompleteDiscoverInput extends React.Component {
 				{
 					this.state.data.tags && this.state.data.tags.length > 0 &&
 					<div className="tags-list">
-						<span className="tag-name">Taggar</span>
+						<span className="tag-name">Taggar </span>
 						{
 							getListElements('tags', '/search/tags/tags/')
+						}
+					</div>
+				}
+				{
+					this.state.data.tags && this.state.data.tags.length > 0 &&
+					<div className="tags-list">
+						<span className="tag-name">Genre </span>
+						{
+							getListElements('genre', '/search/tags/genre/')
 						}
 					</div>
 				}
