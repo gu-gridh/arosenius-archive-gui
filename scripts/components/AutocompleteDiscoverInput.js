@@ -300,7 +300,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 					</div>
 				}
 				{
-					this.state.data.tags && this.state.data.tags.length > 0 &&
+					this.state.data.genre && this.state.data.genre.length > 0 &&
 					<div className="tags-list">
 						<span className="tag-name">Genre </span>
 						{
