@@ -13,6 +13,7 @@ export default {
 		places: 'places',
 		genres: 'genres',
 		museums: 'museums',
-		types: 'types'
+		types: 'types',
+		year_range: 'year_range'
 	}
 };

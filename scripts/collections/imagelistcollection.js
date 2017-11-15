@@ -60,6 +60,9 @@ export default class ImageListCollection {
 			if (params.saturation && params.saturation != '') {
 				fetchParams.push('saturation='+params.saturation);
 			}
+			if (params.year) {
+				fetchParams.push('year='+params.year);
+			}
 			if (count) {
 				fetchParams.push('count='+count);
 			}
@@ -69,15 +72,6 @@ export default class ImageListCollection {
 			}
 			else if (archiveMaterial || params.hue || params.saturation) {
 				fetchParams.push('archivematerial='+archiveMaterial);
-			}
-
-			console.log('wildcardSearch: '+window.wildcardSearch);
-			if (window.wildcardSearch) {
-				fetchParams.push('wildcard=true');
-			}
-			console.log('generousSearch: '+window.generousSearch);
-			if (window.generousSearch) {
-				fetchParams.push('generous=true');
 			}
 
 			fetchParams.push('page='+page);

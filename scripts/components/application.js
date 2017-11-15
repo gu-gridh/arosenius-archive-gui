@@ -3,6 +3,7 @@ import React from 'react';
 import Header from './Header';
 import Search from './Search';
 import ImageList from './ImageList';
+import Timeline from './Timeline';
 
 import EventBus from 'eventbusjs';
 
@@ -16,7 +17,8 @@ export default class Application extends React.Component {
 
 		this.state = {
 			noUiDistract: false,
-			searchParams: {}
+			searchParams: {},
+			galleryType: 'timeline'
 		};
 
 		window.app = this;
@@ -61,6 +63,34 @@ export default class Application extends React.Component {
 	}
 
 	render() {
+		console.log('render');
+
+		var galleryElement;
+
+		if (this.state.galleryType == 'timeline') {
+			galleryElement = <Timeline searchString={this.state.searchParams.search} 
+				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
+				searchPlace={this.state.searchParams.place} 
+				searchMuseum={this.state.searchParams.museum}
+				searchGenre={this.state.searchParams.genre}
+				searchTags={this.state.searchParams.tags}
+				searchType={this.state.searchParams.type}
+				searchHue={this.state.searchParams.hue}
+				searchSaturation={this.state.searchParams.saturation} />;
+		}
+		else {
+			galleryElement = <ImageList count="50" enableAutoLoad="true" 
+				searchString={this.state.searchParams.search} 
+				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
+				searchPlace={this.state.searchParams.place} 
+				searchMuseum={this.state.searchParams.museum}
+				searchGenre={this.state.searchParams.genre}
+				searchTags={this.state.searchParams.tags}
+				searchType={this.state.searchParams.type}
+				searchHue={this.state.searchParams.hue}
+				searchSaturation={this.state.searchParams.saturation} />;
+
+		}
 		return (
 			<div onMouseMove={this.mouseMoveHandler} className={this.state.noUiDistract ? 'hide-ui' : ''}>
 				<Header routerPath={this.props.location.pathname} />
@@ -69,16 +99,14 @@ export default class Application extends React.Component {
 
 					<Search searchParams={this.state.searchParams} />
 
+					<div style={{textAlign: 'center'}}>
+						<a onClick={function() {this.setState({galleryType: 'gallery'})}.bind(this)}>Galleri</a> <a onClick={function() {this.setState({galleryType: 'timeline'})}.bind(this)}>Tidslinje</a>
+					</div>
+
 					<div className="site-content">
-						<ImageList count="50" enableAutoLoad="true" searchString={this.state.searchParams.search} 
-							searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
-							searchPlace={this.state.searchParams.place} 
-							searchMuseum={this.state.searchParams.museum}
-							searchGenre={this.state.searchParams.genre}
-							searchTags={this.state.searchParams.tags}
-							searchType={this.state.searchParams.type}
-							searchHue={this.state.searchParams.hue}
-							searchSaturation={this.state.searchParams.saturation} />
+						{
+							galleryElement
+						}
 					</div>
 				</div>
 			</div>

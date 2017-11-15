@@ -22,7 +22,8 @@ export default class ImageList extends React.Component {
 			loading: false,
 			initialized: false,
 			columns: false,
-			waitingForLoad: false
+			waitingForLoad: false,
+			relativeSizes: false
 		};
 
 		this.collection = new ImageListCollection(function(event) {
@@ -57,7 +58,7 @@ export default class ImageList extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.enableAutoLoad) {
+		if (this.props.enableAutoLoad || this.props.lazyLoad) {
 			setTimeout(function() {
 				window.addEventListener('scroll', this.windowScrollHandler)
 			}.bind(this), 1000);
@@ -65,15 +66,36 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if (this.props.enableAutoLoad) {
+		if (this.props.enableAutoLoad || this.props.lazyLoad) {
 			window.removeEventListener('scroll', this.windowScrollHandler);
 		}
 	}
 
+	isInViewport(el) {
+		var rect = el.getBoundingClientRect();
+
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+			rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+		);
+	}
+
 	windowScrollHandler() {
-		if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight-50) {
-			if (this.props.enableAutoLoad) {
+		if (this.props.enableAutoLoad) {
+			if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight-50) {
 				this.appendPage();
+			}
+		}
+
+		if (this.props.lazyLoad) {
+			if (this.isInViewport(this.refs.container) && this.state.images.length == 0) {
+				setTimeout(function() {
+					if (this.isInViewport(this.refs.container) && this.state.images.length == 0) {
+						this.handleProps(this.props);
+					}
+				}.bind(this), 500);
 			}
 		}
 	}
@@ -90,6 +112,16 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		console.log('componentWillReceiveProps');
+		console.log(props);
+
+		if (!this.props.lazyLoad || this.isInViewport(this.refs.container)) {
+			this.handleProps(props);
+		}
+	}
+
+	handleProps(props) {
+		console.log(props);
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
 				this.collection.fetch({
@@ -117,7 +149,7 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
-		else if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			this.collection.fetch(null, props.count, 1);
@@ -130,8 +162,11 @@ export default class ImageList extends React.Component {
 			this.props.searchTags != props.searchTags ||
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
+			this.props.year != props.year ||
 			
-			this.props.searchSaturation != props.searchSaturation
+			this.props.searchSaturation != props.searchSaturation ||
+
+			this.state.images.length == 0
 		) {
 			this.waitingForLoad = true;
 
@@ -148,7 +183,8 @@ export default class ImageList extends React.Component {
 				tags: props.searchTags,
 				type: props.searchType, 
 				hue: props.searchHue, 
-				saturation: props.searchSaturation
+				saturation: props.searchSaturation,
+				year: props.year
 			}, props.count, 1);
 
 			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
@@ -187,8 +223,8 @@ export default class ImageList extends React.Component {
 
 	render() {
 		var items = _.map(this.state.images, function(image, index) {
-			return <ImageListItem key={image.id} image={image} index={index} />;
-		});
+			return <ImageListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+		}.bind(this));
 
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)

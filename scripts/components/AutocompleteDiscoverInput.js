@@ -117,6 +117,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 	}
 
 	inputBlurHandler() {
+		return;
 		setTimeout(function() {
 			this.setState({
 				data: [],
