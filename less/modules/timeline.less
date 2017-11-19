@@ -7,12 +7,56 @@
 		top: 20px;
 		left: 60px;
 
+		.transition(all 300ms ease-in-out);
+
+		.transform(translateX(-200px));
+
+		&.visible {
+			.transform(translateX(0));
+		}
+
 		.year-item {
 			display: block;
 
+			cursor: pointer;
+
 			.year-label {
+				position: relative;
+
 				color: #fff;
 				font-size: 1.5rem;
+
+				&:after {
+					content: " ";
+					
+					display: block;
+					
+					position: absolute;
+					
+					right: 0;
+					top: 8px;
+
+					width: 7px;
+					height: 7px;
+					
+					background: #fff;
+
+					border-radius: 100%;
+
+					opacity: 0;
+
+					.transition(all 300ms ease-in-out);
+				}
+			}
+
+			&.selected {
+				.year-label {
+					&:after {
+						right: -30px;
+
+						opacity: 1;
+					}
+				}
 			}
 
 			.doc-points {
@@ -35,8 +79,14 @@
 	.gallery-container {
 		margin-left: 150px;
 
-		.image-list {
+		.year-item {
 			min-height: 200px;
+		}
+
+		.image-list {
+			h3 {
+				font-size: 2.2rem;
+			}
 
 			.no-results {
 				display: none;

@@ -3209,6 +3209,19 @@ stretchRight
   -ms-transform: scale(1.18);
   transform: scale(1.18);
 }
+.image-button.icon-fulldisplay {
+  background-image: url('../img/icon-fulldisplay.png');
+  background-size: 24px 24px;
+  background-position: center;
+  background-position: 12px 12px;
+  background-repeat: no-repeat;
+}
+@media screen and (max-width: 550px) {
+  .image-button.icon-fulldisplay {
+    background-size: 18px 18px;
+    background-position: 10px 10px;
+  }
+}
 .image-button.icon-plus {
   background-image: url('../img/icon-plus.png');
   background-size: 24px 24px;
@@ -3286,14 +3299,14 @@ stretchRight
     transform: translate(9px, 19px);
   }
 }
-.full-display.image-button .icon-arrow.arrow-1 {
+.enlarged-display.image-button .icon-arrow.arrow-1 {
   -webkit-transform: translate(22px, 8px);
   -moz-transform: translate(22px, 8px);
   -ms-transform: translate(22px, 8px);
   transform: translate(22px, 8px);
 }
 @media screen and (max-width: 550px) {
-  .full-display.image-button .icon-arrow.arrow-1 {
+  .enlarged-display.image-button .icon-arrow.arrow-1 {
     -webkit-transform: translate(19px, 8px);
     -moz-transform: translate(19px, 8px);
     -ms-transform: translate(19px, 8px);
@@ -3314,14 +3327,14 @@ stretchRight
     transform: rotate(180deg) translate(-19px, -9px);
   }
 }
-.full-display.image-button .icon-arrow.arrow-2 {
+.enlarged-display.image-button .icon-arrow.arrow-2 {
   -webkit-transform: rotate(180deg) translate(-10px, -20px);
   -moz-transform: rotate(180deg) translate(-10px, -20px);
   -ms-transform: rotate(180deg) translate(-10px, -20px);
   transform: rotate(180deg) translate(-10px, -20px);
 }
 @media screen and (max-width: 550px) {
-  .full-display.image-button .icon-arrow.arrow-2 {
+  .enlarged-display.image-button .icon-arrow.arrow-2 {
     -webkit-transform: rotate(180deg) translate(-8px, -19px);
     -moz-transform: rotate(180deg) translate(-8px, -19px);
     -ms-transform: rotate(180deg) translate(-8px, -19px);
@@ -3525,6 +3538,21 @@ stretchRight
   -ms-transform: scale(1.18);
   transform: scale(1.18);
 }
+.image-container .image-buttons button.icon-fulldisplay,
+.image-container .image-buttons a.icon-fulldisplay {
+  background-image: url('../img/icon-fulldisplay.png');
+  background-size: 24px 24px;
+  background-position: center;
+  background-position: 12px 12px;
+  background-repeat: no-repeat;
+}
+@media screen and (max-width: 550px) {
+  .image-container .image-buttons button.icon-fulldisplay,
+  .image-container .image-buttons a.icon-fulldisplay {
+    background-size: 18px 18px;
+    background-position: 10px 10px;
+  }
+}
 .image-container .image-buttons button.icon-plus,
 .image-container .image-buttons a.icon-plus {
   background-image: url('../img/icon-plus.png');
@@ -3614,16 +3642,16 @@ stretchRight
     transform: translate(9px, 19px);
   }
 }
-.full-display.image-container .image-buttons button .icon-arrow.arrow-1,
-.full-display.image-container .image-buttons a .icon-arrow.arrow-1 {
+.enlarged-display.image-container .image-buttons button .icon-arrow.arrow-1,
+.enlarged-display.image-container .image-buttons a .icon-arrow.arrow-1 {
   -webkit-transform: translate(22px, 8px);
   -moz-transform: translate(22px, 8px);
   -ms-transform: translate(22px, 8px);
   transform: translate(22px, 8px);
 }
 @media screen and (max-width: 550px) {
-  .full-display.image-container .image-buttons button .icon-arrow.arrow-1,
-  .full-display.image-container .image-buttons a .icon-arrow.arrow-1 {
+  .enlarged-display.image-container .image-buttons button .icon-arrow.arrow-1,
+  .enlarged-display.image-container .image-buttons a .icon-arrow.arrow-1 {
     -webkit-transform: translate(19px, 8px);
     -moz-transform: translate(19px, 8px);
     -ms-transform: translate(19px, 8px);
@@ -3646,16 +3674,16 @@ stretchRight
     transform: rotate(180deg) translate(-19px, -9px);
   }
 }
-.full-display.image-container .image-buttons button .icon-arrow.arrow-2,
-.full-display.image-container .image-buttons a .icon-arrow.arrow-2 {
+.enlarged-display.image-container .image-buttons button .icon-arrow.arrow-2,
+.enlarged-display.image-container .image-buttons a .icon-arrow.arrow-2 {
   -webkit-transform: rotate(180deg) translate(-10px, -20px);
   -moz-transform: rotate(180deg) translate(-10px, -20px);
   -ms-transform: rotate(180deg) translate(-10px, -20px);
   transform: rotate(180deg) translate(-10px, -20px);
 }
 @media screen and (max-width: 550px) {
-  .full-display.image-container .image-buttons button .icon-arrow.arrow-2,
-  .full-display.image-container .image-buttons a .icon-arrow.arrow-2 {
+  .enlarged-display.image-container .image-buttons button .icon-arrow.arrow-2,
+  .enlarged-display.image-container .image-buttons a .icon-arrow.arrow-2 {
     -webkit-transform: rotate(180deg) translate(-8px, -19px);
     -moz-transform: rotate(180deg) translate(-8px, -19px);
     -ms-transform: rotate(180deg) translate(-8px, -19px);
@@ -3725,6 +3753,52 @@ stretchRight
 }
 .loading.image-list .loading-overlay {
   opacity: 1;
+}
+.image-label-list .label-item {
+  display: inline-block;
+  position: relative;
+}
+.image-label-list .label-item .image-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: all 400ms ease-in-out;
+  -o-transition: all 400ms ease-in-out;
+  transition: all 400ms ease-in-out;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.image-label-list .label-item .image-wrapper img {
+  max-width: 200px;
+  max-height: 200px;
+}
+.image-label-list .label-item:hover .image-wrapper {
+  opacity: 0.8;
+}
+.image-label-list .label-item .label {
+  display: inline-block;
+  padding: 0 7px;
+  margin: 0 10px 5px 0;
+  background: #083240;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  -webkit-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+.image-label-list .label-item .label.selected {
+  background: #788f9b;
+}
+.image-label-list .label-item .label:hover {
+  background: #125064;
+  color: #fff;
 }
 .grid {
   background-image: url(../img/loading.gif);
@@ -3924,13 +3998,47 @@ stretchRight
   position: fixed;
   top: 20px;
   left: 60px;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  -webkit-transform: translateX(-200px);
+  -moz-transform: translateX(-200px);
+  -ms-transform: translateX(-200px);
+  transform: translateX(-200px);
+}
+.timeline-view .timeline-year-list.visible {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
 }
 .timeline-view .timeline-year-list .year-item {
   display: block;
+  cursor: pointer;
 }
 .timeline-view .timeline-year-list .year-item .year-label {
+  position: relative;
   color: #fff;
   font-size: 1.5rem;
+}
+.timeline-view .timeline-year-list .year-item .year-label:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.timeline-view .timeline-year-list .year-item.selected .year-label:after {
+  right: -30px;
+  opacity: 1;
 }
 .timeline-view .timeline-year-list .year-item .doc-points {
   display: none;
@@ -3945,8 +4053,11 @@ stretchRight
 .timeline-view .gallery-container {
   margin-left: 150px;
 }
-.timeline-view .gallery-container .image-list {
+.timeline-view .gallery-container .year-item {
   min-height: 200px;
+}
+.timeline-view .gallery-container .image-list h3 {
+  font-size: 2.2rem;
 }
 .timeline-view .gallery-container .image-list .no-results {
   display: none;

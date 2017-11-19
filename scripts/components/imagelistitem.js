@@ -4,7 +4,7 @@ import _ from 'underscore';
 
 import config from './../config';
 
-export default class ImageList extends React.Component {
+export default class ImageListItem extends React.Component {
 	constructor(props) {
 		super(props);
 

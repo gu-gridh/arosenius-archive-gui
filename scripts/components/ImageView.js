@@ -95,7 +95,8 @@ export default class ImageView extends React.Component {
 			});
 		}.bind(this), 200);
 
-		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
+		window.scrollTo(0, 0);
+//		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 	}
 
 	componentWillUnmount() {

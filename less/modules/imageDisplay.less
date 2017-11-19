@@ -47,6 +47,19 @@
 //		background: #125064;
 	}
 
+	&.icon-fulldisplay {
+		background-image: url('../img/icon-fulldisplay.png');
+		background-size: 24px 24px;
+		background-position: center;
+		background-position: 12px 12px;
+		background-repeat: no-repeat;
+
+		@media screen and (max-width: 550px) {
+			background-size: 18px 18px;
+			background-position: 10px 10px;
+		}
+	}
+
 	&.icon-plus {
 		background-image: url('../img/icon-plus.png');
 		background-size: 24px 24px;
@@ -118,7 +131,7 @@
 				.transform(translate(9px, 19px));
 			}
 
-			.full-display& {
+			.enlarged-display& {
 				.transform(translate(22px, 8px));
 
 				@media screen and (max-width: 550px) {
@@ -134,7 +147,7 @@
 				.transform(rotate(180deg) translate(-19px, -9px));
 			}
 			
-			.full-display& {
+			.enlarged-display& {
 				.transform(rotate(180deg) translate(-10px, -20px));
 
 				@media screen and (max-width: 550px) {

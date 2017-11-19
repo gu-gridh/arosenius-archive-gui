@@ -19,13 +19,15 @@ export default class ImageDisplay extends React.Component {
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.imageDisplayClickHandler = this.imageDisplayClickHandler.bind(this);
 		this.toggleFullDisplay = this.toggleFullDisplay.bind(this);
+		this.toggleEnlargedDisplay = this.toggleEnlargedDisplay.bind(this);
 		this.rotateButtonClickHandler = this.rotateButtonClickHandler.bind(this);
 
 		this.state = {
 			image: null,
 			imageUrl: '',
 			flipped: false,
-			rotation: 0
+			rotation: 0,
+			enlargedDisplay: false
 		};
 	}
 
@@ -36,6 +38,12 @@ export default class ImageDisplay extends React.Component {
 		else {
 			hashHistory.push(this.props.pathname.replace('/display/full', ''));
 		}
+	}
+
+	toggleEnlargedDisplay() {
+		this.setState({
+			enlargedDisplay: !this.state.enlargedDisplay
+		});
 	}
 
 	checkFullDisplay() {
@@ -248,16 +256,27 @@ export default class ImageDisplay extends React.Component {
 		var imageWidth = imgObj.imagesize.width;
 		var imageHeight = imgObj.imagesize.height;
 
-		if (imageWidth > viewWidth){
-			ratio = viewWidth / imageWidth;
-			imageWidth = viewWidth;
-			imageHeight = imageHeight * ratio;
-		}
+		if (this.state.enlargedDisplay) {
+			var calcViewWidth = viewWidth;
+			var calcImageWidth = imageWidth;
+			var calcImageHeight = imageHeight;
 
-		if (imageHeight > viewHeight){
-			ratio = viewHeight / imageHeight;
-			imageHeight = viewHeight;
-			imageWidth = imageWidth * ratio;
+			ratio = calcViewWidth / calcImageWidth;
+			imageWidth = calcViewWidth;
+			imageHeight = calcImageHeight * ratio;
+		}
+		else {
+			if (imageWidth > viewWidth){
+				ratio = viewWidth / imageWidth;
+				imageWidth = viewWidth;
+				imageHeight = imageHeight * ratio;
+			}
+
+			if (imageHeight > viewHeight){
+				ratio = viewHeight / imageHeight;
+				imageHeight = viewHeight;
+				imageWidth = imageWidth * ratio;
+			}
 		}
 
 		var imageStyle = imgObj.color && imgObj.color.colors ? {
@@ -278,7 +297,7 @@ export default class ImageDisplay extends React.Component {
 				rearImageEl = <div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(true)}></div>;
 			}
 
-			return <div ref="imageContainer" className={'image-container'+(this.state.fullDisplay ? ' full-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
+			return <div ref="imageContainer" className={'image-container'+(this.state.enlargedDisplay ? ' enlarged-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
 
 				<div className="image-wrapper" style={{transform: 'rotate('+this.state.rotation+'deg)'}}>
 
@@ -295,7 +314,7 @@ export default class ImageDisplay extends React.Component {
 					<ImageMap imageObj={this.getImageObj(this.state.flipped)} />
 				}
 
-				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons || this.state.fullDisplay ? ' fixed' : '')}>
+				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 					
 					{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 
@@ -303,13 +322,13 @@ export default class ImageDisplay extends React.Component {
 
 					<a className="icon-rotate" onClick={this.rotateButtonClickHandler}></a>
 
-					{/*<button className="icon-plus"></button>*/}
-
-					<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleFullDisplay}>
+					<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleEnlargedDisplay}>
 						<span className="icon-arrow arrow-1"></span>
 						<span className="icon-arrow arrow-2"></span>
 						Show all
 					</button>
+
+					<button className="icon-fulldisplay" onClick={this.toggleFullDisplay}></button>
 
 				</div>
 			</div>;

@@ -5,6 +5,7 @@ import Masonry  from 'react-masonry-component';
 
 import ImageListCollection from '../collections/ImageListCollection';
 import ImageListItem from './ImageListItem';
+import DateLabelListItem from './DateLabelListItem';
 
 import WindowScroll from './../utils/window-scroll';
 
@@ -60,8 +61,8 @@ export default class ImageList extends React.Component {
 	componentDidMount() {
 		if (this.props.enableAutoLoad || this.props.lazyLoad) {
 			setTimeout(function() {
-				window.addEventListener('scroll', this.windowScrollHandler)
-			}.bind(this), 1000);
+				window.addEventListener('scroll', this.windowScrollHandler);
+			}.bind(this), 500);
 		}
 	}
 
@@ -112,16 +113,12 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log('componentWillReceiveProps');
-		console.log(props);
-
 		if (!this.props.lazyLoad || this.isInViewport(this.refs.container)) {
 			this.handleProps(props);
 		}
 	}
 
 	handleProps(props) {
-		console.log(props);
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
 				this.collection.fetch({
@@ -152,7 +149,7 @@ export default class ImageList extends React.Component {
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
-			this.collection.fetch(null, props.count, 1);
+			this.collection.fetch(null, props.count, 1, false, props.archiveMaterial || null);
 		}
 		else if (this.props.searchString != props.searchString || 
 			this.props.searchPerson != props.searchPerson || 
@@ -185,7 +182,7 @@ export default class ImageList extends React.Component {
 				hue: props.searchHue, 
 				saturation: props.searchSaturation,
 				year: props.year
-			}, props.count, 1);
+			}, props.count, 1, false, props.archiveMaterial || null);
 
 			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
 				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
@@ -223,14 +220,37 @@ export default class ImageList extends React.Component {
 
 	render() {
 		var items = _.map(this.state.images, function(image, index) {
-			return <ImageListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+			if (this.props.listType == 'date-labels') {
+				return <DateLabelListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+			}
+			else {
+				return <ImageListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+			}
 		}.bind(this));
 
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
 		}
-		else {
+		else if (this.props.listType != 'date-labels') {
 			items.push(<div key="grid-sizer" className="grid-sizer"/>);
+		}
+
+		var listElement;
+		if (this.props.listType == 'date-labels') {
+			listElement = <div className="image-label-list">
+				{items}
+			</div>;
+		}
+		else {
+			listElement = <Masonry
+				className={'grid'+(this.state.initialized ? ' initialized' : '')} // default ''
+				options={masonryOptions} // default {}
+				disableImagesLoaded={false} // default false
+				updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
+				onImagesLoaded={this.imageLoadedHandler}
+				>
+				{items}
+			</Masonry>
 		}
 
 		var masonryOptions = {
@@ -257,15 +277,10 @@ export default class ImageList extends React.Component {
 					}
 				</div>
 
-				<Masonry
-					className={'grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-					options={masonryOptions} // default {}
-					disableImagesLoaded={false} // default false
-					updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
-					onImagesLoaded={this.imageLoadedHandler}
-					>
-					{items}
-				</Masonry>
+				{
+					listElement
+				}
+				
 
 				<div className="loading-overlay" />
 			</div>;

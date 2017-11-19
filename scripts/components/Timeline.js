@@ -14,22 +14,90 @@ export default class Timeline extends React.Component {
 		window.timeline = this;
 
 		this.yearLabelClickHandler = this.yearLabelClickHandler.bind(this);
+		this.windowScrollHandler = this.windowScrollHandler.bind(this);
+
+		this.waitForScrollCheck = false;
 
 		this.state = {
-			data: []
+			data: [],
+			selectedYear: 0,
+			timelineVisible: false
 		};
 	}
 
 	yearLabelClickHandler(event) {
 		var year = event.currentTarget.dataset.year;
 
+		this.setState({
+			selectedYear: year
+		});
+
 		document.getElementsByClassName('year-'+year)[0].scrollIntoView();
 	}
 
 	componentDidMount() {
+		window.addEventListener('scroll', this.windowScrollHandler);
+
+		this.windowScrollHandler();
+
+		this.scrollCheckInterval = setInterval(this.checkScroll.bind(this), 500);
 	}
 
 	componentWillUnmount() {
+		window.removeEventListener('scroll', this.windowScrollHandler);
+
+		clearInterval(this.scrollCheckInterval);
+	}
+
+	isInViewport(el, onlyConsiderTop, margin) {
+		var elemTop = el.getBoundingClientRect().top;
+		var elemBottom = el.getBoundingClientRect().bottom;
+
+		if (onlyConsiderTop) {
+			var isVisible = elemTop+(margin ? margin : 0) < window.innerHeight;
+		}
+		else {
+			var isVisible = elemTop < window.innerHeight && elemBottom >= 100;
+		}
+
+		return isVisible;
+	}
+
+	windowScrollHandler() {
+		this.scrollChanged = true;
+	}
+
+	checkScroll() {
+		console.log('checkScroll');
+		if (!this.scrollChanged) {
+			return;
+		}
+
+		if (!this.waitForScrollCheck) {
+			console.log('checkScroll, take action!');
+			for (var i = 0; i<this.refs.galleryContainer.children.length; i++) {
+				var yearElement = this.refs.galleryContainer.children[i];
+				if (this.isInViewport(yearElement)) {
+					this.setState({
+						selectedYear: yearElement.dataset.year
+					});
+
+					break;
+				}
+			}
+
+			this.waitForScrollCheck = true;
+
+			setTimeout(function() {
+				this.waitForScrollCheck = false;
+			}.bind(this), 1000);
+
+			this.setState({
+				timelineVisible: this.isInViewport(this.refs.galleryContainer, true, (window.innerHeight/2))
+			});
+
+			this.scrollChanged = false;
+		}
 	}
 
 	componentWillReceiveProps(props) {
@@ -103,9 +171,6 @@ export default class Timeline extends React.Component {
 				fetchParams.push('saturation='+params.saturation);
 			}
 
-			if (params.hue || params.saturation) {
-				fetchParams.push('archivematerial=exclude');
-			}
 		}
 
 		fetch(config.apiUrl+config.endpoints.year_range+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))
@@ -125,9 +190,9 @@ export default class Timeline extends React.Component {
 
 	render() {
 		var yearGalleries = this.state.data.map(function(item) {
-			return <div key={item.year} className={'year-'+item.year}>
+			return <div key={item.year} data-year={item.year} className={'year-item year-'+item.year}>
 				<h3>{item.year}</h3>
-				<ImageList year={item.year} 
+				<ImageList year={item.year} archiveMaterial="exclude" 
 					lazyLoad={true} 
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
@@ -137,13 +202,31 @@ export default class Timeline extends React.Component {
 					searchTags={this.props.searchTags}
 					searchType={this.props.searchType}
 					searchHue={this.props.searchHue}
-					searchSaturation={this.props.searchSaturation}
-				/>
+					searchSaturation={this.props.searchSaturation} />
+
+				<br/>
+
+				<ImageList title={'Daterade dokument från '+item.year} year={item.year} 
+					listType="date-labels"
+					archiveMaterial="only" 
+					lazyLoad={true} 
+					searchString={this.props.searchString}
+					searchPerson={this.props.searchPerson}
+					searchPlace={this.props.searchPlace}
+					searchMuseum={this.props.searchMuseum}
+					searchGenre={this.props.searchGenre}
+					searchTags={this.props.searchTags}
+					searchType={this.props.searchType}
+					searchHue={this.props.searchHue}
+					searchSaturation={this.props.searchSaturation} />
+
+				<br/><br/>
+
 			</div>;
 		}.bind(this));
 
 		return <div className="timeline-view">
-			<div className="timeline-year-list">
+			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')}>
 				{
 					this.state.data.map(function(item) {
 						var docPoints = [];
@@ -152,7 +235,7 @@ export default class Timeline extends React.Component {
 							docPoints.push(<span className="point" key={i} />);
 						}
 
-						return <a key={item.year} className="year-item">
+						return <a key={item.year} className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')}>
 							<span className="year-label" data-year={item.year} onClick={this.yearLabelClickHandler}>{item.year}</span>
 							{<span className="doc-points">
 								{
@@ -164,7 +247,7 @@ export default class Timeline extends React.Component {
 				}
 			</div>
 
-			<div className="gallery-container">
+			<div className="gallery-container" ref="galleryContainer">
 
 				{yearGalleries}
 

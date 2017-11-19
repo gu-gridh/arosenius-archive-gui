@@ -70,7 +70,7 @@ export default class ImageListCollection {
 			if (params.hue || params.saturation) {
 				fetchParams.push('archivematerial=exclude');
 			}
-			else if (archiveMaterial || params.hue || params.saturation) {
+			else if (archiveMaterial) {
 				fetchParams.push('archivematerial='+archiveMaterial);
 			}
 
