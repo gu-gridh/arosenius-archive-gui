@@ -1,4 +1,4 @@
-import React from 'react';
+	import React from 'react';
 import { hashHistory } from 'react-router';
 
 import 'whatwg-fetch';
@@ -249,7 +249,7 @@ export default class ImageDisplay extends React.Component {
 		var imgObj = this.getImageObj(rearImage);
 
 		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)-90;
 
 		var ratio = 0;
 

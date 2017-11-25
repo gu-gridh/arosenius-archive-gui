@@ -13,6 +13,17 @@ export default class WindowScroll {
 		})();
 	}
 
+	getOffsetTop(elem) {
+		var offsetTop = 0;
+		do {
+			if (!isNaN(elem.offsetTop )) {
+				offsetTop += elem.offsetTop;
+			}
+		} while (elem = elem.offsetParent);
+
+		return offsetTop;
+	}
+
 	scrollToY(scrollTargetY, speed, easing) {
 		// scrollTargetY: the target scrollY property of the window
 		// speed: time in pixels per second

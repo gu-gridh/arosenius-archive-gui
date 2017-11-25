@@ -5,7 +5,9 @@
 		position: fixed;
 
 		top: 20px;
-		left: 60px;
+		left: 55px;
+
+		text-align: center;
 
 		.transition(all 300ms ease-in-out);
 
@@ -23,6 +25,8 @@
 			.year-label {
 				position: relative;
 
+				width: 35px;
+
 				color: #fff;
 				font-size: 1.5rem;
 
@@ -36,6 +40,8 @@
 					right: 0;
 					top: 8px;
 
+					margin-right: 10px;
+
 					width: 7px;
 					height: 7px;
 					
@@ -46,6 +52,72 @@
 					opacity: 0;
 
 					.transition(all 300ms ease-in-out);
+				}
+			}
+
+			&.dot-item {
+				position: relative;
+
+				height: 5px;
+
+				&:after {
+					content: " ";
+
+					display: inline-block;
+
+					position: absolute;
+
+					top: 3px;
+
+					width: 2px;
+					height: 2px;
+					
+					background: #e3e3e3;
+
+					border-radius: 100%;
+				}
+
+				.year-label {
+					position: absolute;
+
+					display: inline-block;
+
+					left: 0;
+
+					span {
+						display: inline-block;
+
+						position: absolute;
+					
+						top: -40px;
+						left: -4px;
+
+						padding: 4px;
+					
+						background: #083240;
+					
+						border-radius: 3px;
+					
+						opacity: 0;
+					
+						box-sizing: border-box;
+					
+						pointer-events: none;
+
+						.transition(all 300ms ease-in-out);
+					}
+
+					&:after {
+						top: 0;
+					}
+				}
+
+				&:hover {
+					.year-label {
+						span {
+							opacity: 1;
+						}
+					}
 				}
 			}
 

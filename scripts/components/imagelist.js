@@ -64,6 +64,10 @@ export default class ImageList extends React.Component {
 				window.addEventListener('scroll', this.windowScrollHandler);
 			}.bind(this), 500);
 		}
+		
+		if (!this.props.lazyLoad) {
+			this.handleProps(this.props);
+		}
 	}
 
 	componentWillUnmount() {
@@ -90,7 +94,7 @@ export default class ImageList extends React.Component {
 			}
 		}
 
-		if (this.props.lazyLoad) {
+		if (this.props.lazyLoad && this.refs.container) {
 			if (this.isInViewport(this.refs.container) && this.state.images.length == 0) {
 				setTimeout(function() {
 					if (this.isInViewport(this.refs.container) && this.state.images.length == 0) {
@@ -99,17 +103,6 @@ export default class ImageList extends React.Component {
 				}.bind(this), 500);
 			}
 		}
-	}
-
-	getOffsetTop(elem) {
-		var offsetTop = 0;
-		do {
-			if (!isNaN(elem.offsetTop )) {
-				offsetTop += elem.offsetTop;
-			}
-		} while (elem = elem.offsetParent);
-
-		return offsetTop;
 	}
 
 	componentWillReceiveProps(props) {
@@ -184,8 +177,9 @@ export default class ImageList extends React.Component {
 				year: props.year
 			}, props.count, 1, false, props.archiveMaterial || null);
 
-			if (props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) {
-				(new WindowScroll()).scrollToY(this.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
+			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) && !this.props.lazyLoad) {
+				var windowScroll = new WindowScroll();
+				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
 	}
@@ -219,14 +213,25 @@ export default class ImageList extends React.Component {
 	}
 
 	render() {
+		var maxWidth = _.max(_.map(this.state.images, function(image) {
+			return image && image.size && image.size.inner ? image.size.inner.width : 0;
+		}));
+
 		var items = _.map(this.state.images, function(image, index) {
 			if (this.props.listType == 'date-labels') {
-				return <DateLabelListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+				return <DateLabelListItem key={image.id} image={image} index={index} />;
 			}
 			else {
-				return <ImageListItem key={image.id} image={image} index={index} relativeSize={this.state.relativeSizes} />;
+				return <ImageListItem 
+					key={image.id} 
+					image={image} 
+					index={index} 
+					relativeSize={this.state.relativeSizes} 
+					maxWidth={maxWidth} />;
 			}
 		}.bind(this));
+
+		console.log(maxWidth);
 
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
@@ -275,6 +280,11 @@ export default class ImageList extends React.Component {
 						this.props.related && this.state.total > this.state.images.length &&
 						<a className="view-more-link" href={'#/search/tags/'+this.props.related+'/'+this.props.relatedValue}>Visa alla</a>
 					}
+				</div>
+
+				<div style={{position: 'absolute', top: 20, right: 20, zIndex: 60}}>
+					<button style={{width: 30, height: 30, borderRadius: 30, padding: 0, lineHeight: '30px', backgroundColor: '#fff'}} 
+						onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>r</button>
 				</div>
 
 				{

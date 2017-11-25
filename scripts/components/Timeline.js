@@ -5,6 +5,8 @@ import Masonry  from 'react-masonry-component';
 
 import ImageList from './ImageList';
 
+import WindowScroll from './../utils/window-scroll';
+
 import config from './../config';
 
 export default class Timeline extends React.Component {
@@ -41,6 +43,8 @@ export default class Timeline extends React.Component {
 		this.windowScrollHandler();
 
 		this.scrollCheckInterval = setInterval(this.checkScroll.bind(this), 500);
+
+		this.handleProps(this.props);
 	}
 
 	componentWillUnmount() {
@@ -68,13 +72,11 @@ export default class Timeline extends React.Component {
 	}
 
 	checkScroll() {
-		console.log('checkScroll');
 		if (!this.scrollChanged) {
 			return;
 		}
 
 		if (!this.waitForScrollCheck) {
-			console.log('checkScroll, take action!');
 			for (var i = 0; i<this.refs.galleryContainer.children.length; i++) {
 				var yearElement = this.refs.galleryContainer.children[i];
 				if (this.isInViewport(yearElement)) {
@@ -101,10 +103,12 @@ export default class Timeline extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
+		this.handleProps(props);
+	}
+
+	handleProps(props) {
 		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.data.length == 0) {
 			this.waitingForLoad = true;
-
-			//this.collection.fetch(null, props.count, 1);
 
 			this.fetchYears();
 		}
@@ -136,6 +140,9 @@ export default class Timeline extends React.Component {
 				hue: props.searchHue, 
 				saturation: props.searchSaturation
 			});
+
+			var windowScroll = new WindowScroll();
+			windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.galleryContainer)-250, 1000, 'easeInOutSine');
 		}
 	}
 
@@ -228,15 +235,20 @@ export default class Timeline extends React.Component {
 		return <div className="timeline-view">
 			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')}>
 				{
-					this.state.data.map(function(item) {
+					this.state.data.map(function(item, index) {
 						var docPoints = [];
 
 						for (var i = 0; i<item.doc_count; i++) {
 							docPoints.push(<span className="point" key={i} />);
 						}
 
-						return <a key={item.year} className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')}>
-							<span className="year-label" data-year={item.year} onClick={this.yearLabelClickHandler}>{item.year}</span>
+						return <a key={item.year} 
+							data-year={item.year} 
+							onClick={this.yearLabelClickHandler} 
+							className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')+(item.year % 5 != 0 && index > 0 ? ' dot-item' : '')}>
+							<span className={'year-label'}>
+								<span>{item.year}</span>
+							</span>
 							{<span className="doc-points">
 								{
 									docPoints

@@ -18,7 +18,7 @@ export default class Application extends React.Component {
 		this.state = {
 			noUiDistract: false,
 			searchParams: {},
-			galleryType: 'timeline'
+			galleryType: 'gallery'
 		};
 
 		window.app = this;
@@ -99,7 +99,7 @@ export default class Application extends React.Component {
 
 					<Search searchParams={this.state.searchParams} />
 
-					<div style={{textAlign: 'center'}}>
+					<div className="gallery-menu">
 						<a onClick={function() {this.setState({galleryType: 'gallery'})}.bind(this)}>Galleri</a> <a onClick={function() {this.setState({galleryType: 'timeline'})}.bind(this)}>Tidslinje</a>
 					</div>
 

@@ -1,3 +1,19 @@
+.gallery-menu {
+	margin: 0 0 40px 0;
+
+	text-align: center;
+
+	a {
+		display: inline-block;
+
+		margin: 0 15px;
+
+		color: #fff;
+
+		cursor: pointer;
+	}
+}
+
 .image-list {
 	position: relative;
 
@@ -57,12 +73,23 @@
 
 		&:hover {
 			.image-wrapper {
-				opacity: 0.8;
+				opacity: 0.98;
 			}
 		}
 
 		.label {
 			.button-link();
+
+			padding: 8px;
+			margin: 0 8px 8px 0;
+
+			color: #000;
+
+			background-color: #e5d9cc;
+
+			&:hover {
+				background-color: #e5d9cc;
+			}
 		}
 	}
 }
@@ -134,8 +161,6 @@
 			overflow: hidden;
 
 			.image-proxy {
-				display: none;
-
 				position: absolute;
 
 				top: 50%;
@@ -144,7 +169,7 @@
 				background-size: cover;
 				background-position: center;
 
-				.transform(translate(-50%, -50%));
+				.transform(translate(-50%, -50%) scale(1.07));
 				.transition(all 300ms ease-in-out);
 
 				z-index: 2;
@@ -160,6 +185,9 @@
 
 			img {
 				.transform(scale(1.07));
+			}
+
+			.image-proxy {
 			}
 		}
 
@@ -191,6 +219,8 @@
 		&:hover {
 			box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
 
+			background-color: transparent !important;
+
 			z-index: 50;
 
 			.transform(scale(1.1));
@@ -199,6 +229,13 @@
 				opacity: 1;
 
 				.transform(translateY(100%));
+			}
+
+			.image-proxy {
+				width: 100% !important;
+				height: 100% !important;
+
+//				.transform(translate(-50%, -50%));
 			}
 		}
 	}

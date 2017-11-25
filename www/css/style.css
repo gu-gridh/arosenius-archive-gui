@@ -3731,6 +3731,16 @@ stretchRight
 .page-thumbnails .thumb.selected {
   box-shadow: 0px 0px 0px 3px #1EAEDB;
 }
+.gallery-menu {
+  margin: 0 0 40px 0;
+  text-align: center;
+}
+.gallery-menu a {
+  display: inline-block;
+  margin: 0 15px;
+  color: #fff;
+  cursor: pointer;
+}
 .image-list {
   position: relative;
 }
@@ -3778,7 +3788,7 @@ stretchRight
   max-height: 200px;
 }
 .image-label-list .label-item:hover .image-wrapper {
-  opacity: 0.8;
+  opacity: 0.98;
 }
 .image-label-list .label-item .label {
   display: inline-block;
@@ -3792,6 +3802,10 @@ stretchRight
   -webkit-transition: all 200ms ease-in-out;
   -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
+  padding: 8px;
+  margin: 0 8px 8px 0;
+  color: #000;
+  background-color: #e5d9cc;
 }
 .image-label-list .label-item .label.selected {
   background: #788f9b;
@@ -3799,6 +3813,9 @@ stretchRight
 .image-label-list .label-item .label:hover {
   background: #125064;
   color: #fff;
+}
+.image-label-list .label-item .label:hover {
+  background-color: #e5d9cc;
 }
 .grid {
   background-image: url(../img/loading.gif);
@@ -3852,16 +3869,15 @@ stretchRight
   overflow: hidden;
 }
 .grid .grid-item .image-wrapper .image-proxy {
-  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
   background-size: cover;
   background-position: center;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%) scale(1.07);
+  -moz-transform: translate(-50%, -50%) scale(1.07);
+  -ms-transform: translate(-50%, -50%) scale(1.07);
+  transform: translate(-50%, -50%) scale(1.07);
   -webkit-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
@@ -3899,6 +3915,7 @@ stretchRight
 }
 .grid .grid-item:hover {
   box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
+  background-color: transparent !important;
   z-index: 50;
   -webkit-transform: scale(1.1);
   -moz-transform: scale(1.1);
@@ -3911,6 +3928,10 @@ stretchRight
   -moz-transform: translateY(100%);
   -ms-transform: translateY(100%);
   transform: translateY(100%);
+}
+.grid .grid-item:hover .image-proxy {
+  width: 100% !important;
+  height: 100% !important;
 }
 .grid .grid-sizer {
   width: 20%;
@@ -3997,7 +4018,8 @@ stretchRight
 .timeline-view .timeline-year-list {
   position: fixed;
   top: 20px;
-  left: 60px;
+  left: 55px;
+  text-align: center;
   -webkit-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
@@ -4018,6 +4040,7 @@ stretchRight
 }
 .timeline-view .timeline-year-list .year-item .year-label {
   position: relative;
+  width: 35px;
   color: #fff;
   font-size: 1.5rem;
 }
@@ -4027,6 +4050,7 @@ stretchRight
   position: absolute;
   right: 0;
   top: 8px;
+  margin-right: 10px;
   width: 7px;
   height: 7px;
   background: #fff;
@@ -4035,6 +4059,46 @@ stretchRight
   -webkit-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
+}
+.timeline-view .timeline-year-list .year-item.dot-item {
+  position: relative;
+  height: 5px;
+}
+.timeline-view .timeline-year-list .year-item.dot-item:after {
+  content: " ";
+  display: inline-block;
+  position: absolute;
+  top: 3px;
+  width: 2px;
+  height: 2px;
+  background: #e3e3e3;
+  border-radius: 100%;
+}
+.timeline-view .timeline-year-list .year-item.dot-item .year-label {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+}
+.timeline-view .timeline-year-list .year-item.dot-item .year-label span {
+  display: inline-block;
+  position: absolute;
+  top: -40px;
+  left: -4px;
+  padding: 4px;
+  background: #083240;
+  border-radius: 3px;
+  opacity: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.timeline-view .timeline-year-list .year-item.dot-item .year-label:after {
+  top: 0;
+}
+.timeline-view .timeline-year-list .year-item.dot-item:hover .year-label span {
+  opacity: 1;
 }
 .timeline-view .timeline-year-list .year-item.selected .year-label:after {
   right: -30px;
