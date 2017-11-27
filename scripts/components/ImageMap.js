@@ -95,10 +95,10 @@ export default class ImageMap extends React.Component {
 				</div>
 
 				<div className="toolbar-buttons">
-					<a className="image-button icon-plus" onClick={this.zoomButtonClickHandler.bind(this, 1)}></a>
-					<a className="image-button icon-minus" onClick={this.zoomButtonClickHandler.bind(this, -1)}></a>
+					<a className="circle-button icon-plus" onClick={this.zoomButtonClickHandler.bind(this, 1)}></a>
+					<a className="circle-button icon-minus" onClick={this.zoomButtonClickHandler.bind(this, -1)}></a>
 
-					<a className="image-button icon-download u-pull-right" href={this.state.url ? config.imageUrl+this.state.url+'.jpg' : ''} download target="_blank"></a>
+					<a className="circle-button icon-download u-pull-right" href={this.state.url ? config.imageUrl+this.state.url+'.jpg' : ''} download target="_blank"></a>
 				</div>
 
 			</div>

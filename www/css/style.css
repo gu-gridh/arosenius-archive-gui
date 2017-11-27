@@ -3172,7 +3172,7 @@ stretchRight
 .image-display-module .search-module {
   margin-top: 100px;
 }
-.image-button {
+.circle-button {
   display: block;
   position: relative;
   width: 44px;
@@ -3190,26 +3190,26 @@ stretchRight
   -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
 }
-.hide-ui .image-button {
+.hide-ui .circle-button {
   -webkit-transform: translateX(-100px);
   -moz-transform: translateX(-100px);
   -ms-transform: translateX(-100px);
   transform: translateX(-100px);
 }
 @media screen and (max-width: 550px) {
-  .image-button {
+  .circle-button {
     width: 34px;
     height: 34px;
     margin-top: 15px;
   }
 }
-.image-button:hover {
+.circle-button:hover {
   -webkit-transform: scale(1.18);
   -moz-transform: scale(1.18);
   -ms-transform: scale(1.18);
   transform: scale(1.18);
 }
-.image-button.icon-fulldisplay {
+.circle-button.icon-fulldisplay {
   background-image: url('../img/icon-fulldisplay.png');
   background-size: 24px 24px;
   background-position: center;
@@ -3217,56 +3217,56 @@ stretchRight
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 550px) {
-  .image-button.icon-fulldisplay {
+  .circle-button.icon-fulldisplay {
     background-size: 18px 18px;
     background-position: 10px 10px;
   }
 }
-.image-button.icon-plus {
+.circle-button.icon-plus {
   background-image: url('../img/icon-plus.png');
   background-size: 24px 24px;
   background-position: center;
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 550px) {
-  .image-button.icon-plus {
+  .circle-button.icon-plus {
     background-size: 18px 18px;
   }
 }
-.image-button.icon-minus {
+.circle-button.icon-minus {
   background-image: url('../img/icon-minus.png');
   background-size: 24px 24px;
   background-position: center;
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 550px) {
-  .image-button.icon-minus {
+  .circle-button.icon-minus {
     background-size: 18px 18px;
   }
 }
-.image-button.icon-download {
+.circle-button.icon-download {
   background-image: url('../img/icon-download.png');
   background-size: 24px 24px;
   background-position: center;
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 550px) {
-  .image-button.icon-download {
+  .circle-button.icon-download {
     background-size: 18px 18px;
   }
 }
-.image-button.icon-rotate {
+.circle-button.icon-rotate {
   background-image: url('../img/icon-rotate.png');
   background-size: 24px 24px;
   background-position: center;
   background-repeat: no-repeat;
 }
 @media screen and (max-width: 550px) {
-  .image-button.icon-rotate {
+  .circle-button.icon-rotate {
     background-size: 18px 18px;
   }
 }
-.image-button .icon-arrow {
+.circle-button .icon-arrow {
   display: block;
   position: absolute;
   width: 11px;
@@ -3280,61 +3280,61 @@ stretchRight
   transition: all 300ms ease-in-out;
 }
 @media screen and (max-width: 550px) {
-  .image-button .icon-arrow {
+  .circle-button .icon-arrow {
     width: 8px;
     height: 8px;
   }
 }
-.image-button .icon-arrow.arrow-1 {
+.circle-button .icon-arrow.arrow-1 {
   -webkit-transform: translate(10px, 20px);
   -moz-transform: translate(10px, 20px);
   -ms-transform: translate(10px, 20px);
   transform: translate(10px, 20px);
 }
 @media screen and (max-width: 550px) {
-  .image-button .icon-arrow.arrow-1 {
+  .circle-button .icon-arrow.arrow-1 {
     -webkit-transform: translate(9px, 19px);
     -moz-transform: translate(9px, 19px);
     -ms-transform: translate(9px, 19px);
     transform: translate(9px, 19px);
   }
 }
-.enlarged-display.image-button .icon-arrow.arrow-1 {
+.enlarged-display.circle-button .icon-arrow.arrow-1 {
   -webkit-transform: translate(22px, 8px);
   -moz-transform: translate(22px, 8px);
   -ms-transform: translate(22px, 8px);
   transform: translate(22px, 8px);
 }
 @media screen and (max-width: 550px) {
-  .enlarged-display.image-button .icon-arrow.arrow-1 {
+  .enlarged-display.circle-button .icon-arrow.arrow-1 {
     -webkit-transform: translate(19px, 8px);
     -moz-transform: translate(19px, 8px);
     -ms-transform: translate(19px, 8px);
     transform: translate(19px, 8px);
   }
 }
-.image-button .icon-arrow.arrow-2 {
+.circle-button .icon-arrow.arrow-2 {
   -webkit-transform: rotate(180deg) translate(-23px, -7px);
   -moz-transform: rotate(180deg) translate(-23px, -7px);
   -ms-transform: rotate(180deg) translate(-23px, -7px);
   transform: rotate(180deg) translate(-23px, -7px);
 }
 @media screen and (max-width: 550px) {
-  .image-button .icon-arrow.arrow-2 {
+  .circle-button .icon-arrow.arrow-2 {
     -webkit-transform: rotate(180deg) translate(-19px, -9px);
     -moz-transform: rotate(180deg) translate(-19px, -9px);
     -ms-transform: rotate(180deg) translate(-19px, -9px);
     transform: rotate(180deg) translate(-19px, -9px);
   }
 }
-.enlarged-display.image-button .icon-arrow.arrow-2 {
+.enlarged-display.circle-button .icon-arrow.arrow-2 {
   -webkit-transform: rotate(180deg) translate(-10px, -20px);
   -moz-transform: rotate(180deg) translate(-10px, -20px);
   -ms-transform: rotate(180deg) translate(-10px, -20px);
   transform: rotate(180deg) translate(-10px, -20px);
 }
 @media screen and (max-width: 550px) {
-  .enlarged-display.image-button .icon-arrow.arrow-2 {
+  .enlarged-display.circle-button .icon-arrow.arrow-2 {
     -webkit-transform: rotate(180deg) translate(-8px, -19px);
     -moz-transform: rotate(180deg) translate(-8px, -19px);
     -ms-transform: rotate(180deg) translate(-8px, -19px);
@@ -3764,6 +3764,58 @@ stretchRight
 .loading.image-list .loading-overlay {
   opacity: 1;
 }
+.image-list .list-buttons {
+  position: fixed;
+  right: 20px;
+  bottom: 115px;
+  z-index: 60;
+}
+.image-list .list-buttons button {
+  display: inline-block;
+  margin: 0 0 0 10px;
+}
+.image-list .list-buttons button.icon-relative-sizes {
+  position: relative;
+}
+.image-list .list-buttons button.icon-relative-sizes .icon-box {
+  display: block;
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #333;
+  border-radius: 1px;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.image-list .list-buttons button.icon-relative-sizes .icon-box.box-1 {
+  top: 10px;
+  left: 10px;
+}
+.image-list .list-buttons button.icon-relative-sizes .icon-box.box-2 {
+  top: 10px;
+  right: 10px;
+}
+.relative-sizes.image-list .list-buttons button.icon-relative-sizes .icon-box.box-2 {
+  width: 5px;
+  height: 5px;
+  top: 12px;
+  right: 12px;
+}
+.image-list .list-buttons button.icon-relative-sizes .icon-box.box-3 {
+  left: 10px;
+  bottom: 10px;
+}
+.relative-sizes.image-list .list-buttons button.icon-relative-sizes .icon-box.box-3 {
+  width: 7px;
+  height: 7px;
+  left: 11px;
+  bottom: 11px;
+}
+.image-list .list-buttons button.icon-relative-sizes .icon-box.box-4 {
+  right: 10px;
+  bottom: 10px;
+}
 .image-label-list .label-item {
   display: inline-block;
   position: relative;
@@ -3844,9 +3896,9 @@ stretchRight
   float: left;
   width: 20%;
   min-height: 100px;
-  -webkit-transition: all 100ms ease-in-out;
-  -o-transition: all 100ms ease-in-out;
-  transition: all 100ms ease-in-out;
+  -webkit-transition: all 400ms ease-in-out;
+  -o-transition: all 400ms ease-in-out;
+  transition: all 400ms ease-in-out;
 }
 .grid-columns.grid .grid-item {
   width: 100% !important;
@@ -3860,9 +3912,6 @@ stretchRight
   -webkit-transition: all 100ms ease-in-out;
   -o-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
-}
-.initialized.grid .grid-item img {
-  opacity: 1;
 }
 .grid .grid-item .image-wrapper {
   position: relative;
@@ -3882,9 +3931,13 @@ stretchRight
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
   z-index: 2;
+  opacity: 0;
 }
 .grid .grid-item .image-wrapper .image-proxy.visible {
   display: block;
+}
+.initialized.grid .grid-item .image-wrapper .image-proxy {
+  opacity: 1;
 }
 .grid .grid-item .image-wrapper img {
   -webkit-transform: scale(1.07);

@@ -8,19 +8,26 @@ export default class ImageListItem extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.imageLoadHandler = this.imageLoadHandler.bind(this);
+
 		this.state = {
-			relativeSize: this.props.relativeSize || false,
+			relativeSize: this.props.relativeSize,
 			image: this.props.image || null,
 			index: this.props.index || 0
 		};
 	}
 
 	componentWillReceiveProps(props) {
+		console.log(props);
 		this.setState({
-			relativeSize: props.relativeSize || this.state.relativeSize,
+			relativeSize: props.relativeSize,
 			image: props.image || this.state.image,
-			index: props.index || this.state.index
+			index: props.index || this.state.index || 0
 		});
+	}
+
+	imageLoadHandler() {
+		this.forceUpdate();
 	}
 
 	getProxyImageStyle() {
@@ -37,16 +44,18 @@ export default class ImageListItem extends React.Component {
 			var imageHeight = this.refs.imageElement.clientHeight;
 
 			imageStyle = {
-				'background-image': 'url("'+imageUrl+'")',
+				backgroundImage: 'url("'+imageUrl+'")',
 				width: this.state.image.size.inner.width*(imageWidth/this.props.maxWidth),
-				height: this.state.image.size.inner.width*(imageHeight/this.props.maxWidth)
+				height: this.state.image.size.inner.width*(imageHeight/this.props.maxWidth),
+//				transitionDelay: (this.state.index/80)+'s'
 			};
 		}
 		else {
 			imageStyle = {
-				'background-image': 'url("'+imageUrl+'")',
+				backgroundImage: 'url("'+imageUrl+'")',
 				width: '100%',
-				height: '100%'
+				height: '100%',
+//				transitionDelay: (this.state.index/80)+'s'
 			};
 		}
 
@@ -56,8 +65,6 @@ export default class ImageListItem extends React.Component {
 	render() {
 		var proxyImageStyle = this.getProxyImageStyle();
 
-		console.log(proxyImageStyle);
-
 		return <a style={{backgroundColor: this.state.image.images && this.state.image.images.length > 0 && this.state.image.images[0].color ? (this.state.relativeSize ? this.state.image.images[0].color.dominant.hex+'33' : this.state.image.images[0].color.dominant.hex) : '#333'}} 
 			className="grid-item" 
 			key={this.state.image.id} 
@@ -65,7 +72,9 @@ export default class ImageListItem extends React.Component {
 		>
 			<div className="image-wrapper">
 				<div className={'image-proxy'} style={proxyImageStyle} />
-				<img ref="imageElement" style={{opacity: this.state.relativeSize ? 0 : 1, transitionDelay: (this.state.index/80)+'s'}} 
+				<img ref="imageElement" 
+					onLoad={this.imageLoadHandler}
+					style={{transitionDelay: (this.state.index/80)+'s'}} 
 					src={config.imageUrl+'255x/'+(this.state.image.images && this.state.image.images.length > 0 ? this.state.image.images[0].image : this.state.image.image ? this.state.image.image : '')+'.jpg'} />
 			</div>
 			<div className="grid-title">{this.state.image.title}</div>

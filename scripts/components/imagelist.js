@@ -213,6 +213,7 @@ export default class ImageList extends React.Component {
 	}
 
 	render() {
+		console.log('relativeSizes: '+this.state.relativeSizes);
 		var maxWidth = _.max(_.map(this.state.images, function(image) {
 			return image && image.size && image.size.inner ? image.size.inner.width : 0;
 		}));
@@ -231,7 +232,7 @@ export default class ImageList extends React.Component {
 			}
 		}.bind(this));
 
-		console.log(maxWidth);
+		window.imageListItems = items;
 
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
@@ -270,7 +271,7 @@ export default class ImageList extends React.Component {
 			</div>;
 		}
 		else {
-			return <div ref="container" data-title={this.props.title} className={'image-list'+(this.state.loading ? ' loading' : '')} style={this.state.images.length < 2 && this.props.related ? {display: 'none'} : null}>
+			return <div ref="container" data-title={this.props.title} className={'image-list'+(this.state.relativeSizes ? ' relative-sizes' : '')+(this.state.loading ? ' loading' : '')} style={this.state.images.length < 2 && this.props.related ? {display: 'none'} : null}>
 				<div>
 					{
 						this.props.title && this.state.images.length > 0 &&
@@ -282,9 +283,14 @@ export default class ImageList extends React.Component {
 					}
 				</div>
 
-				<div style={{position: 'absolute', top: 20, right: 20, zIndex: 60}}>
-					<button style={{width: 30, height: 30, borderRadius: 30, padding: 0, lineHeight: '30px', backgroundColor: '#fff'}} 
-						onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>r</button>
+				<div className="list-buttons">
+					<button className="circle-button icon-relative-sizes" 
+						onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>
+						<span className="icon-box box-1" />
+						<span className="icon-box box-2" />
+						<span className="icon-box box-3" />
+						<span className="icon-box box-4" />
+					</button>
 				</div>
 
 				{
