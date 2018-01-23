@@ -283,15 +283,18 @@ export default class ImageList extends React.Component {
 					}
 				</div>
 
-				<div className="list-buttons">
-					<button className="circle-button icon-relative-sizes" 
-						onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>
-						<span className="icon-box box-1" />
-						<span className="icon-box box-2" />
-						<span className="icon-box box-3" />
-						<span className="icon-box box-4" />
-					</button>
-				</div>
+				{
+					this.state.images.length > 1 && this.props.listType != 'date-labels' &&
+					<div className="list-buttons">
+						<button className="circle-button icon-relative-sizes" 
+							onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>
+							<span className="icon-box box-1" />
+							<span className="icon-box box-2" />
+							<span className="icon-box box-3" />
+							<span className="icon-box box-4" />
+						</button>
+					</div>
+				}
 
 				{
 					listElement

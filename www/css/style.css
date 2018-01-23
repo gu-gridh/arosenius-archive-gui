@@ -3770,6 +3770,12 @@ stretchRight
   bottom: 115px;
   z-index: 60;
 }
+.timeline-view .image-list .list-buttons {
+  float: right;
+  position: relative;
+  top: -65px;
+  bottom: auto;
+}
 .image-list .list-buttons button {
   display: inline-block;
   margin: 0 0 0 10px;
