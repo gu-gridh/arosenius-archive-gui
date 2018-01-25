@@ -68,11 +68,24 @@ export default class ImageList extends React.Component {
 		if (!this.props.lazyLoad) {
 			this.handleProps(this.props);
 		}
+
+		this.positionButtons();
 	}
 
 	componentWillUnmount() {
 		if (this.props.enableAutoLoad || this.props.lazyLoad) {
 			window.removeEventListener('scroll', this.windowScrollHandler);
+		}
+	}
+
+	positionButtons() {
+		if (this.props.listType != 'date-labels' && this.refs.container) {		
+			var containerTop = this.refs.container.getBoundingClientRect().top;
+			var windowHeight = document.documentElement.clientHeight;
+
+			this.setState({
+				fixedButtons: windowHeight<(containerTop+85)
+			});
 		}
 	}
 
@@ -103,6 +116,8 @@ export default class ImageList extends React.Component {
 				}.bind(this), 500);
 			}
 		}
+
+		this.positionButtons();
 	}
 
 	componentWillReceiveProps(props) {
@@ -213,7 +228,6 @@ export default class ImageList extends React.Component {
 	}
 
 	render() {
-		console.log('relativeSizes: '+this.state.relativeSizes);
 		var maxWidth = _.max(_.map(this.state.images, function(image) {
 			return image && image.size && image.size.inner ? image.size.inner.width : 0;
 		}));
@@ -285,7 +299,7 @@ export default class ImageList extends React.Component {
 
 				{
 					this.state.images.length > 1 && this.props.listType != 'date-labels' &&
-					<div className="list-buttons">
+					<div className={'list-buttons'+(this.state.fixedButtons ? ' fixed' : '')}>
 						<button className="circle-button icon-relative-sizes" 
 							onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>
 							<span className="icon-box box-1" />

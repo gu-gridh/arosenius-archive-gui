@@ -245,7 +245,7 @@ export default class Timeline extends React.Component {
 						return <a key={item.year} 
 							data-year={item.year} 
 							onClick={this.yearLabelClickHandler} 
-							className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')+(item.year % 5 != 0 && index > 0 ? ' dot-item' : '')}>
+							className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')+(item.year % 10 != 0 && index > 0 ? ' dot-item' : '')}>
 							<span className={'year-label'}>
 								<span>{item.year}</span>
 							</span>

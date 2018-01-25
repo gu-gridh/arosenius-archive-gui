@@ -63,8 +63,6 @@ export default class Application extends React.Component {
 	}
 
 	render() {
-		console.log('render');
-
 		var galleryElement;
 
 		if (this.state.galleryType == 'timeline') {

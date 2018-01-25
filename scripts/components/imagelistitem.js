@@ -18,7 +18,6 @@ export default class ImageListItem extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log(props);
 		this.setState({
 			relativeSize: props.relativeSize,
 			image: props.image || this.state.image,
