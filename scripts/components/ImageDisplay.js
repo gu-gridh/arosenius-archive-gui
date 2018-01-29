@@ -232,13 +232,13 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
-		var imageStyle = imgObj.color && imgObj.color.colors ? {
-			backgroundColor: imgObj.color.dominant.hex,
+		var imageStyle = {
+			backgroundColor: imgObj.color && imgObj.color.dominant ? imgObj.color.dominant.hex : '#191919',
 			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
 
 			width: imageWidth,
 			height: imageHeight
-		} : null;
+		};
 
 		return imageStyle;
 	}
@@ -279,13 +279,13 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
-		var imageStyle = imgObj.color && imgObj.color.colors ? {
-			backgroundColor: imgObj.color.dominant.hex,
+		var imageStyle = {
+			backgroundColor: imgObj.color && imgObj.color.dominant ? imgObj.color.dominant.hex : '#191919',
 			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : "url('"+this.state.lowresImageUrl+"')",
 //			opacity: !this.state.imageUrl && this.state.lowresImageUrl ? 0.2 : 1,
 			width: imageWidth,
 			height: imageHeight
-		} : null;
+		};
 
 		return imageStyle;
 	}
@@ -302,7 +302,7 @@ export default class ImageDisplay extends React.Component {
 				<div className="image-wrapper" style={{transform: 'rotate('+this.state.rotation+'deg)'}}>
 
 					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
-						<div className="loader" style={{backgroundColor: this.getImageObj().color.dominant.hex}}></div>
+						<div className="loader" style={{backgroundColor: this.getImageObj().color && this.getImageObj().color.dominant ? this.getImageObj().color.dominant.hex : 'transparent'}}></div>
 					</div>
 
 					{rearImageEl}

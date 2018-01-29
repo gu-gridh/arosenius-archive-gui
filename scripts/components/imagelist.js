@@ -4,8 +4,10 @@ import _ from 'underscore';
 import Masonry  from 'react-masonry-component';
 
 import ImageListCollection from '../collections/ImageListCollection';
+
 import ImageListItem from './ImageListItem';
 import DateLabelListItem from './DateLabelListItem';
+import SimpleListItem from './SimpleListItem';
 
 import WindowScroll from './../utils/window-scroll';
 
@@ -64,7 +66,7 @@ export default class ImageList extends React.Component {
 				window.addEventListener('scroll', this.windowScrollHandler);
 			}.bind(this), 500);
 		}
-		
+
 		if (!this.props.lazyLoad) {
 			this.handleProps(this.props);
 		}
@@ -79,7 +81,7 @@ export default class ImageList extends React.Component {
 	}
 
 	positionButtons() {
-		if (this.props.listType != 'date-labels' && this.refs.container) {		
+		if (this.props.listType != 'date-labels' && this.refs.container) {
 			var containerTop = this.refs.container.getBoundingClientRect().top;
 			var windowHeight = document.documentElement.clientHeight;
 
@@ -159,16 +161,16 @@ export default class ImageList extends React.Component {
 
 			this.collection.fetch(null, props.count, 1, false, props.archiveMaterial || null);
 		}
-		else if (this.props.searchString != props.searchString || 
-			this.props.searchPerson != props.searchPerson || 
-			this.props.searchPlace != props.searchPlace || 
+		else if (this.props.searchString != props.searchString ||
+			this.props.searchPerson != props.searchPerson ||
+			this.props.searchPlace != props.searchPlace ||
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
 			this.props.year != props.year ||
-			
+
 			this.props.searchSaturation != props.searchSaturation ||
 
 			this.state.images.length == 0
@@ -180,14 +182,14 @@ export default class ImageList extends React.Component {
 			});
 
 			this.collection.fetch({
-				searchString: props.searchString, 
-				person: props.searchPerson, 
-				place: props.searchPlace, 
-				museum: props.searchMuseum, 
-				genre: props.searchGenre, 
+				searchString: props.searchString,
+				person: props.searchPerson,
+				place: props.searchPlace,
+				museum: props.searchMuseum,
+				genre: props.searchGenre,
 				tags: props.searchTags,
-				type: props.searchType, 
-				hue: props.searchHue, 
+				type: props.searchType,
+				hue: props.searchHue,
 				saturation: props.searchSaturation,
 				year: props.year
 			}, props.count, 1, false, props.archiveMaterial || null);
@@ -204,14 +206,14 @@ export default class ImageList extends React.Component {
 			this.waitingForLoad = true;
 
 			this.collection.fetch({
-				searchString: this.props.searchString, 
-				person: this.props.searchPerson, 
-				place: this.props.searchPlace, 
-				museum: this.props.searchMuseum, 
-				genre: this.props.searchGenre, 
+				searchString: this.props.searchString,
+				person: this.props.searchPerson,
+				place: this.props.searchPlace,
+				museum: this.props.searchMuseum,
+				genre: this.props.searchGenre,
 				tags: this.props.searchTags,
-				type: this.props.searchType, 
-				hue: this.props.searchHue, 
+				type: this.props.searchType,
+				hue: this.props.searchHue,
 				saturation: this.props.searchSaturation
 			}, this.props.count, this.collection.currentPage+1, true);
 		}
@@ -236,12 +238,15 @@ export default class ImageList extends React.Component {
 			if (this.props.listType == 'date-labels') {
 				return <DateLabelListItem key={image.id} image={image} index={index} />;
 			}
+			else if (this.props.listType == 'simple') {
+				return <SimpleListItem key={image.id} image={image} index={index} />
+			}
 			else {
-				return <ImageListItem 
-					key={image.id} 
-					image={image} 
-					index={index} 
-					relativeSize={this.state.relativeSizes} 
+				return <ImageListItem
+					key={image.id}
+					image={image}
+					index={index}
+					relativeSize={this.state.relativeSizes}
 					maxWidth={maxWidth} />;
 			}
 		}.bind(this));
@@ -251,24 +256,38 @@ export default class ImageList extends React.Component {
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
 		}
-		else if (this.props.listType != 'date-labels') {
+//		else if (this.props.listType != 'date-labels') {
+		else {
 			items.push(<div key="grid-sizer" className="grid-sizer"/>);
 		}
 
 		var listElement;
 		if (this.props.listType == 'date-labels') {
+/*
 			listElement = <div className="image-label-list">
 				{items}
 			</div>;
+*/
+			listElement = <Masonry
+				className={'grid image-label-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
+				options={masonryOptions}
+				disableImagesLoaded={false}
+				updateOnEachImageLoad={true}
+				onImagesLoaded={this.imageLoadedHandler}>
+				{items}
+			</Masonry>
+		}
+		else if (this.props.listType == 'simple') {
+			console.log('simple list')
+			listElement = <div className="simple-list">{items}</div>
 		}
 		else {
 			listElement = <Masonry
-				className={'grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-				options={masonryOptions} // default {}
-				disableImagesLoaded={false} // default false
-				updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
-				onImagesLoaded={this.imageLoadedHandler}
-				>
+				className={'grid image-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
+				options={masonryOptions}
+				disableImagesLoaded={false}
+				updateOnEachImageLoad={true}
+				onImagesLoaded={this.imageLoadedHandler}>
 				{items}
 			</Masonry>
 		}
@@ -298,9 +317,9 @@ export default class ImageList extends React.Component {
 				</div>
 
 				{
-					this.state.images.length > 1 && this.props.listType != 'date-labels' &&
+					this.state.images.length > 1 && (this.props.listType != 'date-labels' && this.props.listType != 'simple') &&
 					<div className={'list-buttons'+(this.state.fixedButtons ? ' fixed' : '')}>
-						<button className="circle-button icon-relative-sizes" 
+						<button className="circle-button icon-relative-sizes"
 							onClick={function() {this.setState({relativeSizes: !this.state.relativeSizes})}.bind(this)}>
 							<span className="icon-box box-1" />
 							<span className="icon-box box-2" />
@@ -313,7 +332,7 @@ export default class ImageList extends React.Component {
 				{
 					listElement
 				}
-				
+
 
 				<div className="loading-overlay" />
 			</div>;

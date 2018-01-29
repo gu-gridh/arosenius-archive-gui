@@ -66,9 +66,21 @@ export default class Application extends React.Component {
 		var galleryElement;
 
 		if (this.state.galleryType == 'timeline') {
-			galleryElement = <Timeline searchString={this.state.searchParams.search} 
-				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
-				searchPlace={this.state.searchParams.place} 
+			galleryElement = <Timeline searchString={this.state.searchParams.search}
+				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person}
+				searchPlace={this.state.searchParams.place}
+				searchMuseum={this.state.searchParams.museum}
+				searchGenre={this.state.searchParams.genre}
+				searchTags={this.state.searchParams.tags}
+				searchType={this.state.searchParams.type}
+				searchHue={this.state.searchParams.hue}
+				searchSaturation={this.state.searchParams.saturation} />;
+		}
+		else if (this.state.galleryType == 'simple-list') {
+			galleryElement = <ImageList count="50" enableAutoLoad="true" listType="simple"
+				searchString={this.state.searchParams.search}
+				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person}
+				searchPlace={this.state.searchParams.place}
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
@@ -77,10 +89,10 @@ export default class Application extends React.Component {
 				searchSaturation={this.state.searchParams.saturation} />;
 		}
 		else {
-			galleryElement = <ImageList count="50" enableAutoLoad="true" 
-				searchString={this.state.searchParams.search} 
-				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person} 
-				searchPlace={this.state.searchParams.place} 
+			galleryElement = <ImageList count="50" enableAutoLoad="true"
+				searchString={this.state.searchParams.search}
+				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person}
+				searchPlace={this.state.searchParams.place}
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
@@ -89,6 +101,26 @@ export default class Application extends React.Component {
 				searchSaturation={this.state.searchParams.saturation} />;
 
 		}
+
+		var galleryTypes = [
+			{
+				type: 'gallery',
+				menuItem: 'Galleri'
+			},
+			{
+				type: 'timeline',
+				menuItem: 'Tidslinje'
+			},
+			{
+				type: 'simple-list',
+				menuItem: 'Katalog'
+			}
+		];
+
+		var galleryMenuItems = galleryTypes.map(function(galleryType) {
+			return <a key={galleryType.type} className={this.state.galleryType == galleryType.type ? 'selected' : null} onClick={function() {this.setState({galleryType: galleryType.type})}.bind(this)}>{galleryType.menuItem}</a>;
+		}.bind(this));
+
 		return (
 			<div onMouseMove={this.mouseMoveHandler} className={this.state.noUiDistract ? 'hide-ui' : ''}>
 				<Header routerPath={this.props.location.pathname} />
@@ -98,7 +130,7 @@ export default class Application extends React.Component {
 					<Search searchParams={this.state.searchParams} />
 
 					<div className="gallery-menu">
-						<a onClick={function() {this.setState({galleryType: 'gallery'})}.bind(this)}>Galleri</a> <a onClick={function() {this.setState({galleryType: 'timeline'})}.bind(this)}>Tidslinje</a>
+						{galleryMenuItems}
 					</div>
 
 					<div className="site-content">

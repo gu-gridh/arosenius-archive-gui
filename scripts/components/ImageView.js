@@ -12,6 +12,8 @@ import WindowScroll from './../utils/window-scroll';
 
 import config from './../config';
 
+import chroma from 'chroma-js';
+
 export default class ImageView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -112,7 +114,7 @@ export default class ImageView extends React.Component {
 
 		if (this.state.image && this.state.image.id != props.params.imageId) {
 			this.fetchData(props.params.imageId);
-			
+
 			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 		}
 	}
@@ -126,9 +128,13 @@ export default class ImageView extends React.Component {
 	render() {
 		if (this.state.image && this.state.image.images[0]) {
 			document.title = 'Ivar Aroseniusarkivet - '+this.state.image.title;
-
+/*
 			var colorElements = this.state.image.images[0].color ? this.state.image.images[0].color.colors.five.map(function(color, index) {
 				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} className="color" style={{backgroundColor: color.hex}} ></a>
+			}) : [];
+*/
+			var colorElements = this.state.image.images[0].googleVisionColors ? this.state.image.images[0].googleVisionColors.map(function(color, index) {
+				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} style={{display: 'block', float: 'left', height: 10, width: (color.score*100)+'%', backgroundColor: chroma(color.color.red, color.color.green, color.color.blue).hex()}}></a>;
 			}) : [];
 
 			var persons = this.state.image.persons ? _.filter(this.state.image.persons, function(item) {
@@ -314,7 +320,7 @@ export default class ImageView extends React.Component {
 
 					<div className="row">
 						<br />
-						<div className="color-list">
+						<div className="color-list" style={{width: '60%'}}>
 							{colorElements}
 						</div>
 					</div>

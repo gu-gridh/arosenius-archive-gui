@@ -112,15 +112,15 @@ export default class Timeline extends React.Component {
 
 			this.fetchYears();
 		}
-		else if (this.props.searchString != props.searchString || 
-			this.props.searchPerson != props.searchPerson || 
-			this.props.searchPlace != props.searchPlace || 
+		else if (this.props.searchString != props.searchString ||
+			this.props.searchPerson != props.searchPerson ||
+			this.props.searchPlace != props.searchPlace ||
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
-			
+
 			this.props.searchSaturation != props.searchSaturation
 		) {
 			this.waitingForLoad = true;
@@ -130,14 +130,14 @@ export default class Timeline extends React.Component {
 			});
 
 			this.fetchYears({
-				searchString: props.searchString, 
-				person: props.searchPerson, 
-				place: props.searchPlace, 
-				museum: props.searchMuseum, 
-				genre: props.searchGenre, 
+				searchString: props.searchString,
+				person: props.searchPerson,
+				place: props.searchPlace,
+				museum: props.searchMuseum,
+				genre: props.searchGenre,
 				tags: props.searchTags,
-				type: props.searchType, 
-				hue: props.searchHue, 
+				type: props.searchType,
+				hue: props.searchHue,
 				saturation: props.searchSaturation
 			});
 
@@ -200,7 +200,7 @@ export default class Timeline extends React.Component {
 			return <div key={item.year} data-year={item.year} className={'year-item year-'+item.year}>
 				<h3>{item.year}</h3>
 				<ImageList year={item.year} archiveMaterial="exclude" 
-					lazyLoad={true} 
+					lazyLoad={true}
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
 					searchPlace={this.props.searchPlace}
@@ -215,8 +215,8 @@ export default class Timeline extends React.Component {
 
 				<ImageList title={'Daterade dokument från '+item.year} year={item.year} 
 					listType="date-labels"
-					archiveMaterial="only" 
-					lazyLoad={true} 
+					archiveMaterial="only"
+					lazyLoad={true}
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
 					searchPlace={this.props.searchPlace}
@@ -242,9 +242,9 @@ export default class Timeline extends React.Component {
 							docPoints.push(<span className="point" key={i} />);
 						}
 
-						return <a key={item.year} 
-							data-year={item.year} 
-							onClick={this.yearLabelClickHandler} 
+						return <a key={item.year}
+							data-year={item.year}
+							onClick={this.yearLabelClickHandler}
 							className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')+(item.year % 10 != 0 && index > 0 ? ' dot-item' : '')}>
 							<span className={'year-label'}>
 								<span>{item.year}</span>

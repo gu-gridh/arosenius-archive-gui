@@ -3707,6 +3707,7 @@ stretchRight
   font-size: 2.3rem;
 }
 .page-thumbnails {
+  margin-bottom: 30px;
   text-align: center;
 }
 .page-thumbnails .thumb {
@@ -3740,6 +3741,17 @@ stretchRight
   margin: 0 15px;
   color: #fff;
   cursor: pointer;
+}
+.gallery-menu a.selected:after {
+  content: " ";
+  display: block;
+  position: relative;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 100%;
+  background: #fff;
 }
 .image-list {
   position: relative;
@@ -3824,11 +3836,20 @@ stretchRight
   right: 10px;
   bottom: 10px;
 }
-.image-label-list .label-item {
-  display: inline-block;
-  position: relative;
+.image-label-grid .grid-sizer {
+  width: 10%;
 }
-.image-label-list .label-item .image-wrapper {
+.image-label-grid .label-grid-item {
+  display: block;
+  position: relative;
+  float: left;
+  width: 10%;
+}
+.image-label-grid .label-grid-item .smaller {
+  margin-top: 20px;
+  font-size: 1.6rem;
+}
+.image-label-grid .label-grid-item .image-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3843,38 +3864,19 @@ stretchRight
   transform: translate(-50%, -50%);
   z-index: 10;
 }
-.image-label-list .label-item .image-wrapper img {
+.image-label-grid .label-grid-item .image-wrapper img {
   max-width: 200px;
   max-height: 200px;
 }
-.image-label-list .label-item:hover .image-wrapper {
+.image-label-grid .label-grid-item:hover .image-wrapper {
   opacity: 0.98;
 }
-.image-label-list .label-item .label {
-  display: inline-block;
-  padding: 0 7px;
-  margin: 0 10px 5px 0;
-  background: #083240;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 1.6rem;
-  cursor: pointer;
-  -webkit-transition: all 200ms ease-in-out;
-  -o-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
+.image-label-grid .label-grid-item .label {
   padding: 8px;
-  margin: 0 8px 8px 0;
   color: #000;
-  background-color: #e5d9cc;
+  background-color: #ffffff75;
 }
-.image-label-list .label-item .label.selected {
-  background: #788f9b;
-}
-.image-label-list .label-item .label:hover {
-  background: #125064;
-  color: #fff;
-}
-.image-label-list .label-item .label:hover {
+.image-label-grid .label-grid-item .label:hover {
   background-color: #e5d9cc;
 }
 .grid {
@@ -3898,7 +3900,7 @@ stretchRight
   padding: 40px;
   text-align: center;
 }
-.grid .grid-item {
+.image-grid.grid .grid-item {
   display: block;
   position: relative;
   float: left;
@@ -3908,10 +3910,10 @@ stretchRight
   -o-transition: all 400ms ease-in-out;
   transition: all 400ms ease-in-out;
 }
-.grid-columns.grid .grid-item {
+.grid-columns.image-grid.grid .grid-item {
   width: 100% !important;
 }
-.grid .grid-item img {
+.image-grid.grid .grid-item img {
   display: block;
   position: relative;
   width: 100%;
@@ -3921,11 +3923,11 @@ stretchRight
   -o-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
 }
-.grid .grid-item .image-wrapper {
+.image-grid.grid .grid-item .image-wrapper {
   position: relative;
   overflow: hidden;
 }
-.grid .grid-item .image-wrapper .image-proxy {
+.image-grid.grid .grid-item .image-wrapper .image-proxy {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3941,19 +3943,19 @@ stretchRight
   z-index: 2;
   opacity: 0;
 }
-.grid .grid-item .image-wrapper .image-proxy.visible {
+.image-grid.grid .grid-item .image-wrapper .image-proxy.visible {
   display: block;
 }
-.initialized.grid .grid-item .image-wrapper .image-proxy {
+.initialized.image-grid.grid .grid-item .image-wrapper .image-proxy {
   opacity: 1;
 }
-.grid .grid-item .image-wrapper img {
+.image-grid.grid .grid-item .image-wrapper img {
   -webkit-transform: scale(1.07);
   -moz-transform: scale(1.07);
   -ms-transform: scale(1.07);
   transform: scale(1.07);
 }
-.grid .grid-item .grid-title {
+.image-grid.grid .grid-item .grid-title {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -3974,7 +3976,7 @@ stretchRight
   -o-transition: all 300ms ease-out;
   transition: all 300ms ease-out;
 }
-.grid .grid-item:hover {
+.image-grid.grid .grid-item:hover {
   box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
   background-color: transparent !important;
   z-index: 50;
@@ -3983,14 +3985,14 @@ stretchRight
   -ms-transform: scale(1.1);
   transform: scale(1.1);
 }
-.grid .grid-item:hover .grid-title {
+.image-grid.grid .grid-item:hover .grid-title {
   opacity: 1;
   -webkit-transform: translateY(100%);
   -moz-transform: translateY(100%);
   -ms-transform: translateY(100%);
   transform: translateY(100%);
 }
-.grid .grid-item:hover .image-proxy {
+.image-grid.grid .grid-item:hover .image-proxy {
   width: 100% !important;
   height: 100% !important;
 }
@@ -3999,27 +4001,76 @@ stretchRight
 }
 @media screen and (max-width: 1250px) {
   .grid .grid-item,
+  .grid .label-grid-item,
   .grid .grid-sizer {
-    width: 25%;
+    width: 25% !important;
   }
 }
 @media screen and (max-width: 1024px) {
   .grid .grid-item,
+  .grid .label-grid-item,
   .grid .grid-sizer {
-    width: 33.3%;
+    width: 33.3% !important;
   }
 }
 @media screen and (max-width: 900px) {
   .grid .grid-item,
+  .grid .label-grid-item,
   .grid .grid-sizer {
-    width: 50%;
+    width: 50% !important;
   }
 }
 @media screen and (max-width: 400px) {
   .grid .grid-item,
+  .grid .label-grid-item,
   .grid .grid-sizer {
+    width: 50% !important;
+  }
+}
+.simple-list {
+  max-width: 1600px;
+  margin: 20px auto;
+}
+.simple-list .simple-item {
+  display: block;
+  float: left;
+  position: relative;
+  width: 33%;
+  padding: 0 30px 80px 30px;
+  box-sizing: border-box;
+  color: #fff;
+}
+@media screen and (max-width: 1250px) {
+  .simple-list .simple-item {
     width: 50%;
   }
+}
+@media screen and (max-width: 80px) {
+  .simple-list .simple-item {
+    width: 100%;
+  }
+}
+.simple-list .simple-item .image-thumb {
+  width: 150px;
+  height: 150px;
+  float: left;
+  margin-right: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.simple-list .simple-item .item-info {
+  position: absolute;
+  left: 200px;
+  right: 0;
+  font-size: 1.8rem;
+}
+.simple-list .simple-item .item-info .title {
+  font-size: 2.4rem;
+}
+.simple-list .simple-item .item-info .item-id {
+  font-size: 1.4rem;
+  color: #999;
 }
 .color-list {
   margin-top: 6px;
