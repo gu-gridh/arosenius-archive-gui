@@ -3733,6 +3733,7 @@ stretchRight
   box-shadow: 0px 0px 0px 3px #1EAEDB;
 }
 .gallery-menu {
+  position: relative;
   margin: 0 0 40px 0;
   text-align: center;
 }
@@ -3775,6 +3776,10 @@ stretchRight
 }
 .loading.image-list .loading-overlay {
   opacity: 1;
+}
+.image-list.loading .grid,
+.image-list.loading .simple-list {
+  opacity: 0.2;
 }
 .image-list .list-buttons {
   position: fixed;

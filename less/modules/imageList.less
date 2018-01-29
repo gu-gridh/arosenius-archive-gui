@@ -1,4 +1,6 @@
 .gallery-menu {
+	position: relative;
+
 	margin: 0 0 40px 0;
 
 	text-align: center;
@@ -26,7 +28,7 @@
 				height: 4px;
 
 				margin-left: -2px;
-				
+
 				border-radius: 100%;
 
 				background: #fff;
@@ -60,6 +62,12 @@
 
 		.loading& {
 			opacity: 1;
+		}
+	}
+
+	&.loading {
+		.grid, .simple-list {
+			opacity: 0.2;
 		}
 	}
 
