@@ -2853,7 +2853,38 @@ stretchRight
 .multitags-selector .tags-wrapper .row {
   position: relative;
 }
-.multitags-selector .tags-grid.tags-columns {
+.multitags-selector .tags-columns .tags-container {
+  float: left;
+  width: 16%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.multitags-selector .tags-columns .divider-1,
+.multitags-selector .tags-columns .divider-2 {
+  display: none;
+}
+@media screen and (max-width: 1200px) {
+  .multitags-selector .tags-columns .tags-container {
+    width: 25%;
+  }
+  .multitags-selector .tags-columns .divider-1 {
+    display: block;
+  }
+}
+@media screen and (max-width: 900px) {
+  .multitags-selector .tags-columns .tags-container {
+    width: 50%;
+  }
+  .multitags-selector .tags-columns .divider-2 {
+    display: block;
+  }
+}
+@media screen and (max-width: 600px) {
+  .multitags-selector .tags-columns .tags-container {
+    width: 100%;
+  }
+}
+.multitags-selector .tags-grid.grid-columns {
   position: relative;
 }
 .multitags-selector .tags-grid .grid-sizer {
@@ -2955,6 +2986,7 @@ stretchRight
   -moz-transform: translateY(0) scale(1);
   -ms-transform: translateY(0) scale(1);
   transform: translateY(0) scale(1);
+  z-index: 100;
 }
 .multitags-selector .dropdown-wrapper .dropdown-container .list-container {
   position: fixed;
@@ -2963,6 +2995,34 @@ stretchRight
   bottom: 100px;
   right: 40px;
   overflow-y: auto;
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.multitags-selector .dropdown-wrapper .dropdown-container .panel-heading {
+  -webkit-transform: translateY(-20px);
+  -moz-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.multitags-selector .dropdown-wrapper .dropdown-container.open .list-container {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.multitags-selector .dropdown-wrapper .dropdown-container.open .panel-heading {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
 }
 @media screen and (max-width: 850px) {
   .multitags-selector .dropdown-wrapper .dropdown-container {
@@ -2985,6 +3045,7 @@ stretchRight
   -webkit-transition: 300ms ease-in-out;
   -o-transition: 300ms ease-in-out;
   transition: 300ms ease-in-out;
+  z-index: 10;
 }
 @media screen and (max-width: 850px) {
   .multitags-selector .dropdown-wrapper .dropdown-container .close-button {
@@ -3981,6 +4042,10 @@ stretchRight
   -o-transition: all 300ms ease-out;
   transition: all 300ms ease-out;
 }
+.image-grid.grid .grid-item .grid-title .smaller {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
 .image-grid.grid .grid-item:hover {
   box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
   background-color: transparent !important;
@@ -4068,10 +4133,22 @@ stretchRight
   position: absolute;
   left: 200px;
   right: 0;
+  height: 150px;
   font-size: 1.8rem;
 }
 .simple-list .simple-item .item-info .title {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
+  line-height: 2.4rem;
+  margin-top: -4px;
+}
+.simple-list .simple-item .item-info .title .year {
+  margin-top: 8px;
+  font-size: 1.4rem;
+}
+.simple-list .simple-item .item-info .item-meta {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.4rem;
 }
 .simple-list .simple-item .item-info .item-id {
   font-size: 1.4rem;
@@ -4130,11 +4207,12 @@ stretchRight
   pointer-events: all;
 }
 .timeline-view {
+  position: relative;
   min-height: 100vh;
 }
 .timeline-view .timeline-year-list {
-  position: fixed;
-  top: 20px;
+  position: absolute;
+  top: 0;
   left: 55px;
   text-align: center;
   -webkit-transition: all 300ms ease-in-out;
@@ -4151,9 +4229,47 @@ stretchRight
   -ms-transform: translateX(0);
   transform: translateX(0);
 }
+.timeline-view .timeline-year-list.fixed {
+  position: fixed;
+  top: 20px;
+}
 .timeline-view .timeline-year-list .year-item {
   display: block;
+  position: relative;
   cursor: pointer;
+}
+.timeline-view .timeline-year-list .year-item .detail-years {
+  position: absolute;
+  top: 10px;
+  left: 95px;
+  text-align: left;
+}
+.timeline-view .timeline-year-list .year-item .detail-years .detail-item {
+  display: block;
+  position: relative;
+  color: #fff;
+  white-space: nowrap;
+}
+.timeline-view .timeline-year-list .year-item .detail-years .detail-item:after {
+  content: " ";
+  display: inline-block;
+  position: relative;
+  left: 0;
+  top: -1px;
+  vertical-align: middle;
+  margin-left: 10px;
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.timeline-view .timeline-year-list .year-item .detail-years .detail-item.selected:after {
+  right: -20px;
+  opacity: 1;
 }
 .timeline-view .timeline-year-list .year-item .year-label {
   position: relative;
@@ -4232,7 +4348,7 @@ stretchRight
   background: #fff;
 }
 .timeline-view .gallery-container {
-  margin-left: 150px;
+  margin-left: 250px;
 }
 .timeline-view .gallery-container .year-item {
   min-height: 200px;
@@ -4250,6 +4366,7 @@ body {
 }
 html.disable-scroll,
 body.disable-scroll {
+  padding-right: 18px;
   overflow: hidden;
 }
 body {

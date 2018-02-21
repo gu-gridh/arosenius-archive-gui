@@ -1,10 +1,12 @@
 .timeline-view {
+	position: relative;
+
 	min-height: 100vh;
 
 	.timeline-year-list {
-		position: fixed;
+		position: absolute;
 
-		top: 20px;
+		top: 0;
 		left: 55px;
 
 		text-align: center;
@@ -17,10 +19,71 @@
 			.transform(translateX(0));
 		}
 
+		&.fixed {
+			position: fixed;
+
+			top: 20px;
+		}
+
 		.year-item {
 			display: block;
 
+			position: relative;
+
 			cursor: pointer;
+
+			.detail-years {
+				position: absolute;
+
+				top: 10px;
+				left: 95px;
+
+				text-align: left;
+
+				.detail-item {
+					display: block;
+
+					position: relative;
+
+					color: #fff;
+
+					white-space: nowrap;
+
+					&:after {
+						content: " ";
+						
+						display: inline-block;
+
+						position: relative;
+
+						left: 0;
+						top: -1px;
+
+						vertical-align: middle;
+						
+						margin-left: 10px;
+
+						width: 7px;
+						height: 7px;
+						
+						background: #fff;
+
+						border-radius: 100%;
+
+						opacity: 0;
+
+						.transition(all 300ms ease-in-out);
+					}
+
+					&.selected {
+						&:after {
+							right: -20px;
+
+							opacity: 1;
+						}
+					}
+				}
+			}
 
 			.year-label {
 				position: relative;
@@ -149,7 +212,7 @@
 	}
 
 	.gallery-container {
-		margin-left: 150px;
+		margin-left: 250px;
 
 		.year-item {
 			min-height: 200px;

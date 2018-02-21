@@ -2,6 +2,7 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 import Masonry  from 'react-masonry-component';
+import * as scale from 'd3-scale';
 
 import ImageList from './ImageList';
 
@@ -16,25 +17,76 @@ export default class Timeline extends React.Component {
 		window.timeline = this;
 
 		this.yearLabelClickHandler = this.yearLabelClickHandler.bind(this);
+		this.yearLabelMouseOverHander = this.yearLabelMouseOverHander.bind(this);
+
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 
 		this.waitForScrollCheck = false;
 
 		this.state = {
 			data: [],
+			detailYears: [],
 			selectedYear: 0,
-			timelineVisible: false
+			hoveredYear: 0,
+			timelineVisible: true,
+			fixedTimeline: false
 		};
 	}
 
 	yearLabelClickHandler(event) {
-		var year = event.currentTarget.dataset.year;
+		var year = event.target.dataset.year || event.currentTarget.dataset.year;
+		console.log(event.target);
+
+		console.log(year);
 
 		this.setState({
 			selectedYear: year
 		});
 
 		document.getElementsByClassName('year-'+year)[0].scrollIntoView();
+	}
+
+	yearLabelMouseOverHander(event) {
+		var year = event.currentTarget.dataset.year;
+
+		var itemIndex = _.findIndex(this.state.data, function(item) {
+			return item.year == year;
+		});
+
+		var hoveredYear;
+
+		if (year % 10 == 0 || year == this.state.data[0].year) {
+			hoveredYear = year;
+		}
+		else {
+			var nextDecade;
+
+			for (var i = itemIndex; i >= 0; i--) {
+				if ((this.state.data[i].year % 10 == 0 || i == 0) && !nextDecade) {
+					nextDecade = this.state.data[i].year;
+				}
+			}
+
+			hoveredYear = nextDecade;
+		}
+
+		console.log('hoveredYear: '+hoveredYear);
+
+		var gotAll = false;
+		var nextYears = _.filter(this.state.data, function(item) {
+			if (item.year > hoveredYear && item.year % 10 == 0) {
+				gotAll = true;
+			}
+
+			return item.year >= hoveredYear && !gotAll;
+		});
+
+		console.log(nextYears);
+
+		this.setState({
+			detailYears: nextYears,
+			hoveredYear: hoveredYear
+		});
 	}
 
 	componentDidMount() {
@@ -44,7 +96,9 @@ export default class Timeline extends React.Component {
 
 		this.scrollCheckInterval = setInterval(this.checkScroll.bind(this), 500);
 
-		this.handleProps(this.props);
+		this.handleProps(this.props, true);
+
+		this.positionTimeline();
 	}
 
 	componentWillUnmount() {
@@ -71,6 +125,17 @@ export default class Timeline extends React.Component {
 		this.scrollChanged = true;
 	}
 
+	positionTimeline() {
+		if (this.refs.container) {
+			var containerTop = this.refs.container.getBoundingClientRect().top;
+			var windowHeight = document.documentElement.clientHeight;
+
+			this.setState({
+				fixedTimeline: containerTop < 0
+			});
+		}
+	}
+
 	checkScroll() {
 		if (!this.scrollChanged) {
 			return;
@@ -94,10 +159,8 @@ export default class Timeline extends React.Component {
 				this.waitForScrollCheck = false;
 			}.bind(this), 1000);
 
-			this.setState({
-				timelineVisible: this.isInViewport(this.refs.galleryContainer, true, (window.innerHeight/2))
-			});
-
+			this.positionTimeline();
+	
 			this.scrollChanged = false;
 		}
 	}
@@ -106,7 +169,7 @@ export default class Timeline extends React.Component {
 		this.handleProps(props);
 	}
 
-	handleProps(props) {
+	handleProps(props, force) {
 		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.data.length == 0) {
 			this.waitingForLoad = true;
 
@@ -121,7 +184,7 @@ export default class Timeline extends React.Component {
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
 
-			this.props.searchSaturation != props.searchSaturation
+			this.props.searchSaturation != props.searchSaturation || force
 		) {
 			this.waitingForLoad = true;
 
@@ -141,8 +204,8 @@ export default class Timeline extends React.Component {
 				saturation: props.searchSaturation
 			});
 
-			var windowScroll = new WindowScroll();
-			windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.galleryContainer)-250, 1000, 'easeInOutSine');
+//			var windowScroll = new WindowScroll();
+//			windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.galleryContainer)-250, 1000, 'easeInOutSine');
 		}
 	}
 
@@ -188,6 +251,7 @@ export default class Timeline extends React.Component {
 					data: json
 				}, function() {
 					this.forceUpdate();
+					console.log('forcing an update');
 				}.bind(this));
 			}.bind(this)).catch(function(ex) {
 				console.log('parsing failed', ex)
@@ -214,8 +278,8 @@ export default class Timeline extends React.Component {
 				<br/>
 
 				<ImageList title={'Daterade dokument från '+item.year} year={item.year} 
-					listType="date-labels"
 					archiveMaterial="only"
+					showDates={true}
 					lazyLoad={true}
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
@@ -232,8 +296,19 @@ export default class Timeline extends React.Component {
 			</div>;
 		}.bind(this));
 
-		return <div className="timeline-view">
-			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')}>
+		var detailYearsMin = _.min(this.state.detailYears, function(item) {
+			return item.doc_count;
+		}).doc_count;
+
+		var detailYearsMax = _.max(this.state.detailYears, function(item) {
+			return item.doc_count;
+		}).doc_count;
+
+		var fontSize = scale.scaleLinear().domain([detailYearsMin, detailYearsMax]);
+
+		return <div className="timeline-view" ref="container">
+			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')}>
+
 				{
 					this.state.data.map(function(item, index) {
 						var docPoints = [];
@@ -244,19 +319,34 @@ export default class Timeline extends React.Component {
 
 						return <a key={item.year}
 							data-year={item.year}
-							onClick={this.yearLabelClickHandler}
-							className={'year-item'+(item.year == this.state.selectedYear ? ' selected' : '')+(item.year % 10 != 0 && index > 0 ? ' dot-item' : '')}>
+							onClick={this.yearLabelClickHandler} 
+							onMouseOver={this.yearLabelMouseOverHander}
+							className={'year-item'+(item.year == this.state.selectedYear && _.findIndex(this.state.detailYears, function(detailYear) { return detailYear.year == item.year}) == -1 ? ' selected' : '')+(item.year % 10 != 0 && index > 0 ? ' dot-item' : '')}
+						>
 							<span className={'year-label'}>
 								<span>{item.year}</span>
 							</span>
-							{<span className="doc-points">
-								{
-									docPoints
-								}
-							</span>}
+
+							{
+								this.state.hoveredYear == item.year &&
+								<div className="detail-years">
+									{
+										this.state.detailYears.map(function(detailItem, index) {
+											return <span data-year={detailItem.year} 
+												onClick={this.yearLabelClickHandler} 
+												className={'detail-item'+(detailItem.year == this.state.selectedYear ? ' selected' : '')} 
+												style={{fontSize: (fontSize(detailItem.doc_count)*10)+10}} 
+												key={detailItem.year}
+											>{detailItem.year}</span>
+										}.bind(this))
+									}
+								</div>
+							}
+
 						</a>;
 					}.bind(this))
 				}
+
 			</div>
 
 			<div className="gallery-container" ref="galleryContainer">

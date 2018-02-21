@@ -123,7 +123,7 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (!this.props.lazyLoad || this.isInViewport(this.refs.container)) {
+		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container) && this.state.images.length > 0)) {
 			this.handleProps(props);
 		}
 	}
@@ -243,6 +243,7 @@ export default class ImageList extends React.Component {
 			}
 			else {
 				return <ImageListItem
+					showDates={this.props.showDates}
 					key={image.id}
 					image={image}
 					index={index}
@@ -278,8 +279,10 @@ export default class ImageList extends React.Component {
 			</Masonry>
 		}
 		else if (this.props.listType == 'simple') {
-			console.log('simple list')
-			listElement = <div className="simple-list">{items}</div>
+			listElement = <div className="simple-list">
+				{items}
+				<div className="u-cf" />
+			</div>;
 		}
 		else {
 			listElement = <Masonry

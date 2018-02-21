@@ -4,6 +4,8 @@ import _ from 'underscore';
 
 import config from './../config';
 
+import colorUtil from './../utils/colorUtil';
+
 export default class DateLabelListItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -54,7 +56,9 @@ export default class DateLabelListItem extends React.Component {
 			itemLabel = this.state.image.type+'<div class="smaller">'+date+'</div>';
 		}
 
-		return <a className="label-grid-item" key={this.state.image.id} href={'#image/'+this.state.image.id} style={{backgroundColor: this.state.image.images && this.state.image.images.length > 0 && this.state.image.images[0].color ? (this.state.relativeSize ? this.state.image.images[0].color.dominant.hex+'33' : this.state.image.images[0].color.dominant.hex) : '#333'}} >
+		var dominantColor = this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#333';
+
+		return <a className="label-grid-item" key={this.state.image.id} href={'#image/'+this.state.image.id} style={{backgroundColor: this.state.relativeSize ? dominantColor+'33' : dominantColor}} >
 			<div className="image-wrapper">
 				<div className={'image-proxy'+(this.state.relativeSize ? ' visible' : '')} style={this.getImageStyle()} />
 				<img ref="imageElement" style={{transitionDelay: (this.state.index/80)+'s'}}

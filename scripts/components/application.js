@@ -104,12 +104,12 @@ export default class Application extends React.Component {
 
 		var galleryTypes = [
 			{
-				type: 'gallery',
-				menuItem: 'Galleri'
-			},
-			{
 				type: 'timeline',
 				menuItem: 'Tidslinje'
+			},
+			{
+				type: 'gallery',
+				menuItem: 'Galleri'
 			},
 			{
 				type: 'simple-list',

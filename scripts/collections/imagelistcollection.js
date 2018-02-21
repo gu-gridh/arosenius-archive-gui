@@ -28,8 +28,10 @@ export default class ImageListCollection {
 //			console.log('JSON.stringify(previousParams) == JSON.stringify(params) : '+(JSON.stringify(previousParams) == JSON.stringify(params)));
 		}
 
+
 //		if ((JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) || append) {
-		if (!this.loading) {
+
+		if (!this.loading || JSON.stringify(previousParams) != JSON.stringify(params)) {
 			this.loading = true;
 
 			var fetchParams = [];
@@ -90,10 +92,12 @@ export default class ImageListCollection {
 
 			fetch(url)
 				.then(function(response) {
-					return response.json();
-				}).then(function(json) {
+					if (decodeURI(response.url) == this.lastUrl) {
+						return response.json();
+					}
+				}.bind(this)).then(function(json) {
 					this.loading = false;
-					if (this.onComplete) {
+					if (this.onComplete && json) {
 						this.onComplete({
 							append: append,
 							data: json

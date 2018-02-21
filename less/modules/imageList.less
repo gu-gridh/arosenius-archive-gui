@@ -337,6 +337,12 @@
 				.transform(translateY(80%));
 
 				.transition(all 300ms ease-out);
+
+				.smaller {
+					margin-bottom: 10px;
+					
+					font-size: 1.4rem;
+				}
 			}
 
 			&:hover {
@@ -439,10 +445,28 @@
 			left: 200px;
 			right: 0;
 
+			height: 150px;
+
 			font-size: 1.8rem;
 
 			.title {
-				font-size: 2.4rem;
+				font-size: 2.2rem;
+		      line-height: 2.4rem;
+		      margin-top: -4px;
+
+				.year {
+					margin-top: 8px;
+
+					font-size: 1.4rem;
+				}
+			}
+
+			.item-meta {
+				position: absolute;
+
+				bottom: 0;
+
+				font-size: 1.4rem;
 			}
 
 			.item-id {

@@ -7,6 +7,7 @@ import _ from 'underscore';
 import ImageMap from './ImageMap';
 
 import imageSizes from './../utils/imageSizes';
+import colorUtil from './../utils/colorUtil';
 
 import config from './../config';
 
@@ -196,53 +197,6 @@ export default class ImageDisplay extends React.Component {
 		return imgObj;
 	}
 
-	_getImageStyle(rearImage) {
-		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
-
-		var imgObj = this.getImageObj(rearImage);
-
-		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-		var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-		var ratio = 0;
-
-		var imageWidth = imgObj.imagesize.width;
-		var imageHeight = imgObj.imagesize.height;
-
-		if (this.state.fullDisplay) {
-			var calcViewWidth = viewWidth;
-			var calcImageWidth = imageWidth;
-			var calcImageHeight = imageHeight;
-
-			ratio = calcViewWidth / calcImageWidth;
-			imageWidth = calcViewWidth;
-			imageHeight = calcImageHeight * ratio;
-		}
-		else {
-			if (imageWidth > viewWidth){
-				ratio = viewWidth / imageWidth;
-				imageWidth = viewWidth;
-				imageHeight = imageHeight * ratio;
-			}
-
-			if (imageHeight > viewHeight){
-				ratio = viewHeight / imageHeight;
-				imageHeight = viewHeight;
-				imageWidth = imageWidth * ratio;
-			}
-		}
-
-		var imageStyle = {
-			backgroundColor: imgObj.color && imgObj.color.dominant ? imgObj.color.dominant.hex : '#191919',
-			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : null,
-
-			width: imageWidth,
-			height: imageHeight
-		};
-
-		return imageStyle;
-	}
-
 	getImageStyle(rearImage) {
 		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
 
@@ -279,8 +233,10 @@ export default class ImageDisplay extends React.Component {
 			}
 		}
 
+		var dominantColor = this.state.image.images && this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#191919';
+
 		var imageStyle = {
-			backgroundColor: imgObj.color && imgObj.color.dominant ? imgObj.color.dominant.hex : '#191919',
+			backgroundColor: dominantColor,
 			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : "url('"+this.state.lowresImageUrl+"')",
 //			opacity: !this.state.imageUrl && this.state.lowresImageUrl ? 0.2 : 1,
 			width: imageWidth,
@@ -297,12 +253,14 @@ export default class ImageDisplay extends React.Component {
 				rearImageEl = <div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(true)}></div>;
 			}
 
+			var dominantColor = this.getImageObj().googleVisionColors ? colorUtil.getDominantHex(this.getImageObj().googleVisionColors) : 'transparent';
+
 			return <div ref="imageContainer" className={'image-container'+(this.state.enlargedDisplay ? ' enlarged-display' : '')+(this.state.flippable ? ' flippable' : '')+(this.state.flipped ? ' flipped' : '')+(this.state.imageUrl && this.state.imageUrl != '' ? ' initialized' : '')}>
 
 				<div className="image-wrapper" style={{transform: 'rotate('+this.state.rotation+'deg)'}}>
 
 					<div className="image-display" onClick={this.imageDisplayClickHandler} style={this.getImageStyle()}>
-						<div className="loader" style={{backgroundColor: this.getImageObj().color && this.getImageObj().color.dominant ? this.getImageObj().color.dominant.hex : 'transparent'}}></div>
+						<div className="loader" style={{backgroundColor: dominantColor}}></div>
 					</div>
 
 					{rearImageEl}

@@ -2,6 +2,8 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 
+import colorUtil from './../utils/colorUtil';
+
 import config from './../config';
 
 export default class ImageListItem extends React.Component {
@@ -64,7 +66,9 @@ export default class ImageListItem extends React.Component {
 	render() {
 		var proxyImageStyle = this.getProxyImageStyle();
 
-		return <a style={{backgroundColor: this.state.image.images && this.state.image.images.length > 0 && this.state.image.images[0].color ? (this.state.relativeSize ? this.state.image.images[0].color.dominant.hex+'33' : this.state.image.images[0].color.dominant.hex) : '#333'}} 
+		var dominantColor = this.state.image.images && this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#191919';
+
+		return <a style={{backgroundColor: dominantColor}} 
 			className="grid-item" 
 			key={this.state.image.id} 
 			href={'#image/'+this.state.image.id}
@@ -76,7 +80,13 @@ export default class ImageListItem extends React.Component {
 					style={{transitionDelay: (this.state.index/80)+'s'}} 
 					src={config.imageUrl+'255x/'+(this.state.image.images && this.state.image.images.length > 0 ? this.state.image.images[0].image : this.state.image.image ? this.state.image.image : '')+'.jpg'} />
 			</div>
-			<div className="grid-title">{this.state.image.title}</div>
+			<div className="grid-title">
+				{this.state.image.title}
+				{
+					this.props.showDates &&
+					<div className="smaller">{this.state.image.item_date_string}</div>
+				}
+			</div>
 		</a>;
 	}
 }
