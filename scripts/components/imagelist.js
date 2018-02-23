@@ -166,16 +166,21 @@ export default class ImageList extends React.Component {
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
-			this.setState({
-				loading: true
-			});
-
 			var params;
+
+			var state = {
+				loading: true
+			};
+
 			if (props.listType == 'simple' && this.props.listType != props.listType) {
 				params = {
 					sort: 'insert_id'
 				};
+
+				state.images = [];
 			}
+
+			this.setState(state);
 
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 		}
@@ -195,10 +200,6 @@ export default class ImageList extends React.Component {
 		) {
 			this.waitingForLoad = true;
 
-			this.setState({
-				loading: true
-			});
-
 			var params = {
 				searchString: props.searchString,
 				person: props.searchPerson,
@@ -212,11 +213,21 @@ export default class ImageList extends React.Component {
 				year: props.year
 			};
 
-			if (props.listType == 'simple' && this.props.listType != props.listType) {
-				params = {
-					sort: 'insert_id'
-				};
+			var state = {
+				loading: true
+			};
+
+			if (this.props.listType != props.listType) {
+				if (props.listType == 'simple') {
+					params = {
+						sort: 'insert_id'
+					};
+				}
+
+				state.images = [];
 			}
+
+			this.setState(state);
 
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 
@@ -225,10 +236,13 @@ export default class ImageList extends React.Component {
 				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
-		else if (props.listType == 'simple' && this.props.listType != props.listType) {
-			this.fetchData({
-				sort: 'insert_id'
-			}, props.count, 1, false, props.archiveMaterial || null);
+		else if (this.props.listType != props.listType) {
+			var params = {};
+
+			if (props.listType == 'simple') {
+				params.sort = 'insert_id';
+			}
+			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 		}
 	}
 
