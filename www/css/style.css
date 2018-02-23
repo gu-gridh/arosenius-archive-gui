@@ -3817,6 +3817,7 @@ stretchRight
 }
 .image-list {
   position: relative;
+  font-weight: 200;
 }
 .image-list .loading-overlay {
   position: absolute;
@@ -4137,18 +4138,19 @@ stretchRight
   font-size: 1.8rem;
 }
 .simple-list .simple-item .item-info .title {
+  margin-top: -6px;
   font-size: 2.2rem;
-  line-height: 2.4rem;
-  margin-top: -4px;
+  line-height: 2.9rem;
 }
 .simple-list .simple-item .item-info .title .year {
-  margin-top: 8px;
+  margin-top: -4px;
   font-size: 1.4rem;
 }
 .simple-list .simple-item .item-info .item-meta {
   position: absolute;
   bottom: 0;
   font-size: 1.4rem;
+  line-height: 1.9rem;
 }
 .simple-list .simple-item .item-info .item-id {
   font-size: 1.4rem;

@@ -166,6 +166,10 @@ export default class ImageList extends React.Component {
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
+			this.setState({
+				loading: true
+			});
+
 			var params;
 			if (props.listType == 'simple' && this.props.listType != props.listType) {
 				params = {
