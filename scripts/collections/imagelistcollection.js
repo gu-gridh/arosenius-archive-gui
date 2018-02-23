@@ -15,21 +15,18 @@ export default class ImageListCollection {
 	}
 
 	fetch(params, count, page, append, archiveMaterial) {
+		console.log(params);
+
 		page = page || 1;
 
 		this.currentPage = page;
 
 		params = params || {};
 
-		var previousParams = this.currentParams;
+		var previousParams = JSON.parse(JSON.stringify(this.currentParams || {}));
 		this.currentParams = params;
 
-		if (!((this.url && !this.loading) || append)) {
-//			console.log('JSON.stringify(previousParams) == JSON.stringify(params) : '+(JSON.stringify(previousParams) == JSON.stringify(params)));
-		}
-
-
-//		if ((JSON.stringify(previousParams) != JSON.stringify(params) && this.url && !this.loading) || append) {
+		console.log(previousParams);
 
 		if (!this.loading || JSON.stringify(previousParams) != JSON.stringify(params)) {
 			this.loading = true;
@@ -64,6 +61,9 @@ export default class ImageListCollection {
 			}
 			if (params.year) {
 				fetchParams.push('year='+params.year);
+			}
+			if (params.sort) {
+				fetchParams.push('sort='+params.sort);
 			}
 			if (count) {
 				fetchParams.push('count='+count);

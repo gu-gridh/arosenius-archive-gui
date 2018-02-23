@@ -252,7 +252,7 @@ export default class Timeline extends React.Component {
 				}, function() {
 					this.forceUpdate();
 					console.log('forcing an update');
-				}.bind(this));
+					}.bind(this));
 			}.bind(this)).catch(function(ex) {
 				console.log('parsing failed', ex)
 			})

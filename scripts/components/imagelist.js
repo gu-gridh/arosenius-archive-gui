@@ -128,30 +128,37 @@ export default class ImageList extends React.Component {
 		}
 	}
 
+	fetchData(params, count, page, append, archiveMaterial) {
+		this.collection.fetch(params, count, page, append, archiveMaterial)
+	}
+
 	handleProps(props) {
+		console.log(props);
+		console.log(this.props);
+
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
-				this.collection.fetch({
+				this.fetchData({
 					person: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'place') {
-				this.collection.fetch({
+				this.fetchData({
 					place: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'museum') {
-				this.collection.fetch({
+				this.fetchData({
 					museum: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'genre') {
-				this.collection.fetch({
+				this.fetchData({
 					genre: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 			if (props.related == 'tag') {
-				this.collection.fetch({
+				this.fetchData({
 					tags: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
@@ -159,7 +166,14 @@ export default class ImageList extends React.Component {
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
-			this.collection.fetch(null, props.count, 1, false, props.archiveMaterial || null);
+			var params;
+			if (props.listType == 'simple' && this.props.listType != props.listType) {
+				params = {
+					sort: 'insert_id'
+				};
+			}
+
+			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 		}
 		else if (this.props.searchString != props.searchString ||
 			this.props.searchPerson != props.searchPerson ||
@@ -181,7 +195,7 @@ export default class ImageList extends React.Component {
 				loading: true
 			});
 
-			this.collection.fetch({
+			var params = {
 				searchString: props.searchString,
 				person: props.searchPerson,
 				place: props.searchPlace,
@@ -192,12 +206,25 @@ export default class ImageList extends React.Component {
 				hue: props.searchHue,
 				saturation: props.searchSaturation,
 				year: props.year
-			}, props.count, 1, false, props.archiveMaterial || null);
+			};
+
+			if (props.listType == 'simple' && this.props.listType != props.listType) {
+				params = {
+					sort: 'insert_id'
+				};
+			}
+
+			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 
 			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) && !this.props.lazyLoad) {
 				var windowScroll = new WindowScroll();
 				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
+		}
+		else if (props.listType == 'simple' && this.props.listType != props.listType) {
+			this.fetchData({
+				sort: 'insert_id'
+			}, props.count, 1, false, props.archiveMaterial || null);
 		}
 	}
 
@@ -205,7 +232,7 @@ export default class ImageList extends React.Component {
 		if (!this.waitingForLoad) {
 			this.waitingForLoad = true;
 
-			this.collection.fetch({
+			var params = {
 				searchString: this.props.searchString,
 				person: this.props.searchPerson,
 				place: this.props.searchPlace,
@@ -215,7 +242,13 @@ export default class ImageList extends React.Component {
 				type: this.props.searchType,
 				hue: this.props.searchHue,
 				saturation: this.props.searchSaturation
-			}, this.props.count, this.collection.currentPage+1, true);
+			};
+
+			if (this.props.listType == 'simple') {
+				params.sort = 'insert_id';
+			}
+
+			this.fetchData(params, this.props.count, this.collection.currentPage+1, true);
 		}
 	}
 
@@ -257,7 +290,6 @@ export default class ImageList extends React.Component {
 		if (items.length == 0) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
 		}
-//		else if (this.props.listType != 'date-labels') {
 		else {
 			items.push(<div key="grid-sizer" className="grid-sizer"/>);
 		}
