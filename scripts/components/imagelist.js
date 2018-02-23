@@ -123,7 +123,7 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container) && this.state.images.length > 0)) {
+		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container))) {
 			this.handleProps(props);
 		}
 	}
@@ -133,9 +133,6 @@ export default class ImageList extends React.Component {
 	}
 
 	handleProps(props) {
-		console.log(props);
-		console.log(this.props);
-
 		if (props.related && props.relatedValue) {
 			if (props.related == 'person') {
 				this.fetchData({

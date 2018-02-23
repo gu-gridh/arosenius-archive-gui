@@ -15,8 +15,6 @@ export default class ImageListCollection {
 	}
 
 	fetch(params, count, page, append, archiveMaterial) {
-		console.log(params);
-
 		page = page || 1;
 
 		this.currentPage = page;
@@ -25,8 +23,6 @@ export default class ImageListCollection {
 
 		var previousParams = JSON.parse(JSON.stringify(this.currentParams || {}));
 		this.currentParams = params;
-
-		console.log(previousParams);
 
 		if (!this.loading || JSON.stringify(previousParams) != JSON.stringify(params)) {
 			this.loading = true;

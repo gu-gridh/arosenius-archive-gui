@@ -35,9 +35,6 @@ export default class Timeline extends React.Component {
 
 	yearLabelClickHandler(event) {
 		var year = event.target.dataset.year || event.currentTarget.dataset.year;
-		console.log(event.target);
-
-		console.log(year);
 
 		this.setState({
 			selectedYear: year
@@ -70,8 +67,6 @@ export default class Timeline extends React.Component {
 			hoveredYear = nextDecade;
 		}
 
-		console.log('hoveredYear: '+hoveredYear);
-
 		var gotAll = false;
 		var nextYears = _.filter(this.state.data, function(item) {
 			if (item.year > hoveredYear && item.year % 10 == 0) {
@@ -80,8 +75,6 @@ export default class Timeline extends React.Component {
 
 			return item.year >= hoveredYear && !gotAll;
 		});
-
-		console.log(nextYears);
 
 		this.setState({
 			detailYears: nextYears,
