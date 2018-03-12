@@ -1,5 +1,5 @@
 export default {
-//	apiUrl: 'http://localhost:3000/',
+//	apiUrl: 'http://localhost:3010/',
 	apiUrl: 'http://cdh-vir-1.it.gu.se:8004/',
 	imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/',
 //	imageUrl: 'img/bg-3.jpg?',
@@ -15,6 +15,8 @@ export default {
 		genres: 'genres',
 		museums: 'museums',
 		types: 'types',
-		year_range: 'year_range'
+		year_range: 'year_range',
+
+		colormap: 'colormap'
 	}
 };

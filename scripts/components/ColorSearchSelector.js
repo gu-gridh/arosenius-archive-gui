@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 var d3 = require('d3');
 var chroma = require('chroma-js');
 
+import config from './../config';
+
 export default class ColorSearchSelector
  extends React.Component {
 	constructor(props) {
@@ -89,26 +91,8 @@ export default class ColorSearchSelector
 					})
 					.attr('opacity', 1)
 					.attr('fill', function(d) {
-						return chroma(view.baseData[hue].hue, (d/100), 0.2+(d/100), 'hsv').hex();
+						return chroma(view.baseData[hue].hue, (d/100), 0.2+(d/100), 'hsv').darken(1.1).hex();
 					})
-/*
-					.append('circle')
-					.attr('cy', function(d) {
-						return view.yRange(d)
-					})
-					.attr('cx', function(d) {
-						if (!view.circularGraph) {
-							return view.xRange(view.baseData[hue].hue)
-						}
-					})
-					.attr('r', function(d) {
-						return ((view.state.graphWidth/view.baseData.length)/4)*3;
-					})
-					.attr('opacity', 0.8)
-					.attr('fill', function(d) {
-						return chroma(view.baseData[hue].hue, (d/100), 0.4+(d/100), 'hsv').hex();
-					})
-*/
 					.on('click', function(event) {
 						if (view.props.onColorSelect) {
 							view.props.onColorSelect({
@@ -149,9 +133,9 @@ export default class ColorSearchSelector
 					.attr('cy', function(d) {
 						return view.yRange(d)
 					})
-					.attr('r', 1.5)
+					.attr('r', 2)
 					.attr('fill', function(d) {
-						return chroma(colormap[hue].hue, (d/100), 0.6+(d/100), 'hsv').saturate(2.5).darken(2.5).hex();
+						return chroma(colormap[hue].hue, (d/100), 0.6+(d/100), 'hsv').saturate(2.5).hex();
 					})
 					.attr('style', 'cursor: pointer')
 //					.attr('stroke', 'rgba(0, 0, 0, 0.5)')
@@ -169,7 +153,7 @@ export default class ColorSearchSelector
 	}
 
 	fetchColormap() {
-		fetch('http://cdh-vir-1.it.gu.se:8004/colormap')
+		fetch(config.apiUrl+config.endpoints.colormap+'?type=Konstverk')
 				.then(function(response) {
 					return response.json();
 				}).then(function(json) {
@@ -198,11 +182,14 @@ export default class ColorSearchSelector
 	}
 
 	render() {
-
-//		this.$el.find('svg.graph-container').attr('width', this.graphWidth+this.graphMargins);
-//		this.$el.find('svg.graph-container').attr('height', this.graphHeight+this.graphMargins);
 		return <div className={'fade-in-component'+(this.state.initialized ? ' initialized' : '')} style={{boxSizing: 'border-box', height: 200, backgroundColor: '#333'}}>
-			<svg ref="graphContainer" width={this.state.graphWidth+this.state.graphMargins} height={this.state.graphHeight+this.state.graphMargins}></svg>
+			<svg ref="graphContainer" width={this.state.graphWidth+this.state.graphMargins} height={this.state.graphHeight+this.state.graphMargins}>
+				<defs>
+					<filter id="blur">
+						<feGaussianBlur stdDeviation="2" />
+					</filter>
+				</defs>
+			</svg>
 		</div>;
 	}
 }

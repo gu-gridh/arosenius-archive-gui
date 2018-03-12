@@ -162,6 +162,7 @@ export default class ImageList extends React.Component {
 		}
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
+			console.log('condition 1')
 
 			var params;
 
@@ -169,7 +170,7 @@ export default class ImageList extends React.Component {
 				loading: true
 			};
 
-			if (props.listType == 'simple' && this.props.listType != props.listType) {
+			if (props.listType == 'simple') {
 				params = {
 					sort: 'insert_id'
 				};
@@ -190,11 +191,13 @@ export default class ImageList extends React.Component {
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
 			this.props.year != props.year ||
+			this.props.google_label != props.google_label ||
 
 			this.props.searchSaturation != props.searchSaturation ||
 
 			this.state.images.length == 0
 		) {
+			console.log('condition 2')
 			this.waitingForLoad = true;
 
 			var params = {
@@ -207,7 +210,8 @@ export default class ImageList extends React.Component {
 				type: props.searchType,
 				hue: props.searchHue,
 				saturation: props.searchSaturation,
-				year: props.year
+				year: props.year,
+				google_label: props.google_label
 			};
 
 			var state = {
@@ -228,12 +232,13 @@ export default class ImageList extends React.Component {
 
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 
-			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) && !this.props.lazyLoad) {
+			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) && !this.props.lazyLoad && !this.props.disableScrolling) {
 				var windowScroll = new WindowScroll();
 				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
 		}
 		else if (this.props.listType != props.listType) {
+			console.log('condition 3')
 			var params = {};
 
 			if (props.listType == 'simple') {

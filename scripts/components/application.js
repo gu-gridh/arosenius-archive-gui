@@ -77,7 +77,7 @@ export default class Application extends React.Component {
 				searchSaturation={this.state.searchParams.saturation} />;
 		}
 		else if (this.state.galleryType == 'simple-list') {
-			galleryElement = <ImageList count="50" enableAutoLoad="true" listType="simple"
+			galleryElement = <div><ImageList count="50" enableAutoLoad="true" listType="simple"
 				searchString={this.state.searchParams.search}
 				searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person}
 				searchPlace={this.state.searchParams.place}
@@ -86,7 +86,7 @@ export default class Application extends React.Component {
 				searchTags={this.state.searchParams.tags}
 				searchType={this.state.searchParams.type}
 				searchHue={this.state.searchParams.hue}
-				searchSaturation={this.state.searchParams.saturation} />;
+				searchSaturation={this.state.searchParams.saturation} /></div>;
 		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"

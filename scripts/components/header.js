@@ -42,7 +42,7 @@ export default class Header extends React.Component {
 
 	render() {
 		return (
-			<header className={"site-header"+(this.props.routerPath.indexOf('/image/') > -1 || this.state.smallHeader ? ' small ' : '')+(this.state.initialized ? ' initialized' : '')}>
+			<header className={"site-header"+(this.props.routerPath.indexOf('/image/') > -1 || this.state.smallHeader || this.props.smallHeader ? ' small ' : '')+(this.state.initialized ? ' initialized' : '')}>
 				<div className="site-logo"><a href="#/">IA</a></div>
 
 				<div className="header-content">

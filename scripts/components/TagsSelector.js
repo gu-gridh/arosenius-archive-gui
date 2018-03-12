@@ -49,7 +49,7 @@ export default class TagsSelector extends React.Component {
 	}
 
 	fetchData() {
-		var url = config.apiUrl+this.props.endpoint;
+		var url = config.apiUrl+this.props.endpoint+'?sort=doc_count';
 
 		fetch(url)
 			.then(function(response) {

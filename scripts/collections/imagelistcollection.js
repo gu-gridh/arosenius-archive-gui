@@ -58,6 +58,9 @@ export default class ImageListCollection {
 			if (params.year) {
 				fetchParams.push('year='+params.year);
 			}
+			if (params.google_label) {
+				fetchParams.push('google_label='+params.google_label);
+			}
 			if (params.sort) {
 				fetchParams.push('sort='+params.sort);
 			}
@@ -66,7 +69,7 @@ export default class ImageListCollection {
 			}
 
 			if (params.hue || params.saturation) {
-				fetchParams.push('archivematerial=exclude');
+				fetchParams.push('type=Konstverk');
 			}
 			else if (archiveMaterial) {
 				fetchParams.push('archivematerial='+archiveMaterial);
