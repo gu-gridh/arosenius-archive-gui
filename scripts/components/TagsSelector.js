@@ -87,14 +87,14 @@ export default class TagsSelector extends React.Component {
 
 	render() {
 		
-		var buttons = this.state.data.length > 0 ? this.state.data.map(function(item, index) {
-			if (item.value && item.value != '') {
-				return <a key={item.value} 
-					className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} 
-					data-value={item.value} 
-					onClick={this.itemClickHandler}
-				>{item.value}</a>
-			}
+		var buttons = this.state.data.length > 0 ? _.filter(this.state.data, function(item) {
+			return item.value && item.value != '';
+		}).map(function(item, index) {
+			return <a key={item.value} 
+				className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} 
+				data-value={item.value} 
+				onClick={this.itemClickHandler}
+			>{item.value}</a>
 		}.bind(this)) : [];
 
 		if (this.props.expandable) {
@@ -105,9 +105,15 @@ export default class TagsSelector extends React.Component {
 			});
 		}
 
+		console.log(visibleContent);
+
 		return (
 			<div className={'tag-selector button-list'+(this.state.initialized ? ' initialized' : '')}>
-				{visibleContent ? visibleContent : buttons}
+
+				{
+					visibleContent ? visibleContent : buttons
+				}
+
 				{
 					visibleContent && buttons.length > 0 &&
 					<DropdownMenu ref="dropdown" 

@@ -123,7 +123,7 @@ export default class ImageList extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container))) {
+		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container)) || (!this.isInViewport(this.refs.container) && this.props.forceUpdate && this.state.initialized)) {
 			this.handleProps(props);
 		}
 	}

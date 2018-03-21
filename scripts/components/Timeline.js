@@ -258,6 +258,7 @@ export default class Timeline extends React.Component {
 				<h3>{item.year}</h3>
 				<ImageList year={item.year} archiveMaterial="exclude" 
 					lazyLoad={true}
+					forceUpdate={true}
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
 					searchPlace={this.props.searchPlace}
@@ -274,6 +275,7 @@ export default class Timeline extends React.Component {
 					archiveMaterial="only"
 					showDates={true}
 					lazyLoad={true}
+					forceUpdate={true}
 					searchString={this.props.searchString}
 					searchPerson={this.props.searchPerson}
 					searchPlace={this.props.searchPlace}

@@ -143,10 +143,6 @@ export default class MultiTagsSelector extends React.Component {
 			<div className={'fade-in-component multitags-selector'+(this.state.initialized ? ' initialized' : '')}>
 
 				{
-					selectedTagsButtons.length > 0 &&
-					<div className="selected-tags">{selectedTagsButtons}</div>
-				}
-				{
 					this.state.version == 1 &&
 					<Masonry ref="masonry" className={'tags-grid'} options={{columnWidth: '.grid-sizer', percentPosition: true}} >
 
@@ -343,7 +339,7 @@ export default class MultiTagsSelector extends React.Component {
 								dropdownHeaderText="Samlingar" 
 								dropdownButtonLabel="Fler"
 								expandable={false} 
-								limit={3} 
+								limit={5} 
 								searchParam="museum" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.museums}
@@ -380,6 +376,8 @@ export default class MultiTagsSelector extends React.Component {
 								onLoad={this.tagListLoadHandler} />
 						</div>
 
+						<div className="u-cf divider-1" />
+
 						<div className="tags-container">
 							<h3>Personer</h3>
 							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
@@ -394,7 +392,7 @@ export default class MultiTagsSelector extends React.Component {
 								onLoad={this.tagListLoadHandler} />
 						</div>
 
-						<div className="u-cf divider-1" />
+						<div className="u-cf divider-2" />
 
 						<div className="tags-container">
 							<h3>Platser</h3>
