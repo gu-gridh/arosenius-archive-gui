@@ -17,6 +17,7 @@ export default class Timeline extends React.Component {
 		window.timeline = this;
 
 		this.yearLabelClickHandler = this.yearLabelClickHandler.bind(this);
+		this.yearSelectChangeHandler = this.yearSelectChangeHandler.bind(this);
 		this.yearLabelMouseOverHander = this.yearLabelMouseOverHander.bind(this);
 
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
@@ -36,6 +37,18 @@ export default class Timeline extends React.Component {
 	yearLabelClickHandler(event) {
 		var year = event.target.dataset.year || event.currentTarget.dataset.year;
 
+		this.selectYear(year);
+	}
+
+	yearSelectChangeHandler(event) {
+		var year = event.target.value;
+
+		console.log(year);
+
+		this.selectYear(year);
+	}
+
+	selectYear(year) {
 		this.setState({
 			selectedYear: year
 		});
@@ -77,21 +90,9 @@ export default class Timeline extends React.Component {
 		});
 
 		this.setState({
-			detailYearVisible: false
+			detailYears: nextYears,
+			hoveredYear: hoveredYear
 		});
-
-		setTimeout(function() {
-			this.setState({
-				detailYears: nextYears,
-				hoveredYear: hoveredYear
-			}, function() {
-				setTimeout(function() {
-					this.setState({
-						detailYearVisible: true
-					});
-				}.bind(this), 200)
-			}.bind(this));
-		}.bind(this), 200);
 	}
 
 	componentDidMount() {
@@ -164,7 +165,7 @@ export default class Timeline extends React.Component {
 				this.waitForScrollCheck = false;
 			}.bind(this), 1000);
 
-			this.positionTimeline();
+			//this.positionTimeline();
 	
 			this.scrollChanged = false;
 		}
@@ -314,6 +315,17 @@ export default class Timeline extends React.Component {
 		var fontSize = scale.scaleLinear().domain([detailYearsMin, detailYearsMax]);
 
 		return <div className="timeline-view" ref="container">
+
+			<div className="timeline-year-select">
+				<select onChange={this.yearSelectChangeHandler}>
+					{
+						this.state.data.map(function(item, index) {
+							return <option key={item.year} value={item.year}>{item.year+' ('+item.doc_count+')'}</option>;
+						})
+					}
+				</select>
+			</div>
+
 			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')}>
 
 				{
@@ -336,7 +348,7 @@ export default class Timeline extends React.Component {
 
 							{
 								this.state.hoveredYear == item.year &&
-								<div className={'detail-years'+(this.state.detailYearVisible ? ' visible' : '')}>
+								<div className={'detail-years'}>
 									{
 										this.state.detailYears.map(function(detailItem, index) {
 											return <span data-year={detailItem.year} 
