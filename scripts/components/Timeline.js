@@ -165,7 +165,7 @@ export default class Timeline extends React.Component {
 				this.waitForScrollCheck = false;
 			}.bind(this), 1000);
 
-			//this.positionTimeline();
+			this.positionTimeline();
 	
 			this.scrollChanged = false;
 		}
@@ -316,7 +316,7 @@ export default class Timeline extends React.Component {
 
 		return <div className="timeline-view" ref="container">
 
-			<div className="timeline-year-select">
+			<div className={'timeline-year-select'+(this.state.fixedTimeline ? ' fixed' : '')}>
 				<select onChange={this.yearSelectChangeHandler}>
 					{
 						this.state.data.map(function(item, index) {
