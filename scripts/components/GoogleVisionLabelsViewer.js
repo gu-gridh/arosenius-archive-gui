@@ -177,6 +177,26 @@ export default class GoogleVisionLabelsViewer extends React.Component {
 							</div>
 						</div>
 
+						{
+							(this.state.selectedType || this.state.selectedLabel || this.state.selectedSecondLabel) &&
+							<hr />
+						}
+
+						{
+							this.state.selectedType &&
+							<div>Typ: {this.state.selectedType}</div>
+						}
+
+						{
+							this.state.selectedLabel &&
+							<div>Google Label: {this.state.selectedLabel}
+							{
+								this.state.selectedSecondLabel &&
+								<span>, {this.state.selectedSecondLabel}</span>
+							}
+							</div>
+						}
+
 						<hr />
 
 						<ImageList disableScrolling={true} searchType={this.state.selectedType} google_label={(this.state.selectedLabel ? this.state.selectedLabel : '')+(this.state.selectedLabel && this.state.selectedSecondLabel ? ';'+this.state.selectedSecondLabel : '')} />

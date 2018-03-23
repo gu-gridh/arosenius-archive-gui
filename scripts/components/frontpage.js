@@ -54,7 +54,7 @@ export default class FrontPage extends React.Component {
 	}
 
 	loadBackgroundImage() {
-		var rand = Math.round(Math.random()*3)+1;
+		var rand = Math.round(Math.random()*2)+1;
 		var imageUrl = 'img/background/bg-'+rand+'.jpg';
 
 		var image = new Image();

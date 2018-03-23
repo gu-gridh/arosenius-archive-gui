@@ -40,6 +40,17 @@
 
 				text-align: left;
 
+				opacity: 0;
+
+				.transition(all 300ms ease-in-out);
+				.transform(translateX(-20px));
+
+				&.visible {
+					opacity: 1;
+
+					.transform(translateX(0));
+				}
+
 				.detail-item {
 					display: block;
 

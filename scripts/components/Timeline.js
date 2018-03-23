@@ -77,9 +77,21 @@ export default class Timeline extends React.Component {
 		});
 
 		this.setState({
-			detailYears: nextYears,
-			hoveredYear: hoveredYear
+			detailYearVisible: false
 		});
+
+		setTimeout(function() {
+			this.setState({
+				detailYears: nextYears,
+				hoveredYear: hoveredYear
+			}, function() {
+				setTimeout(function() {
+					this.setState({
+						detailYearVisible: true
+					});
+				}.bind(this), 200)
+			}.bind(this));
+		}.bind(this), 200);
 	}
 
 	componentDidMount() {
@@ -324,7 +336,7 @@ export default class Timeline extends React.Component {
 
 							{
 								this.state.hoveredYear == item.year &&
-								<div className="detail-years">
+								<div className={'detail-years'+(this.state.detailYearVisible ? ' visible' : '')}>
 									{
 										this.state.detailYears.map(function(detailItem, index) {
 											return <span data-year={detailItem.year} 
