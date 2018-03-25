@@ -254,6 +254,23 @@
 				}
 			}
 		}
+
+		&.flex {
+			display: flex;
+
+			flex-direction: column;
+			justify-content: center;
+
+			&.fixed {
+				bottom: 120px;
+
+				height: auto;
+			}
+
+			.year-item {
+				flex-grow: 1;
+			}
+		}
 	}
 
 	.gallery-container {

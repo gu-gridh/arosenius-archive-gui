@@ -326,7 +326,7 @@ export default class Timeline extends React.Component {
 				</select>
 			</div>
 
-			<div className={'timeline-year-list'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')}>
+			<div className={'timeline-year-list flex'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')}>
 
 				{
 					this.state.data.map(function(item, index) {
