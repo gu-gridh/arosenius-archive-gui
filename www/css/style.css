@@ -4279,7 +4279,7 @@ stretchRight
 }
 @media screen and (max-width: 800px) {
   .timeline-view .timeline-year-list {
-    display: none;
+    display: none !important;
   }
 }
 .timeline-view .timeline-year-list.visible {
