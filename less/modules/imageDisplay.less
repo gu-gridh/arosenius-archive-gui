@@ -230,6 +230,10 @@
 
 				line-height: 90px;
 
+				@media screen and (max-width: 550px) {
+					padding: 0 15px;
+				}
+
 				a, button {
 					color: #fff;
 					font-size: 2.4rem;
@@ -244,8 +248,14 @@
 				a, button {
 					float: left;
 
-					margin-top: 25px;
-					margin-right: 20px;
+					margin-top: 24px;
+					margin-right: 5px;
+
+					.transform(scale(0.8));
+
+					@media screen and (max-width: 550px) {
+						margin-top: 28px;
+					}
 				}
 			}
 		}
