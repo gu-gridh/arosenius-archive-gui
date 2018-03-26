@@ -261,6 +261,10 @@
 				width: 100% !important;
 			}
 
+			.timeline-view & {
+				width: 15%;
+			}
+
 			img {
 				display: block;
 
@@ -374,23 +378,35 @@
 
 	.grid-sizer {
 		width: 20%;
+
+		.timeline-view & {
+			width: 15%;
+		}
 	}
 
 	@media screen and (max-width: 1250px) {
 		.grid-item, .label-grid-item, .grid-sizer {
 			width: 25% !important;
+
+			.timeline-view & {
+				width: 20% !important;
+			}
 		}
 	}
 
 	@media screen and (max-width: 1024px) {
 		.grid-item, .label-grid-item, .grid-sizer {
 			width: 33.3% !important;
+
+			.timeline-view & {
+				width: 25% !important;
+			}
 		}
 	}
 
 	@media screen and (max-width: 900px) {
 		.grid-item, .label-grid-item, .grid-sizer {
-			width: 50% !important;
+			width: 33.3% !important;
 		}
 	}
 

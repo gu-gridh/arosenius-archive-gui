@@ -3808,6 +3808,9 @@ stretchRight
   -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
 }
+.page-thumbnails .thumb:hover {
+  overflow: visible;
+}
 .page-thumbnails .thumb:hover img {
   box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
   -webkit-transform: scale(1.6);
@@ -4005,6 +4008,9 @@ stretchRight
 .grid-columns.image-grid.grid .grid-item {
   width: 100% !important;
 }
+.timeline-view .image-grid.grid .grid-item {
+  width: 15%;
+}
 .image-grid.grid .grid-item img {
   display: block;
   position: relative;
@@ -4095,11 +4101,19 @@ stretchRight
 .grid .grid-sizer {
   width: 20%;
 }
+.timeline-view .grid .grid-sizer {
+  width: 15%;
+}
 @media screen and (max-width: 1250px) {
   .grid .grid-item,
   .grid .label-grid-item,
   .grid .grid-sizer {
     width: 25% !important;
+  }
+  .timeline-view .grid .grid-item,
+  .timeline-view .grid .label-grid-item,
+  .timeline-view .grid .grid-sizer {
+    width: 20% !important;
   }
 }
 @media screen and (max-width: 1024px) {
@@ -4108,12 +4122,17 @@ stretchRight
   .grid .grid-sizer {
     width: 33.3% !important;
   }
+  .timeline-view .grid .grid-item,
+  .timeline-view .grid .label-grid-item,
+  .timeline-view .grid .grid-sizer {
+    width: 25% !important;
+  }
 }
 @media screen and (max-width: 900px) {
   .grid .grid-item,
   .grid .label-grid-item,
   .grid .grid-sizer {
-    width: 50% !important;
+    width: 33.3% !important;
   }
 }
 @media screen and (max-width: 400px) {

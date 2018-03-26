@@ -354,7 +354,7 @@ export default class Timeline extends React.Component {
 											return <span data-year={detailItem.year} 
 												onClick={this.yearLabelClickHandler} 
 												className={'detail-item'+(detailItem.year == this.state.selectedYear ? ' selected' : '')} 
-												style={{fontSize: (fontSize(detailItem.doc_count)*10)+10}} 
+												style={{fontSize: (fontSize(detailItem.doc_count)*12)+14}} 
 												key={detailItem.year}
 											>{detailItem.year}</span>
 										}.bind(this))
