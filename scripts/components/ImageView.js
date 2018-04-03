@@ -328,6 +328,15 @@ export default class ImageView extends React.Component {
 					<br />
 					<p>{this.state.image.description}</p>
 
+					{
+						this.state.image.content &&
+						<div>
+							<br />
+							<h3>Transkription</h3>
+							<p>{this.state.image.content}</p>
+						</div>
+					}
+
 				</div>
 
 				<div className="container">

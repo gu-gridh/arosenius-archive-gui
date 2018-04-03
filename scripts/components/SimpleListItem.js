@@ -29,13 +29,13 @@ export default class SimpleListItem extends React.Component {
 		var dominantColor = this.state.image.images && this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#191919';
 
 		return <a className="simple-item" key={this.state.image.id} href={'#image/'+this.state.image.id} >
-			<div className="detail-info">
+			<div className="detail-info row">
 	
-				<div className="image-thumb">
+				<div className="image-thumb three columns">
 					<img src={imageUrl} />
 				</div>
 
-				<div className="item-info">
+				<div className="item-info nine columns">
 
 					<div className="title">{this.state.image.title}
 						{

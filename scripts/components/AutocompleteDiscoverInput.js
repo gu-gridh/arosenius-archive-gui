@@ -21,9 +21,15 @@ export default class AutocompleteDiscoverInput extends React.Component {
 
 	componentWillReceiveProps(props) {
 		if (props.value != this.state.inputValue) {
-			this.setState({
+			var state = {
 				inputValue: props.value
-			});
+			};
+
+			if (props.value == '') {
+				state.data = [];
+			}
+
+			this.setState(state);
 		}
 	}
 
@@ -35,7 +41,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 
 	inputValueChangeHandler(event) {
 		event.persist();
-		
+
 		if (event.target.value == '') {
 			this.setState({
 				inputValue: '',
@@ -236,8 +242,7 @@ export default class AutocompleteDiscoverInput extends React.Component {
 		var getListElements = function(field, route, valueField) {
 			return this.state.data[field].map(function(item, index) {
 				return <span className="item-wrapper" key={field+index} >
-					<a className={'item'+(this.state.listIndex == index ? ' selected' : '')} 
-						onClick={this.itemClickHandler.bind(this, item, route, valueField)}>
+					<a href={'#'+route+item.key} className={'item'+(this.state.listIndex == index ? ' selected' : '')} >
 						{
 							item.key.length > 35 ? item.key.substr(0, 35)+'...' : item.key
 						}
