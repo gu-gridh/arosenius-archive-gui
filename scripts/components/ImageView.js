@@ -333,7 +333,9 @@ export default class ImageView extends React.Component {
 						<div>
 							<br />
 							<h3>Transkription</h3>
-							<p>{this.state.image.content}</p>
+							<div className="text-container">
+								<p dangerouslySetInnerHTML={{__html: this.state.image.content.split('\n').join('<br />')}} />
+							</div>
 						</div>
 					}
 
