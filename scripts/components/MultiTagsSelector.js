@@ -350,7 +350,7 @@ export default class MultiTagsSelector extends React.Component {
 							<h3>Typer</h3>
 							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
 								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Kategori" 
+								dropdownHeaderText="Typer" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
 								limit={5} 
@@ -386,6 +386,14 @@ export default class MultiTagsSelector extends React.Component {
 								dropdownButtonLabel="Fler"
 								expandable={true} 
 								limit={5} 
+								dropdownItemsSortFunc={function(a, b) {
+									var aFrags = a.value.split(' ');
+									var bFrags = b.value.split(' ');
+
+									if (aFrags[aFrags.length-1] < bFrags[bFrags.length-1]) return -1;
+									if (bFrags[bFrags.length-1] < aFrags[aFrags.length-1]) return 1;
+									return 0;
+								}}
 								searchParam="person" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.persons}

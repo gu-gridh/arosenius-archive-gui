@@ -430,6 +430,22 @@
 		text-align: center;
 	}
 
+	.list-divider {
+		display: none;
+
+		&.divider-3 {
+			@media screen and (min-width: 1250px) {
+				display: block;
+			}
+		}
+
+		&.divider-2 {
+			@media screen and (min-width: 800px) and (max-width: 1250px) {
+				display: block;
+			}
+		}
+	}
+
 	.simple-item {
 		display: block;
 
@@ -454,7 +470,6 @@
 
 		.image-thumb {
 			width: 150px;
-			height: 150px;
 
 			float: left;
 
@@ -463,6 +478,12 @@
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
+
+			img {
+				display: block;
+
+				max-width: 150px;
+			}
 		}
 
 		.item-info {
@@ -489,9 +510,7 @@
 			}
 
 			.item-meta {
-				position: absolute;
-
-				bottom: 0;
+				margin-top: 20px;
 
 				font-size: 1.4rem;
 				line-height: 1.9rem;

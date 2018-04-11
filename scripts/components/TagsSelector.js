@@ -86,26 +86,32 @@ export default class TagsSelector extends React.Component {
 	}
 
 	render() {
-		
-		var buttons = this.state.data.length > 0 ? _.filter(this.state.data, function(item) {
-			return item.value && item.value != '';
-		}).map(function(item, index) {
+		var createButton = function(item, index) {
 			return <a key={item.value} 
 				className={'button-link'+(this.state.selectedTag == item.value ? ' selected' : '')} 
 				data-value={item.value} 
 				onClick={this.itemClickHandler}
 			>{item.value}</a>
-		}.bind(this)) : [];
+		}.bind(this);
+
+		var data = this.state.data.length > 0 ? _.filter(this.state.data, function(item) {
+			return item.value && item.value != '';
+		}) : [];
+
+		if (this.props.expandable && this.props.dropdownItemsSortFunc) {
+			console.log('sort')
+			data = data.sort(this.props.dropdownItemsSortFunc);
+		}
+
+		var buttons = data.map(createButton);
 
 		if (this.props.expandable) {
 			var limit = Number(this.props.limit) || 10;
 
-			var visibleContent = _.filter(buttons, function(button, index) {
-				return index < limit;
-			});
+			var visibleContent = this.state.data.length > 0 ? _.filter(this.state.data, function(item, index) {
+				return item.value && item.value != '' && index < limit;
+			}).map(createButton) : [];
 		}
-
-		console.log(visibleContent);
 
 		return (
 			<div className={'tag-selector button-list'+(this.state.initialized ? ' initialized' : '')}>

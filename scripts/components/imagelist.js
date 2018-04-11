@@ -162,7 +162,6 @@ export default class ImageList extends React.Component {
 		}
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
-			console.log('condition 1')
 
 			var params;
 
@@ -197,7 +196,6 @@ export default class ImageList extends React.Component {
 
 			this.state.images.length == 0
 		) {
-			console.log('condition 2')
 			this.waitingForLoad = true;
 
 			var params = {
@@ -238,7 +236,6 @@ export default class ImageList extends React.Component {
 			}
 		}
 		else if (this.props.listType != props.listType) {
-			console.log('condition 3')
 			var params = {};
 
 			if (props.listType == 'simple') {
@@ -287,21 +284,36 @@ export default class ImageList extends React.Component {
 			return image && image.size && image.size.inner ? image.size.inner.width : 0;
 		}));
 
-		var items = _.map(this.state.images, function(image, index) {
+		var items = [];
+
+		_.each(this.state.images, function(image, index) {
+			var item;
+
 			if (this.props.listType == 'date-labels') {
-				return <DateLabelListItem key={image.id} image={image} index={index} />;
+				item = <DateLabelListItem key={image.id} image={image} index={index} />;
 			}
 			else if (this.props.listType == 'simple') {
-				return <SimpleListItem key={image.id} image={image} index={index} />
+				item = <SimpleListItem key={image.id} image={image} index={index} />
 			}
 			else {
-				return <ImageListItem
+				item = <ImageListItem
 					showDates={this.props.showDates}
 					key={image.id}
 					image={image}
 					index={index}
 					relativeSize={this.state.relativeSizes}
 					maxWidth={maxWidth} />;
+			}
+
+			items.push(item);
+
+			if (this.props.listType == 'simple') {	
+				if ((index+1) % 3 === 0) {
+					items.push(<div key={'cf-3-'+index} className={'u-cf list-divider divider-3'} />);
+				}
+				if ((index+1) % 2 === 0) {
+					items.push(<div key={'cf-2-'+index} className={'u-cf list-divider divider-2'} />);
+				}
 			}
 		}.bind(this));
 
