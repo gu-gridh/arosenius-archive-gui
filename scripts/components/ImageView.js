@@ -273,30 +273,30 @@ export default class ImageView extends React.Component {
 							<div className="four columns">
 								{
 									this.state.image.item_date_str &&
-									<div><span className="label">Datering:</span> {this.state.image.item_date_str}</div>
+									<div className="attribute"><span className="label">Datering:</span> {this.state.image.item_date_str}</div>
 								}
 								{
 									this.state.image.technique_material &&
-									<div><span className="label">Teknik och material:</span> {this.state.image.technique_material}</div>
+									<div className="attribute"><span className="label">Teknik och material:</span> {this.state.image.technique_material}</div>
 								}
 								{
 									this.state.image.size && this.state.image.size.inner &&
-									<div><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
+									<div className="attribute"><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
 								}
 							</div>
 						}
 
 						<div className="four columns">
-							<div><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
+							<div className="attribute"><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
 								genreEls.length > 0 &&
-								<div>
+								<div className="attribute">
 									<span className="label">Genre:</span> <span className="button-links">{genreEls}</span>
 								</div>
 							}
 							{
 								placeEls.length > 0 &&
-								<div>
+								<div className="attribute">
 									<span className="label">Platser:</span> <span className="button-links">{placeEls}</span>
 								</div>
 							}
@@ -305,13 +305,13 @@ export default class ImageView extends React.Component {
 						<div className="four columns">
 							{
 								personEls.length > 0 &&
-								<div>
+								<div className="attribute">
 									<span className="label">Personer:</span> <span className="button-links">{personEls}</span>
 								</div>
 							}
 							{
 								tagEls.length > 0 &&
-								<div>
+								<div className="attribute">
 									<span className="label">Taggar:</span> <span className="button-links">{tagEls}</span>
 								</div>
 							}

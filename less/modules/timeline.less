@@ -78,12 +78,16 @@
 			cursor: pointer;
 
 			.detail-years {
-				position: absolute;
+				// position: absolute;
+				position: fixed;
 
-				top: 10px;
+				//top: 10px;
+				top: 50%;
 				left: 95px;
 
 				text-align: left;
+
+				.transform(translateY(-50%));
 
 				.detail-item {
 					display: block;
