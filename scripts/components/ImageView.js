@@ -147,13 +147,13 @@ export default class ImageView extends React.Component {
 
 			var personEls = persons.length > 0 ? persons.map(function(person, index) {
 				if (person != '') {
-					return <a key={person} href={'#/search/person/'+person}>{person}</a>;
+					return <a key={person} className="attribute" href={'#/search/person/'+person}>{person}</a>;
 				}
 			}.bind(this)) : [];
 
 			var placeEls = places.length > 0 ? places.map(function(place, index) {
 				if (place != '') {
-					return <a key={place} href={'#/search/tags/place/'+place}>{place}</a>;
+					return <a key={place} className="attribute" href={'#/search/tags/place/'+place}>{place}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -195,7 +195,7 @@ export default class ImageView extends React.Component {
 
 			var genreEls = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
-					return <a key={genre} href={'#/search/tags/genre/'+genre}>{genre.toLowerCase()}</a>;
+					return <a key={genre} className="attribute" href={'#/search/tags/genre/'+genre}>{genre.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -213,7 +213,7 @@ export default class ImageView extends React.Component {
 
 			var tagEls = tags.length > 0 ? tags.map(function(tag, index) {
 				if (tag != '') {
-					return <a key={tag} href={'#/search/tags/tags/'+tag}>{tag.toLowerCase()}</a>;
+					return <a key={tag} className="attribute" href={'#/search/tags/tags/'+tag}>{tag.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -291,13 +291,13 @@ export default class ImageView extends React.Component {
 							{
 								genreEls.length > 0 &&
 								<div className="attribute">
-									<span className="label">Genre:</span> <span className="button-links">{genreEls}</span>
+									<span className="label">Genre:</span> {genreEls}
 								</div>
 							}
 							{
 								placeEls.length > 0 &&
 								<div className="attribute">
-									<span className="label">Platser:</span> <span className="button-links">{placeEls}</span>
+									<span className="label">Platser:</span> {placeEls}
 								</div>
 							}
 						</div>
@@ -306,13 +306,13 @@ export default class ImageView extends React.Component {
 							{
 								personEls.length > 0 &&
 								<div className="attribute">
-									<span className="label">Personer:</span> <span className="button-links">{personEls}</span>
+									<span className="label">Personer:</span> {personEls}
 								</div>
 							}
 							{
 								tagEls.length > 0 &&
 								<div className="attribute">
-									<span className="label">Taggar:</span> <span className="button-links">{tagEls}</span>
+									<span className="label">Taggar:</span> {tagEls}
 								</div>
 							}
 						</div>
