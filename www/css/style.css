@@ -2948,11 +2948,11 @@ stretchRight
 .multitags-selector .dropdown-wrapper .dropdown-link {
   display: inline-block;
   padding: 0 7px 2px 7px;
-  margin: 0 10px 10px 0;
+  margin: 0 8px 0px 0;
   background: #083240;
   border-radius: 3px;
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   cursor: pointer;
   -webkit-transition: all 200ms ease-in-out;
   -o-transition: all 200ms ease-in-out;
@@ -4558,7 +4558,7 @@ a {
 }
 .attribute {
   margin: 0 0 12px 0;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   line-height: 1.2;
 }
 .attribute .button-link {
@@ -4587,11 +4587,11 @@ h3 .smaller {
 .button-link {
   display: inline-block;
   padding: 0 7px 2px 7px;
-  margin: 0 10px 10px 0;
+  margin: 0 8px 0px 0;
   background: #083240;
   border-radius: 3px;
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   cursor: pointer;
   -webkit-transition: all 200ms ease-in-out;
   -o-transition: all 200ms ease-in-out;
@@ -4607,11 +4607,11 @@ h3 .smaller {
 .button-links a {
   display: inline-block;
   padding: 0 7px 2px 7px;
-  margin: 0 10px 10px 0;
+  margin: 0 8px 0px 0;
   background: #083240;
   border-radius: 3px;
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   cursor: pointer;
   -webkit-transition: all 200ms ease-in-out;
   -o-transition: all 200ms ease-in-out;
