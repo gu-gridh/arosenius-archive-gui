@@ -78,8 +78,8 @@ export default class SimpleListItem extends React.Component {
 
 				<div className="item-meta">
 					<div>Inventarie: {this.state.image.insert_id}</div>
-					<div>Samling: {this.state.image.collection.museum}</div>
-					<div>Kategori: {typeof this.state.image.type == 'string' ? this.state.image.type : this.state.image.type.join(', ')}</div>
+					<div>{this.state.image.collection.museum}</div>
+					<div>{typeof this.state.image.type == 'string' ? this.state.image.type : this.state.image.type.join(', ')}</div>
 					<div>{this.state.image.technique_material}</div>
 				</div>
 
