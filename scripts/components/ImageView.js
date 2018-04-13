@@ -287,16 +287,16 @@ export default class ImageView extends React.Component {
 						}
 
 						<div className="four columns">
-							<div className="attribute"><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
+							<div className="attribute bottom-margin-5"><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
 								genreEls.length > 0 &&
-								<div className="attribute">
+								<div className="attribute bottom-margin-5">
 									<span className="label">Genre:</span> {genreEls}
 								</div>
 							}
 							{
 								placeEls.length > 0 &&
-								<div className="attribute">
+								<div className="attribute bottom-margin-5">
 									<span className="label">Platser:</span> {placeEls}
 								</div>
 							}
@@ -305,13 +305,13 @@ export default class ImageView extends React.Component {
 						<div className="four columns">
 							{
 								personEls.length > 0 &&
-								<div className="attribute">
+								<div className="attribute bottom-margin-5">
 									<span className="label">Personer:</span> {personEls}
 								</div>
 							}
 							{
 								tagEls.length > 0 &&
-								<div className="attribute">
+								<div className="attribute bottom-margin-5">
 									<span className="label">Taggar:</span> {tagEls}
 								</div>
 							}

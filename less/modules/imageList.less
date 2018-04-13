@@ -447,7 +447,7 @@
 	}
 
 	.simple-item {
-		display: block;
+		display: flex;
 
 		float: left;
 		position: relative;
@@ -471,13 +471,13 @@
 		.image-thumb {
 			width: 150px;
 
-			float: left;
-
 			margin-right: 20px;
 
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
+
+			align-self: flex-start;
 
 			img {
 				display: block;
@@ -487,12 +487,6 @@
 		}
 
 		.item-info {
-			position: absolute;
-
-			left: 200px;
-			right: 0;
-
-			height: 150px;
 
 			font-size: 1.8rem;
 
