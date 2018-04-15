@@ -160,6 +160,13 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
+		else if (props.similar) {
+			console.log(props);
+			console.log('similar: '+props.similar)
+			this.fetchData({
+				similar: props.similar
+			}, props.count, 1, false, props.archiveMaterial || null);
+		}
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 

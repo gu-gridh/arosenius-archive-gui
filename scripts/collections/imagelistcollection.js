@@ -74,10 +74,19 @@ export default class ImageListCollection {
 			else if (archiveMaterial) {
 				fetchParams.push('archivematerial='+archiveMaterial);
 			}
+			else if (params.similar) {
+				fetchParams.push('similar='+params.similar);
+			}
 
 			fetchParams.push('page='+page);
 
-			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
+			var url;
+			if (params.similar) {
+				url = config.apiUrl+'similar'+'?size=20&id='+params.similar;
+			}
+			else {
+				url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
+			}
 
 			if (this.lastUrl == url) {
 				if (this.onFail) {
