@@ -161,10 +161,13 @@ export default class ImageList extends React.Component {
 			}
 		}
 		else if (props.similar) {
-			console.log(props);
-			console.log('similar: '+props.similar)
 			this.fetchData({
 				similar: props.similar
+			}, props.count, 1, false, props.archiveMaterial || null);
+		}
+		else if (props.similarColors) {
+			this.fetchData({
+				similarColors: props.similarColors
 			}, props.count, 1, false, props.archiveMaterial || null);
 		}
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
@@ -304,6 +307,7 @@ export default class ImageList extends React.Component {
 			}
 			else {
 				item = <ImageListItem
+					showColors={this.props.showColors}
 					showDates={this.props.showDates}
 					key={image.id}
 					image={image}

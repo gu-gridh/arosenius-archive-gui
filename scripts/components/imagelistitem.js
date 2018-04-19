@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import _ from 'underscore';
 
 import colorUtil from './../utils/colorUtil';
+import chroma from 'chroma-js';
 
 import config from './../config';
 
@@ -68,6 +69,12 @@ export default class ImageListItem extends React.Component {
 
 		var dominantColor = this.state.image.images && this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#191919';
 
+		if (this.props.showColors) {
+			var colorElements = this.state.image.images && this.state.image.images[0].googleVisionColors ? this.state.image.images[0].googleVisionColors.map(function(color, index) {
+				return <span key={index} style={{display: 'block', float: 'left', height: 10, width: (color.score*100)+'%', backgroundColor: chroma(color.color.red, color.color.green, color.color.blue).hex()}}></span>;
+			}) : [];
+		}
+
 		return <a style={{backgroundColor: dominantColor}} 
 			className="grid-item" 
 			key={this.state.image.id} 
@@ -85,6 +92,10 @@ export default class ImageListItem extends React.Component {
 				{
 					this.props.showDates &&
 					<div className="smaller">{this.state.image.item_date_string}</div>
+				}
+				{
+					this.props.showColors &&
+					<div style={{padding: 5, background: '#000', height: 20, boxSizing: 'border-box'}} className="colors">{colorElements}</div>
 				}
 			</div>
 		</a>;

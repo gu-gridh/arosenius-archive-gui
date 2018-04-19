@@ -342,13 +342,7 @@ export default class ImageView extends React.Component {
 				</div>
 
 				<div className="container">
-					{
-						/*
-						<div className="related-list">
-							<ImageList title={'Similar'} similar={this.props.params.imageId} count="10" />
-						</div>
-						*/
-					}
+
 					{
 						relatedTagsImages.length > 0 &&
 						<div>
