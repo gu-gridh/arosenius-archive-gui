@@ -79,10 +79,13 @@ export default class ImageListCollection {
 
 			var url;
 			if (params.similar) {
-				url = config.apiUrl+'similar/labels'+'?size=20&id='+params.similar;
+				url = config.apiUrl+'similar'+'?size=20&id='+params.similar;
 			}
 			else if (params.similarColors) {
 				url = config.apiUrl+'similar/colors'+'?size=20&id='+params.similarColors;
+			}
+			else if (params.similarLabels) {
+				url = config.apiUrl+'similar/labels'+'?size=20&id='+params.similarLabels;
 			}
 			else {
 				url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
