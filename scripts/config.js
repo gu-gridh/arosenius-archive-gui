@@ -4,6 +4,8 @@ export default {
 	imageUrl: 'http://cdh-vir-1.it.gu.se:8004/images/',
 //	imageUrl: 'img/bg-3.jpg?',
 
+	adminUrl: 'http://cdh-vir-1.it.gu.se:8010/',
+
 	endpoints: {
 		documents: 'documents',
 		document: 'document/',
