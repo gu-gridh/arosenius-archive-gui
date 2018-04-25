@@ -250,7 +250,7 @@ export default class ImageView extends React.Component {
 
 			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
-				<a style={{position: 'fixed', bottom: 0, right: 0, width: 35, height: 35, backgroundColor: 'rgba(0, 0, 0, 0)', zIndex: 2000}} target="arosenius-admin" className="admin-link" href={config.adminUrl+'/#document/'+this.state.image.id} />
+				<a style={{position: 'absolute', top: 0, right: 0, width: 35, height: 35, backgroundColor: 'rgba(0, 0, 0, 0)', zIndex: 2000}} target="arosenius-admin" className="admin-link" href={config.adminUrl+'/#document/'+this.state.image.id} />
 
 				<ReactSwipeEvents onSwiped={this.imageSwipedHandler}>
 					<ImageDisplay pathname={this.props.location.pathname} image={imageObj} fullDisplay={this.state.fullDisplay} />
