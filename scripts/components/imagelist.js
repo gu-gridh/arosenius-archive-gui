@@ -313,6 +313,7 @@ export default class ImageList extends React.Component {
 			else {
 				item = <ImageListItem
 					showColors={this.props.showColors}
+					showGoogleLabels={this.props.showGoogleLabels}
 					showDates={this.props.showDates}
 					key={image.id}
 					image={image}

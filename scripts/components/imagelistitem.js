@@ -75,6 +75,12 @@ export default class ImageListItem extends React.Component {
 			}) : [];
 		}
 
+		if (this.props.showGoogleLabels) {
+			var labelElements = this.state.image && this.state.image.googleVisionLabels ? this.state.image.googleVisionLabels.map(function(label) {
+				return <div key={label.label+label.score}>{label.label+', '+label.score}</div>;
+			}) : [];
+		}
+
 		return <a style={{backgroundColor: dominantColor}} 
 			className="grid-item" 
 			key={this.state.image.id} 
@@ -92,6 +98,10 @@ export default class ImageListItem extends React.Component {
 				{
 					this.props.showDates &&
 					<div className="smaller">{this.state.image.item_date_string}</div>
+				}
+				{
+					this.props.showGoogleLabels &&
+					<div>{labelElements}</div>
 				}
 				{
 					this.props.showColors &&

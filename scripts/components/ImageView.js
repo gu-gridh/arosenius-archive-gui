@@ -134,6 +134,7 @@ export default class ImageView extends React.Component {
 			}) : [];
 */
 			var colorElements = this.state.image.images[0].googleVisionColors ? this.state.image.images[0].googleVisionColors.map(function(color, index) {
+				console.log(color.color.red+', '+color.color.green+', '+color.color.blue+', '+color.score);
 				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} style={{display: 'block', float: 'left', height: 10, width: (color.score*100)+'%', backgroundColor: chroma(color.color.red, color.color.green, color.color.blue).hex()}}></a>;
 			}) : [];
 
@@ -249,6 +250,12 @@ export default class ImageView extends React.Component {
 				imageObj['front'] = this.state.image.images[0];
 			}
 
+			console.log('------------------------');
+			var googleLabelEls = this.state.image.googleVisionLabels.map(function(label) {
+				console.log(label.label+', '+label.score);
+				return <div key={label.label+label.score}>{label.label+', '+label.score}</div>;
+			})
+
 			return <div className="image-display-module" onMouseMove={this.mouseMoveHandler}>
 
 				<ReactSwipeEvents onSwiped={this.imageSwipedHandler}>
@@ -315,12 +322,17 @@ export default class ImageView extends React.Component {
 									<span className="label">Taggar:</span> {tagEls}
 								</div>
 							}
+							{
+								<div style={{fontSize: '1.5rem'}}>
+									{googleLabelEls}
+								</div>
+							}
 						</div>
 					</div>
 
 					<div className="row">
 						<br />
-						<div className="color-list" style={{width: '60%'}}>
+						<div className="color-list" style={{width: '60%', position: 'fixed', top: 10, left: 10, zIndex: 3000}}>
 							{colorElements}
 						</div>
 					</div>
@@ -344,15 +356,15 @@ export default class ImageView extends React.Component {
 				<div className="container">
 
 					<div className="related-list">
-						<ImageList title={'Similar: colors and labels'} showColors={true} similar={this.props.params.imageId} count="10" />
+						<ImageList title={'Similar: colors and labels'} showColors={true} showGoogleLabels={true} similar={this.props.params.imageId} count="10" />
 					</div>
 
 					<div className="related-list">
-						<ImageList title={'Similar: colors'} showColors={true} similarColors={this.props.params.imageId} count="10" />
+						<ImageList title={'Similar: colors'} showColors={true} showGoogleLabels={true} similarColors={this.props.params.imageId} count="10" />
 					</div>
 
 					<div className="related-list">
-						<ImageList title={'Similar: labels'} similarLabels={this.props.params.imageId} count="10" />
+						<ImageList title={'Similar: labels'} showGoogleLabels={true} similarLabels={this.props.params.imageId} count="10" />
 					</div>
 
 					{
