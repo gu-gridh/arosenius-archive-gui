@@ -384,7 +384,7 @@ export default class MultiTagsSelector extends React.Component {
 								dropdownHeaderText="Personer" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={8} 
+								limit={7} 
 								dropdownItemsSortFunc={function(a, b) {
 									var aFrags = a.value.split(' ');
 									var bFrags = b.value.split(' ');
