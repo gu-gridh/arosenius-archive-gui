@@ -187,7 +187,7 @@ export default class ImageView extends React.Component {
 			var relatedGenreImages = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
 					return <div className="related-list" key={genre}>
-						<ImageList title={'Fler objekt av typen '+genre.toLowerCase()} related="genre" relatedValue={genre} count="10" />
+						<ImageList title={'Fler objekt av underkategorin '+genre.toLowerCase()} related="genre" relatedValue={genre} count="10" />
 					</div>;
 				}
 			}) : [];
@@ -195,6 +195,16 @@ export default class ImageView extends React.Component {
 			var genreEls = genres.length > 0 ? genres.map(function(genre, index) {
 				if (genre != '') {
 					return <a key={genre} className="button-link" href={'#/search/tags/genre/'+genre}>{genre.toLowerCase()}</a>;
+				}
+			}.bind(this)) : [];
+
+			var types = this.state.image.type ? _.filter(this.state.image.type, function(item) {
+				return item != '';
+			}) : [];
+
+			var typeEls = types.length > 0 ? types.map(function(type, index) {
+				if (type != '') {
+					return <a key={type} className="button-link" href={'#/search/tags/type/'+type}>{type.toLowerCase()}</a>;
 				}
 			}.bind(this)) : [];
 
@@ -290,9 +300,15 @@ export default class ImageView extends React.Component {
 						<div className="four columns">
 							<div className="attribute bottom-margin-5"><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
 							{
+								typeEls.length > 0 &&
+								<div className="attribute bottom-margin-5">
+									<span className="label">Kategori:</span> {typeEls}
+								</div>
+							}
+							{
 								genreEls.length > 0 &&
 								<div className="attribute bottom-margin-5">
-									<span className="label">Genre:</span> {genreEls}
+									<span className="label">Underkategori:</span> {genreEls}
 								</div>
 							}
 							{
