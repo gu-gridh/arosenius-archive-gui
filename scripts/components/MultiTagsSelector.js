@@ -347,7 +347,8 @@ export default class MultiTagsSelector extends React.Component {
 						</div>
 
 						<div className="tags-container">
-							<h3>Typer</h3>
+							{/*<h3>Typer</h3>*/}
+							<h3>Kategorier</h3>
 							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Typer" 
@@ -363,7 +364,8 @@ export default class MultiTagsSelector extends React.Component {
 						<div className="u-cf divider-2" />
 
 						<div className="tags-container">
-							<h3>Genrer</h3>
+							{/*<h3>Genrer</h3>*/}
+							<h3>Underkategorier</h3>
 							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Genre"
