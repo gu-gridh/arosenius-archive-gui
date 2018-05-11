@@ -333,8 +333,8 @@ export default class MultiTagsSelector extends React.Component {
 					<div className="tags-columns">
 
 						<div className="tags-container">
-							<h3>Samlingar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
+							<TagsSelector title="Samlingar" 
+								onDropdownOpen={this.onDropdownOpen.bind(this, 'museum')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Samlingar" 
 								dropdownButtonLabel="Fler"
@@ -347,14 +347,13 @@ export default class MultiTagsSelector extends React.Component {
 						</div>
 
 						<div className="tags-container">
-							{/*<h3>Typer</h3>*/}
-							<h3>Kategorier</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+							{/* Typer */}
+							<TagsSelector title="Kategorier" onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Typer" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={5} 
+								limit={8} 
 								searchParam="type" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.types}
@@ -364,14 +363,13 @@ export default class MultiTagsSelector extends React.Component {
 						<div className="u-cf divider-2" />
 
 						<div className="tags-container">
-							{/*<h3>Genrer</h3>*/}
-							<h3>Underkategorier</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
+							{/* Genrer */}
+							<TagsSelector title="Underkategorier" onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Genre"
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={5} 
+								limit={10} 
 								selectedTag={this.state.selectedTags}
 								searchParam="genre" 
 								endpoint={config.endpoints.genres}
@@ -381,13 +379,12 @@ export default class MultiTagsSelector extends React.Component {
 						<div className="u-cf divider-1" />
 
 						<div className="tags-container">
-							<h3>Personer</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
+							<TagsSelector title="Personer" onDropdownOpen={this.onDropdownOpen.bind(this, 'personer')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Personer" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={5} 
+								limit={8} 
 								dropdownItemsSortFunc={function(a, b) {
 									var aFrags = a.value.split(' ');
 									var bFrags = b.value.split(' ');
@@ -405,13 +402,12 @@ export default class MultiTagsSelector extends React.Component {
 						<div className="u-cf divider-2" />
 
 						<div className="tags-container">
-							<h3>Platser</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
+							<TagsSelector title="Platser" onDropdownOpen={this.onDropdownOpen.bind(this, 'ort')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Platser" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={5} 
+								limit={12} 
 								searchParam="place" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.places}
@@ -419,13 +415,12 @@ export default class MultiTagsSelector extends React.Component {
 						</div>
 
 						<div className="tags-container">
-							<h3>Taggar</h3>
-							<TagsSelector onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
+							<TagsSelector title="Taggar" onDropdownOpen={this.onDropdownOpen.bind(this, 'tags')} 
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Taggar" 
 								dropdownButtonLabel="Fler"
 								expandable={true} 
-								limit={5} 
+								limit={13} 
 								searchParam="tags" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.tags}
