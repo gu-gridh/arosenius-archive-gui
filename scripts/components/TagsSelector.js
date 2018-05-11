@@ -11,6 +11,7 @@ export default class TagsSelector extends React.Component {
 		super(props);
 
 		this.itemClickHandler = this.itemClickHandler.bind(this);
+		this.showAllButtonClickHandler = this.showAllButtonClickHandler.bind(this);
 
 		this.state = {
 			initialized: false,
@@ -46,6 +47,10 @@ export default class TagsSelector extends React.Component {
 		if (this.refs.dropdown) {
 			this.refs.dropdown.closeMenu();
 		}
+	}
+
+	showAllButtonClickHandler(event) {
+		this.refs.dropdown.menuButtonClick();
 	}
 
 	fetchData() {
@@ -115,6 +120,16 @@ export default class TagsSelector extends React.Component {
 
 		return (
 			<div className={'tag-selector button-list'+(this.state.initialized ? ' initialized' : '')}>
+				{
+					this.props.title &&
+					<h3>
+						{this.props.title}
+						{
+							visibleContent && buttons.length > 0 &&
+							<a className="dropdown-link" onClick={this.showAllButtonClickHandler}>Visa alla</a>
+						}
+					</h3>
+				}
 
 				{
 					visibleContent ? visibleContent : buttons

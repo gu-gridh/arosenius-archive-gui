@@ -325,17 +325,27 @@
 
 	}
 
+	.dropdown-link {
+		.button-link();
+
+		background: transparent;
+
+		border: 1px solid #808080;
+	}
+
+	h3 {
+		.dropdown-link {
+			margin-left: 20px;
+		}
+	}
+
 	.dropdown-wrapper {
 		display: inline-block;
 
 		position: initial;
 
 		.dropdown-link {
-			.button-link();
-
-			background: transparent;
-
-			border: 1px solid #808080;
+			display: none;
 		}
 
 		.heading-label {
