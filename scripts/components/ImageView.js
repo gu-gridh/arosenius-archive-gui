@@ -133,7 +133,7 @@ export default class ImageView extends React.Component {
 			}) : [];
 */
 			var colorElements = this.state.image.images[0].googleVisionColors ? this.state.image.images[0].googleVisionColors.map(function(color, index) {
-				return <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} style={{display: 'block', float: 'left', height: 10, width: (color.score*100)+'%', backgroundColor: chroma(color.color.red, color.color.green, color.color.blue).hex()}}></a>;
+				return color.hsv && color.hsv.h ? <a href={'#/search/color/'+color.hsv.h+'/'+color.hsv.s} key={index} style={{display: 'block', float: 'left', height: 10, width: (color.score*100)+'%', backgroundColor: chroma(color.color.red, color.color.green, color.color.blue).hex()}}></a> : null;
 			}) : [];
 
 			var persons = this.state.image.persons ? _.filter(this.state.image.persons, function(item) {
