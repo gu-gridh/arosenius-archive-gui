@@ -288,7 +288,7 @@ export default class ImageList extends React.Component {
 	}
 
 	fetchNearestNeighbors() {
-		var nearestNeighborsUrl = 'nearest_neighbors/'+this.props.nearestNeighborsType+'/'+this.props.nearestNeighbors;
+		var nearestNeighborsUrl = 'nearest_neighbors/'+this.props.nearestNeighborsType+'/'+this.props.nearestNeighbors+'.json';
 
 		console.log(nearestNeighborsUrl);
 
