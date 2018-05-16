@@ -194,7 +194,7 @@ export default class MultiTagsSelector extends React.Component {
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Kategori" 
 								expandable={false} 
-								limit={10} 
+								limit={20} 
 								searchParam="type" 
 								selectedTag={this.state.selectedTags.type}
 								endpoint={config.endpoints.types}
@@ -352,7 +352,7 @@ export default class MultiTagsSelector extends React.Component {
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Typer" 
 								dropdownButtonLabel="Fler"
-								expandable={true} 
+								expandable={false} 
 								limit={8} 
 								searchParam="type" 
 								selectedTag={this.state.selectedTags}
