@@ -114,12 +114,13 @@ export default class TagsSelector extends React.Component {
 			var limit = Number(this.props.limit) || 10;
 
 			var visibleContent = this.state.data.length > 0 ? _.filter(this.state.data, function(item, index) {
-				return item.value && item.value != '' && index < limit;
+				//return item.value && item.value != '' && index < limit;
+				return item.value && item.value != '' && index < (limit+10);
 			}).map(createButton) : [];
 		}
 
 		return (
-			<div className={'tag-selector button-list'+(this.state.initialized ? ' initialized' : '')}>
+			<div className={'tag-selector'+(this.state.initialized ? ' initialized' : '')}>
 				{
 					this.props.title &&
 					<h3>
@@ -131,9 +132,11 @@ export default class TagsSelector extends React.Component {
 					</h3>
 				}
 
-				{
-					visibleContent ? visibleContent : buttons
-				}
+				<div className="button-list">
+					{
+						visibleContent ? visibleContent : buttons
+					}
+				</div>
 
 				{
 					visibleContent && buttons.length > 0 &&
