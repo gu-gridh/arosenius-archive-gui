@@ -3896,6 +3896,9 @@ stretchRight
 .image-list.loading .simple-list {
   opacity: 0.2;
 }
+.image-list.loading .no-result {
+  display: none !important;
+}
 .image-list .list-buttons {
   position: fixed;
   right: 20px;

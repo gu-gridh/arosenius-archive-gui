@@ -175,6 +175,9 @@ export default class ImageList extends React.Component {
 				similarLabels: props.similarLabels
 			}, props.count, 1, false, props.archiveMaterial || null);
 		}
+		else if (props.nearestNeighbors) {
+			this.fetchNearestNeighbors();
+		}
 		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
@@ -282,6 +285,28 @@ export default class ImageList extends React.Component {
 
 			this.fetchData(params, this.props.count, this.collection.currentPage+1, true);
 		}
+	}
+
+	fetchNearestNeighbors() {
+		var nearestNeighborsUrl = 'nearest_neighbors/'+this.props.nearestNeighborsType+'/'+this.props.nearestNeighbors;
+
+		console.log(nearestNeighborsUrl);
+
+		fetch(nearestNeighborsUrl).then(function(response) {
+			return response.json();
+		}.bind(this)).then(function(json) {
+			var ids = _.map(_.filter(json, function(item) {
+				return item.similarity < 1;
+			}), function(item) {
+				return item.filename;
+			});
+
+			this.fetchData({
+				ids: ids.join(';')
+			});
+		}.bind(this)).catch(function(ex) {
+			console.log('parsing failed', ex)
+		});
 	}
 
 	imageLoadedHandler() {
