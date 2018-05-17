@@ -25,9 +25,10 @@ export default class WindowScroll {
 	}
 
 	scrollToY(scrollTargetY, speed, easing) {
-		console.log('scrollTo '+scrollTargetY)
 		window.scrollTo(0, scrollTargetY);
+
 		return;
+
 		// scrollTargetY: the target scrollY property of the window
 		// speed: time in pixels per second
 		// easing: easing equation to use
