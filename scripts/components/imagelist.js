@@ -154,7 +154,7 @@ export default class ImageList extends React.Component {
 					genre: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
-			if (props.related == 'tag') {
+			if (props.related == 'tags') {
 				this.fetchData({
 					tags: props.relatedValue
 				}, props.count, 1, false, props.archiveMaterial || null);
