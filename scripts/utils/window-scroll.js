@@ -25,7 +25,9 @@ export default class WindowScroll {
 	}
 
 	scrollToY(scrollTargetY, speed, easing) {
-		window.scrollTo(0, scrollTargetY);
+		setTimeout(function() {
+			window.scrollTo(0, scrollTargetY);
+		}, 10);
 
 		return;
 
