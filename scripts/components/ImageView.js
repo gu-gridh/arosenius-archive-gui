@@ -211,7 +211,7 @@ export default class ImageView extends React.Component {
 			var relatedTagsImages = this.state.image.tags ? this.state.image.tags.map(function(tag, index) {
 				if (tag != '') {
 					return <div className="related-list" key={tag}>
-						<ImageList title={'Fler objekt relaterade till '+tag.toLowerCase()} related="tags" relatedValue={tag} count="10" />
+						<ImageList title={'Fler objekt relaterade till '+tag.toLowerCase()} related="tag" relatedValue={tag} count="10" />
 					</div>;
 				}
 			}) : [];
