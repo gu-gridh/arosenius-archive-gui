@@ -20,6 +20,7 @@ export default class ImageView extends React.Component {
 
 		this.pageClickHandler = this.pageClickHandler.bind(this);
 		this.imageSwipedHandler = this.imageSwipedHandler.bind(this);
+		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
 
 		this.searchFormSearchHandler = this.searchFormSearchHandler.bind(this);
 
@@ -31,6 +32,22 @@ export default class ImageView extends React.Component {
 			flippable: false,
 			currentPage: 1
 		};
+
+		this.mouseIdleDuration = 1000;
+	}
+
+	mouseMoveHandler() {
+		document.body.classList.remove('hide-ui');
+
+		if (this.mouseIdleTimer) {
+			clearTimeout(this.mouseIdleTimer);
+		}
+
+		this.mouseIdleTimer = setTimeout(function() {
+			if (this.refs.imageDisplay.state.enlargedDisplay) {
+				document.body.classList.add('hide-ui');
+			}
+		}.bind(this), this.mouseIdleDuration);
 	}
 
 	fetchData(imageId) {
@@ -101,12 +118,6 @@ export default class ImageView extends React.Component {
 //		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
 	}
 
-	componentWillUnmount() {
-		if (this.mouseIdleTimer) {
-			clearTimeout(this.mouseIdleTimer);
-		}
-	}
-
 	componentWillReceiveProps(props) {
 		this.setState({
 			fullDisplay: props.params.display == 'full'
@@ -116,6 +127,14 @@ export default class ImageView extends React.Component {
 			this.fetchData(props.params.imageId);
 
 			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
+		}
+	}
+
+	componentWillUnmount() {
+		document.body.classList.remove('hide-ui');
+
+		if (this.mouseIdleTimer) {
+			clearTimeout(this.mouseIdleTimer);
 		}
 	}
 
@@ -264,7 +283,7 @@ export default class ImageView extends React.Component {
 				<a style={{position: 'absolute', top: 0, right: 0, width: 35, height: 35, backgroundColor: 'rgba(0, 0, 0, 0)', zIndex: 2000}} className="admin-link" href={config.adminUrl+'/#document/'+this.state.image.id} />
 
 				<ReactSwipeEvents onSwiped={this.imageSwipedHandler}>
-					<ImageDisplay pathname={this.props.location.pathname} image={imageObj} fullDisplay={this.state.fullDisplay} />
+					<ImageDisplay ref="imageDisplay" pathname={this.props.location.pathname} image={imageObj} fullDisplay={this.state.fullDisplay} />
 				</ReactSwipeEvents>
 
 				{

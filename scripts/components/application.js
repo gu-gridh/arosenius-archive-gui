@@ -11,21 +11,14 @@ export default class Application extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
-
 		window.eventBus = EventBus;
 
 		this.state = {
-			noUiDistract: false,
 			searchParams: {},
 			galleryType: 'gallery'
 		};
 
 		window.app = this;
-	}
-
-	mouseMoveHandler() {
-		document.body.classList.remove('hide-ui');
 	}
 
 	componentDidMount() {
@@ -122,7 +115,7 @@ export default class Application extends React.Component {
 		}.bind(this));
 
 		return (
-			<div onMouseMove={this.mouseMoveHandler} className={this.state.noUiDistract ? 'hide-ui' : ''}>
+			<div>
 				<Header routerPath={this.props.location.pathname} />
 				<div className={'site-content'+(this.props.location.pathname.substr(0, 7) == '/search' ? ' front' : '')}>
 					{this.props.children}
