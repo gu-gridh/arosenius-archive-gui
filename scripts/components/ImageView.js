@@ -33,7 +33,7 @@ export default class ImageView extends React.Component {
 			currentPage: 1
 		};
 
-		this.mouseIdleDuration = 1000;
+		this.mouseIdleDuration = 3000;
 	}
 
 	mouseMoveHandler() {
