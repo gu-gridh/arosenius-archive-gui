@@ -71,7 +71,9 @@ export default class ImageList extends React.Component {
 			this.handleProps(this.props);
 		}
 
-		this.positionButtons();
+		setTimeout(function() {
+			this.positionButtons();
+		}.bind(this), 500);
 	}
 
 	componentWillUnmount() {

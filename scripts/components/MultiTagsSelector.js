@@ -366,7 +366,7 @@ export default class MultiTagsSelector extends React.Component {
 							{/* Genrer */}
 							<TagsSelector title="Underkategorier" onDropdownOpen={this.onDropdownOpen.bind(this, 'genre')} 
 								onSelect={this.tagSelectChangeHandler}
-								dropdownHeaderText="Genre"
+								dropdownHeaderText="Underkategorier"
 								dropdownButtonLabel="Fler"
 								expandable={true} 
 								limit={10} 
