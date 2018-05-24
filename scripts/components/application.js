@@ -4,6 +4,7 @@ import Header from './Header';
 import Search from './Search';
 import ImageList from './ImageList';
 import Timeline from './Timeline';
+import TsneView from './TsneView';
 
 import EventBus from 'eventbusjs';
 
@@ -88,6 +89,9 @@ export default class Application extends React.Component {
 				searchHue={this.state.searchParams.hue}
 				searchSaturation={this.state.searchParams.saturation} /></div>;
 		}
+		else if (this.state.galleryType == 'tsne-view') {
+			galleryElement = <TsneView />;
+		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"
 				searchString={this.state.searchParams.search}
@@ -114,6 +118,10 @@ export default class Application extends React.Component {
 			{
 				type: 'simple-list',
 				menuItem: 'Katalog'
+			},
+			{
+				type: 'tsne-view',
+				menuItem: 'Relationer'
 			}
 		];
 

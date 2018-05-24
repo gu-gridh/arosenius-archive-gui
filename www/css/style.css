@@ -4559,6 +4559,84 @@ stretchRight
 .timeline-view .gallery-container .image-list .no-results {
   display: none;
 }
+body.tsne-view-app {
+  overflow: hidden;
+}
+body.tsne-view-app .gallery-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 10px 15px 10px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&1+72,1+72,0+100 */
+  background: -moz-linear-gradient(top, #000000 0%, #000000 72%, rgba(0, 0, 0, 0) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #000000 0%, #000000 72%, rgba(0, 0, 0, 0) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #000000 0%, #000000 72%, rgba(0, 0, 0, 0) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#00000000', GradientType=0);
+  /* IE6-9 */
+  z-index: 10;
+}
+.tsne-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #191919;
+}
+.tsne-view canvas {
+  opacity: 0;
+  pointer-events: 0;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  -webkit-transition-delay: 300ms;
+  transition-delay: 300ms;
+}
+.initialized.tsne-view canvas {
+  opacity: 1;
+  pointer-events: all;
+}
+.tsne-view .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(../img/loading-white.gif);
+  background-size: 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+  pointer-events: none;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+.tsne-view .loading .process-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: 50px;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.initialized.tsne-view .loading {
+  opacity: 0;
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+}
 html,
 body {
   background: #191919;

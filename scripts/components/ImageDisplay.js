@@ -164,9 +164,9 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if ((props.image.front.image != this.state.image.front.image) || (props.fullDisplay != this.state.fullDisplay)) {
+		if (props.image != null && props.image.front && ((this.state.image && props.image.front.image != this.state.image.front.image) || props.fullDisplay != this.state.fullDisplay)) {
 			// Check if component received new image object or just other params
-			var imageChanged = props.image.front.image != this.state.image.front.image;
+			var imageChanged = this.state.image && props.image.front.image != this.state.image.front.image;
 
 			this.setState({
 				image: props.image,
