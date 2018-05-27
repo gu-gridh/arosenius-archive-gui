@@ -2497,6 +2497,7 @@ stretchRight
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
+.tsne-view-app .site-header,
 .site-header.small {
   height: 90px;
 }
@@ -2535,6 +2536,7 @@ stretchRight
   color: inherit;
   font-weight: 100;
 }
+.tsne-view-app .site-header .site-logo,
 .small.site-header .site-logo {
   padding: 0 24px;
   font-size: 8rem;
@@ -2555,6 +2557,7 @@ stretchRight
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
+.tsne-view-app .site-header .header-content,
 .small.site-header .header-content {
   margin-top: 12px;
 }
@@ -2580,6 +2583,7 @@ stretchRight
   text-decoration: none;
   color: inherit;
 }
+.tsne-view-app .site-header .site-title,
 .small.site-header .site-title {
   max-height: 0px;
   margin-bottom: 0;
@@ -2607,6 +2611,7 @@ stretchRight
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
+.tsne-view-app .site-header nav.site-nav,
 .small.site-header nav.site-nav {
   top: -1px;
 }
@@ -2619,6 +2624,7 @@ stretchRight
   list-style: none;
   line-height: 2.7rem;
 }
+.tsne-view-app .site-header nav.site-nav ul,
 .small.site-header nav.site-nav ul {
   line-height: 2.2rem;
 }
@@ -2638,6 +2644,7 @@ stretchRight
   line-height: 0rem;
   text-decoration: none;
 }
+.tsne-view-app .site-header nav.site-nav ul a,
 .small.site-header nav.site-nav ul a {
   font-size: 1.8rem;
 }
@@ -4589,15 +4596,23 @@ body.tsne-view-app .gallery-menu {
 }
 .tsne-view canvas {
   opacity: 0;
-  pointer-events: 0;
-  -webkit-transition: all 300ms ease-in-out;
-  -o-transition: all 300ms ease-in-out;
-  transition: all 300ms ease-in-out;
-  -webkit-transition-delay: 300ms;
-  transition-delay: 300ms;
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  -webkit-transition: all 850ms ease-out;
+  -o-transition: all 850ms ease-out;
+  transition: all 850ms ease-out;
+  -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
+  pointer-events: none;
 }
 .initialized.tsne-view canvas {
   opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
   pointer-events: all;
 }
 .tsne-view .loading {
@@ -4616,9 +4631,9 @@ body.tsne-view-app .gallery-menu {
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: all 200ms ease-in-out;
-  -o-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 .tsne-view .loading .process-label {
   position: absolute;

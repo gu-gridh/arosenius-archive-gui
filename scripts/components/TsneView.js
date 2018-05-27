@@ -3,6 +3,8 @@ import 'whatwg-fetch';
 import _ from 'underscore';
 import * as THREE from 'three';
 
+window.THREE = THREE;
+
 import './../lib/texture-loader';
 import './../lib/trackball-controls';
 
@@ -14,6 +16,9 @@ export default class TsneView extends React.Component {
 		super(props);
 
 		window.tsneView = this;
+
+		this.windowResizeHandler = this.windowResizeHandler.bind(this);
+		this.windowMouseMoveHandler = this.windowMouseMoveHandler.bind(this);
 
 		this.state = {
 			images: [],
@@ -116,18 +121,8 @@ export default class TsneView extends React.Component {
 		this.mouse = new THREE.Vector2();
 		this.intersectObj = {};
 
-		window.addEventListener('resize', function() {
-			this.camera.aspect = window.innerWidth / window.innerHeight;
-			this.camera.updateProjectionMatrix();
-			this.renderer.setSize(window.innerWidth, window.innerHeight);
-			this.controls.handleResize();
-		}.bind(this));
-
-		window.document.addEventListener('mousemove', function(event) {
-			//event.preventDefault();
-			this.mouse.x = (event.clientX/window.innerWidth) * 2 - 1;
-			this.mouse.y = - (event.clientY/window.innerHeight) * 2 + 1;
-		}.bind(this));
+		window.addEventListener('resize', this.windowResizeHandler);
+		window.document.addEventListener('mousemove', this.windowMouseMoveHandler);
 
 		this.animate();
 
@@ -153,12 +148,26 @@ export default class TsneView extends React.Component {
 
 		this.renderer.render(this.scene, this.camera);
 		this.controls.update();
-	};
+	}
+
+	windowResizeHandler() {
+		console.log('windowResizeHandler');
+		this.camera.aspect = window.innerWidth / window.innerHeight;
+		this.camera.updateProjectionMatrix();
+		this.renderer.setSize(window.innerWidth, window.innerHeight);
+		this.controls.handleResize();
+	}
+
+	windowMouseMoveHandler(event) {
+		this.mouse.x = (event.clientX/window.innerWidth) * 2 - 1;
+		this.mouse.y = - (event.clientY/window.innerHeight) * 2 + 1;
+	}
 
 	componentWillUnmount() {
-		console.log('componentWillUnmount');
-
 		document.body.classList.remove('tsne-view-app');
+
+		window.removeEventListener('resize', this.windowResizeHandler);
+		window.document.removeEventListener('mousemove', this.windowMouseMoveHandler);
 	}
 
 	fetchTsneData() {
