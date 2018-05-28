@@ -295,6 +295,10 @@ export default class ImageView extends React.Component {
 				<div className="container">
 
 					<h2>{this.state.image.title}</h2>
+					{
+						this.state.image.subtitle &&
+						<h3 style={{marginTop: -20}}>{this.state.image.subtitle}</h3>
+					}
 
 					<div className="row">
 						{
@@ -313,6 +317,9 @@ export default class ImageView extends React.Component {
 									this.state.image.size && this.state.image.size.inner &&
 									<div className="attribute"><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
 								}
+
+								<div className="attribute"><span className="label">Rättigheter:</span> <a href="http://aroseniusarkivet.org/projekt/licens/">CC PD</a></div>
+
 							</div>
 						}
 
