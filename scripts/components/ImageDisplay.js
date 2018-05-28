@@ -44,13 +44,10 @@ export default class ImageDisplay extends React.Component {
 	toggleEnlargedDisplay() {
 		this.setState({
 			enlargedDisplay: !this.state.enlargedDisplay
-		}, function() {
-			this.checkFullDisplay();
-		}.bind(this));
+		});
 	}
 
 	checkFullDisplay() {
-		// Check if we are in enlarged view, then re-position image buttons
 		setTimeout(function() {
 			this.positionImageButtons();
 		}.bind(this), 500);
@@ -167,9 +164,9 @@ export default class ImageDisplay extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if ((props.image.front.image != this.state.image.front.image) || (props.fullDisplay != this.state.fullDisplay)) {
+		if (props.image != null && props.image.front && ((this.state.image && props.image.front.image != this.state.image.front.image) || props.fullDisplay != this.state.fullDisplay)) {
 			// Check if component received new image object or just other params
-			var imageChanged = props.image.front.image != this.state.image.front.image;
+			var imageChanged = this.state.image && props.image.front.image != this.state.image.front.image;
 
 			this.setState({
 				image: props.image,
@@ -277,9 +274,11 @@ export default class ImageDisplay extends React.Component {
 
 				<div ref="imageButtons" className={'image-buttons'+(this.state.fixedImageButtons ? ' fixed' : '')}>
 					
-					<a className="icon-download" style={{transitionDelay: '180ms'}} href={config.imageUrl+(this.state.flipped ? this.state.image.back.image : this.state.image.front.image)+'.jpg'} target="_blank" download></a>
+					{/*<button className="icon-plus" onClick={this.hideUiClick}></button>*/}
 
-					<a className="icon-rotate" style={{transitionDelay: '120ms'}} onClick={this.rotateButtonClickHandler}></a>
+					<a className="icon-download" href={config.imageUrl+(this.state.flipped ? this.state.image.back.image : this.state.image.front.image)+'.jpg'} target="_blank" download></a>
+
+					<a className="icon-rotate" onClick={this.rotateButtonClickHandler}></a>
 
 					<button className="toggle-show-all" style={{transitionDelay: '60ms'}} onClick={this.toggleEnlargedDisplay}>
 						<span className="icon-arrow arrow-1"></span>
@@ -287,7 +286,7 @@ export default class ImageDisplay extends React.Component {
 						Show all
 					</button>
 
-					<button className="icon-fulldisplay" style={{transitionDelay: '0ms'}} onClick={this.toggleFullDisplay}></button>
+					<button className="icon-fulldisplay" onClick={this.toggleFullDisplay}></button>
 
 				</div>
 			</div>;
