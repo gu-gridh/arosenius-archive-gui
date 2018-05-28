@@ -119,12 +119,10 @@ export default class Application extends React.Component {
 				type: 'simple-list',
 				menuItem: 'Katalog'
 			},
-/*
 			{
 				type: 'tsne-view',
 				menuItem: 'Relationer'
 			}
-*/
 		];
 
 		var galleryMenuItems = galleryTypes.map(function(galleryType) {
