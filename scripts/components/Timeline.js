@@ -284,7 +284,7 @@ export default class Timeline extends React.Component {
 
 				<br/>
 
-				<ImageList title={'Daterade dokument från '+item.year} year={item.year} 
+				<ImageList title={'Dokument från '+item.year} year={item.year} 
 					archiveMaterial="only"
 					showDates={true}
 					lazyLoad={true}
