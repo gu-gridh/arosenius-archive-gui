@@ -375,7 +375,12 @@ export default class ImageList extends React.Component {
 		var masonryOptions = {
 			columnWidth: '.grid-sizer',
 			percentPosition: true,
-			transitionDuration: 0
+			transitionDuration: 0,
+			animationOptions: {
+				duration: 500,
+				queue: false
+			},
+			isAnimated: false
 		};
 
 		if (this.props.columns || this.state.columns) {
