@@ -2502,7 +2502,7 @@ stretchRight
   left: 0;
   height: 180px;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background: #000;
   overflow: hidden;
   z-index: 999;
   opacity: 0;
@@ -2525,6 +2525,7 @@ stretchRight
 >>>>>>> Bugfix moved from SimilarImages branch
 .site-header.small {
   height: 90px;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 .site-header.initialized {
   opacity: 1;
@@ -2852,7 +2853,6 @@ stretchRight
 }
 .search-module .module-content {
   max-height: 0;
-  min-height: 30vh;
   opacity: 0;
   pointer-events: none;
   -webkit-transition: all 1000ms ease-in-out;
@@ -4046,6 +4046,9 @@ stretchRight
   position: relative;
   font-weight: 200;
 }
+.image-list h3 {
+  margin-right: 80px;
+}
 .image-list .loading-overlay {
   position: absolute;
   top: 0;
@@ -4114,6 +4117,12 @@ stretchRight
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
 }
+@media screen and (max-width: 550px) {
+  .image-list .list-buttons button.icon-relative-sizes .icon-box {
+    width: 4px;
+    height: 4px;
+  }
+}
 .image-list .list-buttons button.icon-relative-sizes .icon-box.box-1 {
   top: 10px;
   left: 10px;
@@ -4128,6 +4137,14 @@ stretchRight
   top: 12px;
   right: 12px;
 }
+@media screen and (max-width: 550px) {
+  .relative-sizes.image-list .list-buttons button.icon-relative-sizes .icon-box.box-2 {
+    width: 3px;
+    height: 3px;
+    top: 11px;
+    right: 10px;
+  }
+}
 .image-list .list-buttons button.icon-relative-sizes .icon-box.box-3 {
   left: 10px;
   bottom: 10px;
@@ -4138,9 +4155,20 @@ stretchRight
   left: 11px;
   bottom: 11px;
 }
+@media screen and (max-width: 550px) {
+  .relative-sizes.image-list .list-buttons button.icon-relative-sizes .icon-box.box-3 {
+    width: 2px;
+    height: 2px;
+  }
+}
 .image-list .list-buttons button.icon-relative-sizes .icon-box.box-4 {
   right: 10px;
   bottom: 10px;
+}
+@media screen and (max-width: 550px) {
+  .relative-sizes.image-list .list-buttons button.icon-relative-sizes .icon-box.box-4 {
+    right: 11px;
+  }
 }
 .image-label-grid .grid-sizer {
   width: 10%;
@@ -4726,11 +4754,14 @@ stretchRight
   }
 }
 @media screen and (max-width: 800px) {
+  .timeline-view .gallery-container h3 {
+    padding-left: 20px;
+  }
   .timeline-view .gallery-container .image-list {
     padding: 0 20px;
   }
-  .timeline-view .gallery-container h3 {
-    padding-left: 20px;
+  .timeline-view .gallery-container .image-list h3 {
+    padding-left: 0;
   }
 }
 .timeline-view .gallery-container .year-item {

@@ -58,7 +58,7 @@ export default class Search extends React.Component {
 		});
 
 		if (!this.state.open && Boolean(props.searchParams.searchString || props.searchParams.searchperson)) {
-			var scroll = new WindowScroll();
+//			var scroll = new WindowScroll();
 
 //			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
 		}
@@ -68,7 +68,7 @@ export default class Search extends React.Component {
 		this.setSearchMode('multi-tags');
 
 		var scroll = new WindowScroll();
-		scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
+		scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 800, 'easeInOutSine', true);
 	}
 
 	getOffsetTop(el) {
@@ -107,7 +107,7 @@ export default class Search extends React.Component {
 			if (this.state.open) {
 				var scroll = new WindowScroll();
 	
-				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 1000, 'easeInOutSine');
+				scroll.scrollToY(this.getOffsetTop(this.refs.searchButton)-50, 800, 'easeInOutSine', true);
 
 				this.refs.searchInput.focus();
 			}

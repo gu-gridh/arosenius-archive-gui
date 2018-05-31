@@ -7,10 +7,13 @@ import Timeline from './Timeline';
 import TsneView from './TsneView';
 
 import EventBus from 'eventbusjs';
+import WindowScroll from './../utils/window-scroll';
 
 export default class Application extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.galleryTypeLinkClickHandler = this.galleryTypeLinkClickHandler.bind(this);
 
 		window.eventBus = EventBus;
 
@@ -54,6 +57,17 @@ export default class Application extends React.Component {
 				saturation: props.params.saturation
 			}
 		})
+	}
+
+	galleryTypeLinkClickHandler(event) {
+		this.setState({
+			galleryType: event.target.dataset.type
+		});
+
+		if (window.scrollY < 30) {
+			var windowScroll = new WindowScroll();
+			windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.siteContent)-250, 800, 'easeInOutSine', true);
+		}
 	}
 
 	render() {
@@ -119,7 +133,10 @@ export default class Application extends React.Component {
 		];
 
 		var galleryMenuItems = galleryTypes.map(function(galleryType) {
-			return <a key={galleryType.type} className={this.state.galleryType == galleryType.type ? 'selected' : null} onClick={function() {this.setState({galleryType: galleryType.type})}.bind(this)}>{galleryType.menuItem}</a>;
+			return <a key={galleryType.type} 
+				className={this.state.galleryType == galleryType.type ? 'selected' : null} 
+				data-type={galleryType.type} 
+				onClick={this.galleryTypeLinkClickHandler}>{galleryType.menuItem}</a>;
 		}.bind(this));
 
 		return (
@@ -134,7 +151,7 @@ export default class Application extends React.Component {
 						{galleryMenuItems}
 					</div>
 
-					<div className="site-content">
+					<div className="site-content" ref="siteContent">
 						{
 							galleryElement
 						}

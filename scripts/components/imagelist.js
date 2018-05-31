@@ -20,6 +20,17 @@ export default class ImageList extends React.Component {
 		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
 
+		this.masonryOptions = {
+			columnWidth: '.grid-sizer',
+			percentPosition: true,
+			transitionDuration: 0,
+			animationOptions: {
+				duration: 500,
+				queue: false
+			},
+			isAnimated: false
+		};
+
 		this.state = {
 			images: [],
 			loading: false,
@@ -232,6 +243,10 @@ export default class ImageList extends React.Component {
 				google_label: props.google_label
 			};
 
+			if (props.listType == 'simple') {
+				params.sort = 'insert_id';
+			}
+
 			var state = {
 				loading: true
 			};
@@ -379,7 +394,7 @@ export default class ImageList extends React.Component {
 */
 			listElement = <Masonry
 				className={'grid image-label-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-				options={masonryOptions}
+				options={this.masonryOptions}
 				disableImagesLoaded={false}
 				updateOnEachImageLoad={true}
 				onImagesLoaded={this.imageLoadedHandler}>
@@ -395,24 +410,13 @@ export default class ImageList extends React.Component {
 		else {
 			listElement = <Masonry
 				className={'grid image-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-				options={masonryOptions}
+				options={this.masonryOptions}
 				disableImagesLoaded={false}
 				updateOnEachImageLoad={true}
 				onImagesLoaded={this.imageLoadedHandler}>
 				{items}
 			</Masonry>
 		}
-
-		var masonryOptions = {
-			columnWidth: '.grid-sizer',
-			percentPosition: true,
-			transitionDuration: 0,
-			animationOptions: {
-				duration: 500,
-				queue: false
-			},
-			isAnimated: false
-		};
 
 		if (this.props.columns || this.state.columns) {
 			return <div className="grid grid-columns initialized">
