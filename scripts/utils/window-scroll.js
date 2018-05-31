@@ -24,12 +24,14 @@ export default class WindowScroll {
 		return offsetTop;
 	}
 
-	scrollToY(scrollTargetY, speed, easing) {
-		setTimeout(function() {
-			window.scrollTo(0, scrollTargetY);
-		}, 10);
+	scrollToY(scrollTargetY, speed, easing, animation) {
+		if (!animation) {
+			setTimeout(function() {
+				window.scrollTo(0, scrollTargetY);
+			}, 10);
 
-		return;
+			return;
+		}
 
 		// scrollTargetY: the target scrollY property of the window
 		// speed: time in pixels per second

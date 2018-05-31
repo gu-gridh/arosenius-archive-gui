@@ -314,6 +314,14 @@ export default class Timeline extends React.Component {
 
 		var fontSize = scale.scaleLinear().domain([detailYearsMin, detailYearsMax]);
 
+		var getTimelineStyle = function() {
+			if (this.state.data.length > 0) {
+				return {
+					maxHeight: this.state.data.length*16
+				};
+			}
+		}.bind(this);
+
 		return <div className="timeline-view" ref="container">
 
 			<div className={'timeline-year-select'+(this.state.fixedTimeline ? ' fixed' : '')}>
@@ -326,7 +334,7 @@ export default class Timeline extends React.Component {
 				</select>
 			</div>
 
-			<div className={'timeline-year-list flex'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')}>
+			<div className={'timeline-year-list flex'+(this.state.timelineVisible ? ' visible' : '')+(this.state.fixedTimeline ? ' fixed' : '')} style={getTimelineStyle()}>
 
 				{
 					this.state.data.map(function(item, index) {
