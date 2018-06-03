@@ -141,9 +141,17 @@ export default class TsneView extends React.Component {
 			if (this.intersectObj != intersects[0].object) {
 				this.intersectObj = intersects[0].object;
 				console.log(this.intersectObj);
+
+				this.setState({
+					hoverId: this.intersectObj.userData.id
+				});
 			}
 		} else {
 			this.intersectObj = null;
+
+			this.setState({
+				hoverId: undefined
+			});
 		}
 
 		this.renderer.render(this.scene, this.camera);
@@ -333,6 +341,11 @@ export default class TsneView extends React.Component {
 			<div ref="canvasContainer" className="three-canvas-container"></div>
 
 			<div className="loading"><div className="process-label">{!isNaN((this.state.loadNumber/this.state.tsneData.length)*100) ? Math.round((this.state.loadNumber/this.state.tsneData.length)*100)+'%' : ''}</div></div>
+
+			{
+				this.state.hoverId &&
+				<div className={'hover-object'}>Hover!</div>
+			}
 		</div>;
 	}
 }

@@ -4652,6 +4652,12 @@ body.tsne-view-app .gallery-menu {
   -ms-transform: scale(0.8);
   transform: scale(0.8);
 }
+.tsne-view .hover-object {
+  position: fixed;
+  background: #fff;
+  border-radius: 5px;
+  z-index: 15;
+}
 html,
 body {
   background: #191919;
