@@ -6,7 +6,7 @@
  * @modified by Cello / http://milletforall.com
  */
 
-import * as THREE from 'three';þþ
+import * as THREE from 'three';
 
 THREE.TrackballControls = function ( object, domElement ) {
 
