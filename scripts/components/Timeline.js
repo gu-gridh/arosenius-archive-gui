@@ -57,42 +57,44 @@ export default class Timeline extends React.Component {
 	}
 
 	yearLabelMouseOverHander(event) {
-		var year = event.currentTarget.dataset.year;
+		if (this.state.data.length > 30) {
+			var year = event.currentTarget.dataset.year;
 
-		var itemIndex = _.findIndex(this.state.data, function(item) {
-			return item.year == year;
-		});
+			var itemIndex = _.findIndex(this.state.data, function(item) {
+				return item.year == year;
+			});
 
-		var hoveredYear;
+			var hoveredYear;
 
-		if (year % 10 == 0 || year == this.state.data[0].year) {
-			hoveredYear = year;
-		}
-		else {
-			var nextDecade;
+			if (year % 10 == 0 || year == this.state.data[0].year) {
+				hoveredYear = year;
+			}
+			else {
+				var nextDecade;
 
-			for (var i = itemIndex; i >= 0; i--) {
-				if ((this.state.data[i].year % 10 == 0 || i == 0) && !nextDecade) {
-					nextDecade = this.state.data[i].year;
+				for (var i = itemIndex; i >= 0; i--) {
+					if ((this.state.data[i].year % 10 == 0 || i == 0) && !nextDecade) {
+						nextDecade = this.state.data[i].year;
+					}
 				}
+
+				hoveredYear = nextDecade;
 			}
 
-			hoveredYear = nextDecade;
+			var gotAll = false;
+			var nextYears = _.filter(this.state.data, function(item) {
+				if (item.year > hoveredYear && item.year % 10 == 0) {
+					gotAll = true;
+				}
+
+				return item.year >= hoveredYear && !gotAll;
+			});
+
+			this.setState({
+				detailYears: nextYears,
+				hoveredYear: hoveredYear
+			});
 		}
-
-		var gotAll = false;
-		var nextYears = _.filter(this.state.data, function(item) {
-			if (item.year > hoveredYear && item.year % 10 == 0) {
-				gotAll = true;
-			}
-
-			return item.year >= hoveredYear && !gotAll;
-		});
-
-		this.setState({
-			detailYears: nextYears,
-			hoveredYear: hoveredYear
-		});
 	}
 
 	componentDidMount() {
@@ -215,6 +217,31 @@ export default class Timeline extends React.Component {
 		}
 	}
 
+	formatYearRangeData(data) {
+		var formatedData = [];
+
+		_.each(data, function(item) {
+			// Look to see if decades does not exist, if not we will add then
+
+			formatedData.push(item);
+
+			if (_.find(formatedData, function(searchItem) {
+				return parseInt(searchItem.year) == Math.floor(item.year / 10)*10;
+			}) == undefined) {
+				formatedData.push({
+					doc_count: 0,
+					year: Math.floor(item.year / 10)*10
+				});
+			}
+		});
+
+		formatedData.sort(function(a, b) {
+			return parseInt(a.year) - parseInt(b.year);
+		});
+
+		return formatedData;
+	}
+
 	fetchYears(params) {
 		var fetchParams = [];
 
@@ -254,7 +281,7 @@ export default class Timeline extends React.Component {
 				return response.json()
 			}).then(function(json) {
 				this.setState({
-					data: json
+					data: this.formatYearRangeData(json)
 				}, function() {
 					this.forceUpdate();
 					console.log('forcing an update');
@@ -266,8 +293,9 @@ export default class Timeline extends React.Component {
 	}
 
 	render() {
+		// Iterate through year_range and create a mini-gallery for each year, skipping years with doc_count = 0
 		var yearGalleries = this.state.data.map(function(item) {
-			return <div key={item.year} data-year={item.year} className={'year-item year-'+item.year}>
+			return item.doc_count > 0 ? <div key={item.year} data-year={item.year} className={'year-item year-'+item.year}>
 				<h3>{item.year}</h3>
 				<ImageList year={item.year} archiveMaterial="exclude" 
 					lazyLoad={true}
@@ -301,7 +329,7 @@ export default class Timeline extends React.Component {
 
 				<br/><br/>
 
-			</div>;
+			</div> : <div key={item.year} data-year={item.year} className={'year-'+item.year}></div>;
 		}.bind(this));
 
 		var detailYearsMin = _.min(this.state.detailYears, function(item) {
@@ -312,7 +340,17 @@ export default class Timeline extends React.Component {
 			return item.doc_count;
 		}).doc_count;
 
-		var fontSize = scale.scaleLinear().domain([detailYearsMin, detailYearsMax]);
+		var detailYearFontSize = scale.scaleLinear().domain([detailYearsMin, detailYearsMax]);
+
+		var yearsMin = _.min(this.state.data, function(item) {
+			return item.doc_count;
+		}).doc_count;
+
+		var yearsMax = _.max(this.state.data, function(item) {
+			return item.doc_count;
+		}).doc_count;
+
+		var yearFontSize = scale.scaleLinear().domain([yearsMin, yearsMax]);
 
 		var getTimelineStyle = function() {
 			if (this.state.data.length > 0) {
@@ -348,21 +386,24 @@ export default class Timeline extends React.Component {
 							data-year={item.year}
 							onClick={this.yearLabelClickHandler} 
 							onMouseOver={this.yearLabelMouseOverHander}
-							className={'year-item'+(item.year == this.state.selectedYear && _.findIndex(this.state.detailYears, function(detailYear) { return detailYear.year == item.year}) == -1 ? ' selected' : '')+(item.year % 10 != 0 && index > 0 ? ' dot-item' : '')}
+							className={'year-item'+(item.year == this.state.selectedYear && _.findIndex(this.state.detailYears, function(detailYear) {
+								return detailYear.year == item.year
+							}) == -1 ? ' selected' : '')+(item.year % 10 != 0 && index > 0 && this.state.data.length > 30 ? ' dot-item' : '')} 
+
 						>
 							<span className={'year-label'}>
-								<span>{item.year}</span>
+								<span style={this.state.data.length < 30 ? {fontSize: (yearFontSize(item.doc_count || 0)*12)+14} : {}}>{item.year}</span>
 							</span>
 
 							{
-								this.state.hoveredYear == item.year &&
+								this.state.hoveredYear == item.year && this.state.data.length > 30 && 
 								<div className={'detail-years'}>
 									{
 										this.state.detailYears.map(function(detailItem, index) {
 											return <span data-year={detailItem.year} 
 												onClick={this.yearLabelClickHandler} 
 												className={'detail-item'+(detailItem.year == this.state.selectedYear ? ' selected' : '')} 
-												style={{fontSize: (fontSize(detailItem.doc_count)*12)+14}} 
+												style={{fontSize: (detailYearFontSize(detailItem.doc_count)*12)+14}} 
 												key={detailItem.year}
 											>{detailItem.year}</span>
 										}.bind(this))

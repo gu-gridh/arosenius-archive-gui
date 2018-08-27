@@ -63,7 +63,7 @@ export default class ImageDisplay extends React.Component {
 
 	rotateButtonClickHandler() {
 		this.setState({
-			rotation: this.state.rotation+90
+			rotation: this.state.rotation == 270 ? 0 : this.state.rotation+90
 		});
 	}
 

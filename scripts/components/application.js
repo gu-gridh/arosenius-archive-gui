@@ -1,10 +1,11 @@
 import React from 'react';
+import {hashHistory} from 'react-router'
 
 import Header from './Header';
 import Search from './Search';
 import ImageList from './ImageList';
 import Timeline from './Timeline';
-import TsneView from './TsneView';
+//import TsneView from './TsneView';
 
 import EventBus from 'eventbusjs';
 import WindowScroll from './../utils/window-scroll';
@@ -60,9 +61,15 @@ export default class Application extends React.Component {
 	}
 
 	galleryTypeLinkClickHandler(event) {
+		var galleryType = event.target.dataset.type;
+
 		this.setState({
-			galleryType: event.target.dataset.type
+			galleryType: galleryType
 		});
+
+		if (galleryType == 'tsne-view') {
+			hashHistory.push('/');
+		}
 
 		if (window.scrollY < 30) {
 			var windowScroll = new WindowScroll();
@@ -97,7 +104,7 @@ export default class Application extends React.Component {
 				searchSaturation={this.state.searchParams.saturation} /></div>;
 		}
 		else if (this.state.galleryType == 'tsne-view') {
-			galleryElement = <TsneView />;
+//			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
 		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"
@@ -126,10 +133,12 @@ export default class Application extends React.Component {
 				type: 'simple-list',
 				menuItem: 'Katalog'
 			},
+/*
 			{
 				type: 'tsne-view',
 				menuItem: 'Relationer'
 			}
+*/
 		];
 
 		var galleryMenuItems = galleryTypes.map(function(galleryType) {

@@ -7,7 +7,9 @@ window.THREE = THREE;
 
 import './../lib/texture-loader';
 import './../lib/trackball-controls';
+import SimpleListItem from './SimpleListItem';
 
+import config from './../config';
 
 import ImageListCollection from '../collections/ImageListCollection';
 
@@ -19,20 +21,45 @@ export default class TsneView extends React.Component {
 
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.windowMouseMoveHandler = this.windowMouseMoveHandler.bind(this);
+		this.dataSetMenuClickHandler = this.dataSetMenuClickHandler.bind(this);
 
 		this.state = {
 			images: [],
 			loadNumber: 0,
 			initialized: false,
 			waitingForLoad: false,
-			tsneData: []
+			tsneData: [],
+			dataSet: 'all'
 		};
+
+		this.dataSets = [
+			{
+				name: 'Alla',
+				id: 'all'
+			},
+			{
+				name: 'Konstverk',
+				id: 'konstverk'
+			},
+			{
+				name: 'Fotografi',
+				id: 'photographs'
+			}
+		];
 
 		this.collection = new ImageListCollection(function(event) {
 			// Update visualization to match ID's of fetched data to 3D objects
 			setTimeout(function() {
 				this.waitingForLoad = false;
 			}.bind(this), 500);
+
+			console.log(event);
+
+			this.setState({
+				images: event.data.documents
+			}, function() {
+				this.updateSelection();
+			}.bind(this))
 		}.bind(this), function(event) {
 			this.setState({
 				loading: false
@@ -40,8 +67,40 @@ export default class TsneView extends React.Component {
 		}.bind(this));
 	}
 
+	updateSelection() {
+		if (!this.state.images || this.state.images.length == 0) {
+			return;
+		}
+
+		for (var object in this.sceneObjects) {
+			if (_.findWhere(this.state.images, {id: object})) {
+				this.sceneObjects[object].material.opacity = 1;
+			}
+			else {
+				this.sceneObjects[object].material.opacity = 0.2;
+			}
+		}
+	}
+
+	loadMuseumsList() {
+		fetch(config.apiUrl+config.endpoints.museums)
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				this.setState({
+					museumsList: data
+				});
+
+			}.bind(this));
+	}
+
 	componentDidMount() {
+		this._isMounted = true;
+
 		document.body.classList.add('tsne-view-app');
+
+		this.loadMuseumsList();
 
 		// Build the canvas
 		// Start Scene and Three.js environment (camera, lights, mouse control)
@@ -126,7 +185,7 @@ export default class TsneView extends React.Component {
 
 		this.animate();
 
-		this.fetchTsneData();
+		this.fetchTsneData(this.state.dataSet);
 
 		// Build visualization
 		this.handleProps(this.props);
@@ -136,22 +195,33 @@ export default class TsneView extends React.Component {
 		requestAnimationFrame(this.animate.bind(this));
 
 		this.raycaster.setFromCamera(this.mouse, this.camera);
-		var intersects = this.raycaster.intersectObjects(this.scene.children);
-		if (intersects.length > 0) {
-			if (this.intersectObj != intersects[0].object) {
-				this.intersectObj = intersects[0].object;
-				console.log(this.intersectObj);
+
+		if (this.state.initialized) {
+			var intersects = this.raycaster.intersectObjects(this.scene.children);
+			if (intersects.length > 0) {
+				if (this.intersectObj != intersects[0].object) {
+					this.intersectObj = intersects[0].object;
+
+					if (!this.hoverStateInterval) {
+						this.lastIntersectObj = this.intersectObj;
+	
+						this.hoverStateInterval = setInterval(function() {
+							if (this.lastIntersectObj == this.intersectObj) {
+								this.setState({
+									hoverId: this.intersectObj.userData.id
+								});
+							}
+							this.hoverStateInterval = undefined;
+						}.bind(this), 1000);
+					}
+				}
+			} else {
+				this.intersectObj = null;
 
 				this.setState({
-					hoverId: this.intersectObj.userData.id
+					hoverId: undefined
 				});
 			}
-		} else {
-			this.intersectObj = null;
-
-			this.setState({
-				hoverId: undefined
-			});
 		}
 
 		this.renderer.render(this.scene, this.camera);
@@ -169,6 +239,21 @@ export default class TsneView extends React.Component {
 	windowMouseMoveHandler(event) {
 		this.mouse.x = (event.clientX/window.innerWidth) * 2 - 1;
 		this.mouse.y = - (event.clientY/window.innerHeight) * 2 + 1;
+
+		this.setState({
+			mouseX: event.clientX,
+			mouseY: event.clientY
+		});
+	}
+
+	dataSetMenuClickHandler(event) {
+		if (event.target.dataset.dataset != this.state.dataSet) {
+			this.setState({
+				dataSet: event.target.dataset.dataset
+			});
+
+			this.fetchTsneData(event.target.dataset.dataset);
+		}
 	}
 
 	componentWillUnmount() {
@@ -176,10 +261,20 @@ export default class TsneView extends React.Component {
 
 		window.removeEventListener('resize', this.windowResizeHandler);
 		window.document.removeEventListener('mousemove', this.windowMouseMoveHandler);
+
+		this._isMounted = false;
 	}
 
-	fetchTsneData() {
-		fetch('tsne_data/image_tsne_projections_konstverk.json')
+	fetchTsneData(dataSet) {
+		this.setState({
+			images: [],
+			loadNumber: 0,
+			initialized: false,
+			waitingForLoad: false,
+			tsneData: []
+		});
+
+		fetch('tsne_data/image_tsne_projections_'+dataSet+'.json')
 			.then(function(response) {
 				return response.json();
 			})
@@ -197,13 +292,25 @@ export default class TsneView extends React.Component {
 	* Build Image Geometry
 	**/
 
-	// Iterate over the 20 textures, and for each, add a new mesh to the scene
 	buildGeometry() {
+		// First, remove all objects if existing
+		if (this.sceneObjects) {
+			console.log('remove object')
+			for (let i = this.scene.children.length - 1; i >= 0; i--) {
+				if (this.scene.children[i].geometry) {
+					this.scene.children[i].geometry.dispose();
+					this.scene.children[i].material.dispose();
+					this.scene.remove(this.scene.children[i]);
+				}
+			}
+		}
+
 		this.sceneObjects = {};
 
 		this.setState({
 			loadNumber: 0
 		});
+
 		_.each(this.state.tsneData, function(image, index) {
 			var geometry = new THREE.PlaneGeometry(image.width*0.8, image.height*0.8);
 			image.x *= 1200;
@@ -256,95 +363,51 @@ export default class TsneView extends React.Component {
 	}
 
 	handleProps(props) {
-		if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
-			this.waitingForLoad = true;
-
-			var params;
-
-			var state = {
-				loading: true
-			};
-
-			if (props.listType == 'simple') {
-				params = {
-					sort: 'insert_id'
-				};
-
-				state.images = [];
-			}
-
-			this.setState(state);
-
-			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
-		}
-		else if (this.props.searchString != props.searchString ||
-			this.props.searchPerson != props.searchPerson ||
-			this.props.searchPlace != props.searchPlace ||
-			this.props.searchMuseum != props.searchMuseum ||
-			this.props.searchGenre != props.searchGenre ||
-			this.props.searchTags != props.searchTags ||
-			this.props.searchType != props.searchType ||
-			this.props.searchHue != props.searchHue ||
-			this.props.year != props.year ||
-			this.props.google_label != props.google_label ||
-
-			this.props.searchSaturation != props.searchSaturation ||
-
-			this.state.images.length == 0
-		) {
+		if (this.props.searchMuseum != '' && this.props.searchMuseum != props.searchMuseum) {
 			this.waitingForLoad = true;
 
 			var params = {
-				searchString: props.searchString,
-				person: props.searchPerson,
-				place: props.searchPlace,
-				museum: props.searchMuseum,
-				genre: props.searchGenre,
-				tags: props.searchTags,
-				type: props.searchType,
-				hue: props.searchHue,
-				saturation: props.searchSaturation,
-				year: props.year,
-				google_label: props.google_label
+				museum: props.searchMuseum
 			};
 
 			var state = {
-				loading: true
+				loading: true,
+				images: []
 			};
-
-			if (this.props.listType != props.listType) {
-				if (props.listType == 'simple') {
-					params = {
-						sort: 'insert_id'
-					};
-				}
-
-				state.images = [];
-			}
 
 			this.setState(state);
 
-			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
-		}
-		else if (this.props.listType != props.listType) {
-			var params = {};
-
-			if (props.listType == 'simple') {
-				params.sort = 'insert_id';
-			}
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 		}
 	}
 
 	render() {
 		return <div className={'tsne-view'+(this.state.initialized ? ' initialized' : '')}>
+			<div className="tsne-menu">
+				<div className="menu-group">
+					{
+						this.dataSets.map(function(dataSet) {
+							return <a className={this.state.dataSet == dataSet.id ? 'selected' : ''} onClick={this.dataSetMenuClickHandler} key={dataSet.id} data-dataset={dataSet.id}>{dataSet.name}</a>;
+						}.bind(this))
+					}
+
+					{
+						this.state.museumsList ? this.state.museumsList.map(function(museum, index) {
+							return <a className={this.state.selectedMuseum == museum.value ? 'selected' : ''} onClick={this.dataSetMenuClickHandler} key={museum.value} data-dataset={museum.value}>{museum.value}</a>;
+						}.bind(this)) : []
+					}
+				</div>
+			</div>
+
 			<div ref="canvasContainer" className="three-canvas-container"></div>
 
 			<div className="loading"><div className="process-label">{!isNaN((this.state.loadNumber/this.state.tsneData.length)*100) ? Math.round((this.state.loadNumber/this.state.tsneData.length)*100)+'%' : ''}</div></div>
 
 			{
 				this.state.hoverId &&
-				<div className={'hover-object'}>Hover!</div>
+				<div className={'hover-object'} style={{top: this.state.mouseY-30, left: this.state.mouseX-30}}>
+					<SimpleListItem imageId={this.state.hoverId}/>
+				</div>
 			}
 		</div>;
 	}

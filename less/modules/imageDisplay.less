@@ -409,12 +409,14 @@
 
 		overflow: hidden;
 
+		.transition(all 200ms ease-in-out);
+
 		img {
 			display: block;
 
 			height: 100px;
 
-			.transform(scale(1.15));
+//			.transform(scale(1.15));
 
 			.transition(all 200ms ease-in-out);
 		}
@@ -422,10 +424,12 @@
 		&:hover {
 			overflow: visible;
 
+			.transform(scale(1.6));
+
 			img {
 				box-shadow: 0 2px 45px 15px rgba(0, 0, 0, 0.6);
 
-				.transform(scale(1.6));
+				.transform(none);
 			}
 		}
 

@@ -106,6 +106,8 @@ export default class ImageView extends React.Component {
 	}
 
 	componentDidMount() {
+		document.body.classList.add('image-view-open');
+
 		this.fetchData(this.props.params.imageId);
 
 		setTimeout(function() {
@@ -130,6 +132,7 @@ export default class ImageView extends React.Component {
 	}
 
 	componentWillUnmount() {
+		document.body.classList.remove('image-view-open');
 		document.body.classList.remove('hide-ui');
 
 		if (this.mouseIdleTimer) {
