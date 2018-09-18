@@ -67,8 +67,10 @@ export default class Search extends React.Component {
 	eventBusOpenTagsHandler() {
 		this.setSearchMode('multi-tags');
 
-		var scroll = new WindowScroll();
-		scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 800, 'easeInOutSine', true);
+		setTimeout(function() {
+			var scroll = new WindowScroll();
+			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 800, 'easeInOutSine', true);
+		}.bind(this), 200);
 	}
 
 	getOffsetTop(el) {
@@ -128,7 +130,6 @@ export default class Search extends React.Component {
 			searchParams: searchParams
 		}, function() {
 			if (event.triggerSearch) {
-				console.log('do triggerSearch');
 				this.triggerSearch();
 			}
 		}.bind(this));
@@ -157,18 +158,18 @@ export default class Search extends React.Component {
 	}
 
 	setSearchMode(mode) {
-		this.refs.searchModeDropdownMenu.closeMenu();
+		setTimeout(function() {
+			this.refs.searchModeDropdownMenu.closeMenu();
 
-		if (mode != this.state.searchMode) {
-//			hashHistory.push('/search');
-			window.eventBus.dispatch('search.mode-changed');
-		}
+			if (mode != this.state.searchMode) {
+				window.eventBus.dispatch('search.mode-changed');
+			}
 
-		this.setState({
-			searchMode: mode,
-			manualOpen: true
-		}, function() {
-		}.bind(this));
+			this.setState({
+				searchMode: mode,
+				manualOpen: true
+			});
+		}.bind(this), 100);
 	}
 
 	triggerSearch() {

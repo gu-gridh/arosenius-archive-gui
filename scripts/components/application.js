@@ -5,7 +5,7 @@ import Header from './Header';
 import Search from './Search';
 import ImageList from './ImageList';
 import Timeline from './Timeline';
-//import TsneView from './TsneView';
+import TsneView from './TsneView';
 
 import EventBus from 'eventbusjs';
 import WindowScroll from './../utils/window-scroll';
@@ -15,8 +15,10 @@ export default class Application extends React.Component {
 		super(props);
 
 		this.galleryTypeLinkClickHandler = this.galleryTypeLinkClickHandler.bind(this);
+		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
 
 		window.eventBus = EventBus;
+		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
 		this.state = {
 			searchParams: {},
@@ -77,6 +79,14 @@ export default class Application extends React.Component {
 		}
 	}
 
+	eventBusOpenTagsHandler() {
+		if (this.state.galleryType == 'tsne-view') {
+			this.setState({
+				galleryType: 'gallery'
+			});
+		}
+	}
+
 	render() {
 		var galleryElement;
 
@@ -104,7 +114,7 @@ export default class Application extends React.Component {
 				searchSaturation={this.state.searchParams.saturation} /></div>;
 		}
 		else if (this.state.galleryType == 'tsne-view') {
-//			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
+			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
 		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"
@@ -133,12 +143,10 @@ export default class Application extends React.Component {
 				type: 'simple-list',
 				menuItem: 'Katalog'
 			},
-/*
 			{
 				type: 'tsne-view',
 				menuItem: 'Relationer'
 			}
-*/
 		];
 
 		var galleryMenuItems = galleryTypes.map(function(galleryType) {

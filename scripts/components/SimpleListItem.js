@@ -59,7 +59,7 @@ export default class SimpleListItem extends React.Component {
 
 		var dominantColor = this.state.image.images && this.state.image.images[0].googleVisionColors ? colorUtil.getDominantHex(this.state.image.images[0].googleVisionColors) : '#191919';
 
-		return <a className="simple-list-item" key={this.state.image.id} href={'#image/'+this.state.image.id} >
+		return <a ref="el" className="simple-list-item" key={this.state.image.id} href={'#image/'+this.state.image.id} >
 			{
 			/*
 			<div className="detail-info row">

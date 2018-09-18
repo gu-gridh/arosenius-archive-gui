@@ -2,6 +2,7 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 import * as THREE from 'three';
+import { hashHistory } from 'react-router';
 
 window.THREE = THREE;
 
@@ -22,6 +23,8 @@ export default class TsneView extends React.Component {
 		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 		this.windowMouseMoveHandler = this.windowMouseMoveHandler.bind(this);
 		this.dataSetMenuClickHandler = this.dataSetMenuClickHandler.bind(this);
+		this.menuSelectChangeHandler = this.menuSelectChangeHandler.bind(this);
+		this.getHoverObjectStyle = this.getHoverObjectStyle.bind(this);
 
 		this.state = {
 			images: [],
@@ -69,15 +72,15 @@ export default class TsneView extends React.Component {
 
 	updateSelection() {
 		if (!this.state.images || this.state.images.length == 0) {
-			return;
+			var viewAll = true;
 		}
 
 		for (var object in this.sceneObjects) {
-			if (_.findWhere(this.state.images, {id: object})) {
+			if (viewAll || _.findWhere(this.state.images, {id: object})) {
 				this.sceneObjects[object].material.opacity = 1;
 			}
 			else {
-				this.sceneObjects[object].material.opacity = 0.2;
+				this.sceneObjects[object].material.opacity = 0.05;
 			}
 		}
 	}
@@ -95,12 +98,35 @@ export default class TsneView extends React.Component {
 			}.bind(this));
 	}
 
+	loadGenresList() {
+		fetch(config.apiUrl+config.endpoints.genres)
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				this.setState({
+					genresList: data
+				});
+
+			}.bind(this));
+	}
+
+	menuSelectChangeHandler(event) {
+		if (event.target.value == 'all') {
+			hashHistory.push('/search');
+		}
+		else {
+			hashHistory.push('/search/tags/'+event.target.dataset.type+'/'+event.target.value);
+		}
+	}
+
 	componentDidMount() {
 		this._isMounted = true;
 
 		document.body.classList.add('tsne-view-app');
 
 		this.loadMuseumsList();
+		this.loadGenresList();
 
 		// Build the canvas
 		// Start Scene and Three.js environment (camera, lights, mouse control)
@@ -192,6 +218,10 @@ export default class TsneView extends React.Component {
 	}
 
 	animate() {
+		if (!this._isMounted) {
+			return;
+		}
+
 		requestAnimationFrame(this.animate.bind(this));
 
 		this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -266,6 +296,8 @@ export default class TsneView extends React.Component {
 	}
 
 	fetchTsneData(dataSet) {
+		hashHistory.push('/search');
+
 		this.setState({
 			images: [],
 			loadNumber: 0,
@@ -317,7 +349,7 @@ export default class TsneView extends React.Component {
 			image.y *= 600;
 			image.z = (-200 + index);
 			
-			var texture = new THREE.TextureLoader().load('tsne_data/'+image.image, function () {
+			var texture = new THREE.TextureLoader().load(config.imageUrl+'255x/'+image.image+'.jpg', function () {
 				this.setState({
 					loadNumber: this.state.loadNumber+1
 				}, function() {
@@ -346,7 +378,8 @@ export default class TsneView extends React.Component {
 		// Set the position of the image mesh in the x,y,z dimensions
 		mesh.position.set(image.x, image.y, image.z);
 
-		mesh.userData.id = image.image.replace('thumbs/', '').replace('.jpg', '');
+		//mesh.userData.id = image.image.replace('thumbs/', '').replace('.jpg', '');
+		mesh.userData.id = image.id;
 		this.sceneObjects[mesh.userData.id] = mesh;
 
 		// Add the image to the scene
@@ -363,11 +396,15 @@ export default class TsneView extends React.Component {
 	}
 
 	handleProps(props) {
-		if (this.props.searchMuseum != '' && this.props.searchMuseum != props.searchMuseum) {
+		if ((this.props.searchMuseum != '' && this.props.searchMuseum != props.searchMuseum) ||
+			(this.props.searchGenre != '' && this.props.searchGenre != props.searchGenre)) {
 			this.waitingForLoad = true;
 
 			var params = {
-				museum: props.searchMuseum
+				simple: true,
+				museum: props.searchMuseum,
+				genre: props.searchGenre,
+				type: this.state.dataSet == 'photographs' ? 'Fotografi' : this.state.dataSet == 'konstverk' ? 'Konstverk' : undefined
 			};
 
 			var state = {
@@ -375,10 +412,41 @@ export default class TsneView extends React.Component {
 				images: []
 			};
 
-			this.setState(state);
+			if (props.searchMuseum == 'all' || props.searchGenre == 'all') {
+				this.setState({
+					images: [],
+					loading: false
+				}, function() {
+					this.updateSelection();
+				}.bind(this));
+			}
+			else {
+				this.setState(state);
 
-			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
+				this.fetchData(params, 1000, 1, false, props.archiveMaterial || null);
+			}
 		}
+	}
+
+	getHoverObjectStyle() {
+		var styleObj = {
+			top: this.state.mouseY-30, 
+			left: this.state.mouseX-30
+		};
+
+		if (this.refs && this.refs.hoverObject && this.refs.hoverObject.refs.el) {
+			if (this.refs.hoverObject.refs.el.clientWidth + styleObj.left > document.body.clientWidth) {
+				styleObj.left = undefined;
+				styleObj.right = 5;
+			}
+
+			if (this.refs.hoverObject.refs.el.clientHeight + styleObj.top > document.body.scrollHeight) {
+				styleObj.top = undefined;
+				styleObj.bottom = 95;
+			}
+		}
+
+		return styleObj;
 	}
 
 	render() {
@@ -391,11 +459,30 @@ export default class TsneView extends React.Component {
 						}.bind(this))
 					}
 
+					<div className="spacer"/>
+
+					<select className="menu-select" data-type="museum" onChange={this.menuSelectChangeHandler}>
+						<option value="all">Samling</option>
+						{
+							this.state.museumsList ? this.state.museumsList.map(function(museum, index) {
+								return <option key={museum.value} value={museum.value}>{museum.value}</option>;
+							}.bind(this)) : []
+						}
+					</select>
+
 					{
-						this.state.museumsList ? this.state.museumsList.map(function(museum, index) {
-							return <a className={this.state.selectedMuseum == museum.value ? 'selected' : ''} onClick={this.dataSetMenuClickHandler} key={museum.value} data-dataset={museum.value}>{museum.value}</a>;
-						}.bind(this)) : []
+					/*
+					<select className="menu-select" data-type="genre" onChange={this.menuSelectChangeHandler}>
+						<option value="all">Underkategorier</option>
+						{
+							this.state.genresList ? this.state.genresList.map(function(genre, index) {
+								return <option key={genre.value} value={genre.value}>{genre.value}</option>;
+							}.bind(this)) : []
+						}
+					</select>
+					*/
 					}
+
 				</div>
 			</div>
 
@@ -405,8 +492,8 @@ export default class TsneView extends React.Component {
 
 			{
 				this.state.hoverId &&
-				<div className={'hover-object'} style={{top: this.state.mouseY-30, left: this.state.mouseX-30}}>
-					<SimpleListItem imageId={this.state.hoverId}/>
+				<div className={'hover-object'} style={this.getHoverObjectStyle()}>
+					<SimpleListItem ref="hoverObject" imageId={this.state.hoverId}/>
 				</div>
 			}
 		</div>;

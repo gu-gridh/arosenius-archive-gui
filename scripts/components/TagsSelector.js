@@ -104,7 +104,6 @@ export default class TagsSelector extends React.Component {
 		}) : [];
 
 		if (this.props.expandable && this.props.dropdownItemsSortFunc) {
-			console.log('sort')
 			data = data.sort(this.props.dropdownItemsSortFunc);
 		}
 
