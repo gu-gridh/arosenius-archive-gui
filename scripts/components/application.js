@@ -145,7 +145,7 @@ export default class Application extends React.Component {
 			},
 			{
 				type: 'tsne-view',
-				menuItem: 'Relationer'
+				menuItem: 'Bildrelationer'
 			}
 		];
 

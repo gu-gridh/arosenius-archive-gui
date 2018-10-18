@@ -293,6 +293,38 @@ export default class TsneView extends React.Component {
 		window.document.removeEventListener('mousemove', this.windowMouseMoveHandler);
 
 		this._isMounted = false;
+
+		if (this.sceneObjects) {
+			this.removeSceneObjects();
+			this.sceneObjects = {};
+		}
+
+		if (this.scene) {
+			this.scene = null;
+		}
+
+		if (this.renderer) {
+			this.renderer.renderLists.dispose();
+			this.renderer = null;
+		}
+
+		if (this.camera) {
+			this.camera = null;
+		}
+
+		if (this.controls) {
+			this.controls = null;
+		}
+
+		if (this.light) {
+			this.light = null;
+		}
+
+		if (this.raycaster) {
+			this.raycaster = null;
+		}
+
+		this.state = {};
 	}
 
 	fetchTsneData(dataSet) {
@@ -320,6 +352,17 @@ export default class TsneView extends React.Component {
 			}.bind(this));
 	}
 
+	removeSceneObjects() {
+		for (let i = this.scene.children.length - 1; i >= 0; i--) {
+			if (this.scene.children[i].geometry) {
+				this.scene.children[i].geometry.dispose();
+				this.scene.children[i].material.dispose();
+				this.scene.remove(this.scene.children[i]);
+				this.scene.children[i] = null;
+			}
+		}
+	}
+
 	/**
 	* Build Image Geometry
 	**/
@@ -327,14 +370,7 @@ export default class TsneView extends React.Component {
 	buildGeometry() {
 		// First, remove all objects if existing
 		if (this.sceneObjects) {
-			console.log('remove object')
-			for (let i = this.scene.children.length - 1; i >= 0; i--) {
-				if (this.scene.children[i].geometry) {
-					this.scene.children[i].geometry.dispose();
-					this.scene.children[i].material.dispose();
-					this.scene.remove(this.scene.children[i]);
-				}
-			}
+			this.removeSceneObjects();
 		}
 
 		this.sceneObjects = {};

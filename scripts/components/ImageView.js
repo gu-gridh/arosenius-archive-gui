@@ -412,7 +412,7 @@ export default class ImageView extends React.Component {
 					{
 						(this.state.image.type[0] == 'Konstverk' || this.state.image.type[0] == 'Fotografi') &&
 						<div className="related-list">
-							<ImageList title={'Similar'} nearestNeighbors={this.props.params.imageId} nearestNeighborsType={this.state.image.type[0].toLowerCase()} count="10" />
+							<ImageList title={'Liknande'} nearestNeighbors={this.props.params.imageId} nearestNeighborsType={this.state.image.type[0].toLowerCase()} count="10" />
 						</div>
 					}
 
