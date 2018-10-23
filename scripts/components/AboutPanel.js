@@ -18,7 +18,7 @@ export default class AboutPanel extends React.Component {
 	componentDidMount() {
 		window.eventBus.addEventListener('about-panel.open', this.panelOpenHandler);
 		window.eventBus.addEventListener('about-panel.close', this.panelCloseHandler);
-
+		/*
 		window.addEventListener('scroll', function(e) {
 			if (this.disableScrollWatch) {
 				return;
@@ -32,6 +32,7 @@ export default class AboutPanel extends React.Component {
 				});
 			}
 		}.bind(this));
+		*/
 	}
 
 	componentWillUnmount() {
@@ -123,8 +124,8 @@ export default class AboutPanel extends React.Component {
 					<h3>Användning</h3>
 
 					<div className="about-menu">
-						<a href="#">Introduktion till arkivet</a>
-						<a href="#">Om metadatan och API:er</a>
+						<a href="http://aroseniusarkivet.org/projekt/introduktion/">Introduktion till arkivet</a>
+						<a href="http://aroseniusarkivet.org/projekt/metadata-och-apier/">Om metadatan och API:er</a>
 					</div>
 
 					<small>Om inget annat anges så är arkivets material Public Domain.</small>
