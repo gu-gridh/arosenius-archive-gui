@@ -81,12 +81,16 @@ export default class FrontPage extends React.Component {
 
 	render() {
 		return (
-			<div className={"front"+(this.state.initialized ? ' initialized' : '')}>
+			<div>
 
-				<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
-					<div className="overlay"></div>
+				<div className={"front"+(this.state.initialized ? ' initialized' : '')}>
 
-					<button style={{display: 'none'}} className="arrow" onClick={this.arrowClick}></button>
+					<div className={'hero-image'+(this.state.backgroundLoaded ? ' initialized' : '')} style={{backgroundImage: 'url("'+this.state.backgroundImage+'")'}}>
+						<div className="overlay"></div>
+
+						<button style={{display: 'none'}} className="arrow" onClick={this.arrowClick}></button>
+					</div>
+
 				</div>
 
 			</div>

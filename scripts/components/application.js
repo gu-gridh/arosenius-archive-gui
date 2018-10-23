@@ -6,7 +6,8 @@ import Search from './Search';
 import ImageList from './ImageList';
 import Timeline from './Timeline';
 import TsneView from './TsneView';
-
+import AboutPanel from './AboutPanel';
+	
 import EventBus from 'eventbusjs';
 import WindowScroll from './../utils/window-scroll';
 
@@ -158,6 +159,9 @@ export default class Application extends React.Component {
 
 		return (
 			<div>
+
+				<AboutPanel />
+
 				<Header routerPath={this.props.location.pathname} />
 				<div className={'site-content'+(this.props.location.pathname.substr(0, 7) == '/search' ? ' front' : '')}>
 					{this.props.children}

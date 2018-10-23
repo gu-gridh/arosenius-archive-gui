@@ -21,6 +21,7 @@ export default class Search extends React.Component {
 		this.searchInputChangeHandler = this.searchInputChangeHandler.bind(this);
 		this.personSelectorChangeHandler = this.personSelectorChangeHandler.bind(this);
 		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
+		this.eventBusOpenHandler = this.eventBusOpenHandler.bind(this);
 		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
 		this.receivedSearchParamsHandler = this.receivedSearchParamsHandler.bind(this);
 
@@ -35,12 +36,13 @@ export default class Search extends React.Component {
 			open: Boolean(this.state.open || this.props.searchParams.search || this.props.searchParams.searchperson || this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.hue || this.props.searchParams.saturation || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place),
 			searchMode: this.props.searchParams.searchperson ? 'persons' : this.props.searchParams.hue && this.props.searchParams.saturation ? 'colors' : this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place ? 'multi-tags' : this.state.searchMode
 		});
-		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
-//		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
+		window.eventBus.addEventListener('search.open', this.eventBusOpenHandler);
+		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 	}
 
 	componentWillUnmount() {
+		window.eventBus.removeEventListener('search.open', this.eventBusOpenHandler);
 		window.eventBus.removeEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
 		window.eventBus.removeEventListener('application.searchParams', this.receivedSearchParamsHandler);		
@@ -73,6 +75,10 @@ export default class Search extends React.Component {
 		}.bind(this), 200);
 	}
 
+	eventBusOpenHandler() {
+		this.toggleButtonClick(true);
+	}
+
 	getOffsetTop(el) {
 		var offsetTop = 0;
 		if (!el) {
@@ -102,9 +108,9 @@ export default class Search extends React.Component {
 		}
 	}
 
-	toggleButtonClick() {
+	toggleButtonClick(forceOpen) {
 		this.setState({
-			open: !this.state.open
+			open: forceOpen ? true : !this.state.open
 		}, function() {
 			if (this.state.open) {
 				var scroll = new WindowScroll();

@@ -50,7 +50,11 @@ export default class Header extends React.Component {
 
 					<nav className="site-nav">
 						<ul>
-							<li><a href="http://aroseniusarkivet.org/projekt/">Om projektet och Ivar Arosenius</a></li>
+							<li><a onClick={function(event) {
+								event.preventDefault();
+
+								window.eventBus.dispatch('about-panel.open');
+							}} href="http://aroseniusarkivet.org/projekt/">Om projektet och Ivar Arosenius</a></li>
 							<li><a href="http://aroseniusarkivet.org/projekt/bidra-till-arkivet/">Bidra till arkivet</a></li>
 							<li><a onClick={this.openTagSearchButtonClickHandler} href="#">Upptäck arkivet</a></li>
 						</ul>
