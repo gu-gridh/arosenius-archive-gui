@@ -51,24 +51,11 @@ export default class AboutPanel extends React.Component {
 	}
 
 	panelOpenHandler() {
-		if (this.state.open) {
-			this.setState({
-				open: false
-			});
-		}
-		else {
-			this.disableScrollWatch = true;
+		this.setState({
+			open: true
+		});
 
-			this.setState({
-				open: true
-			});
-
-			new WindowScroll().scrollToY(0, 0.5, 'easeInOutSine', true);
-
-			setTimeout(function() {
-				this.disableScrollWatch = false;
-			}.bind(this), 1000);
-		}
+		new WindowScroll().scrollToY(0, 0.5, 'easeInOutSine', true);
 	}
 
 	panelCloseHandler() {
