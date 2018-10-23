@@ -117,6 +117,7 @@ export default class ImageView extends React.Component {
 		}.bind(this), 200);
 
 		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
+		window.eventBus.dispatch('about-panel.close')
 	}
 
 	componentWillReceiveProps(props) {
@@ -128,6 +129,7 @@ export default class ImageView extends React.Component {
 			this.fetchData(props.params.imageId);
 
 			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
+			window.eventBus.dispatch('about-panel.close')
 		}
 	}
 
