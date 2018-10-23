@@ -124,8 +124,8 @@ export default class AboutPanel extends React.Component {
 					<h3>Användning</h3>
 
 					<div className="about-menu">
-						<a href="http://aroseniusarkivet.org/projekt/introduktion/">Introduktion till arkivet</a>
-						<a href="http://aroseniusarkivet.org/projekt/metadata-och-apier/">Om metadatan och API:er</a>
+						<a href="http://aroseniusarkivet.org/projekt/introduktion/">Introduktion</a>
+						<a href="http://aroseniusarkivet.org/projekt/metadata-och-apier/">Metadata och API:er</a>
 					</div>
 
 					<small>Om inget annat anges så är arkivets material Public Domain.</small>
