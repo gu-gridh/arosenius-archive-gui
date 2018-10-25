@@ -293,7 +293,7 @@ export default class TsneView extends React.Component {
 		window.document.removeEventListener('mousemove', this.windowMouseMoveHandler);
 
 		this._isMounted = false;
-
+		/*
 		if (this.sceneObjects) {
 			this.removeSceneObjects();
 			this.sceneObjects = {};
@@ -323,8 +323,8 @@ export default class TsneView extends React.Component {
 		if (this.raycaster) {
 			this.raycaster = null;
 		}
-
-		this.state = {};
+		*/
+		//this.state = {};
 	}
 
 	fetchTsneData(dataSet) {
@@ -336,20 +336,21 @@ export default class TsneView extends React.Component {
 			initialized: false,
 			waitingForLoad: false,
 			tsneData: []
-		});
+		}, function() {
+			fetch('tsne_data/image_tsne_projections_'+dataSet+'.json')
+				.then(function(response) {
+					return response.json();
+				})
+				.then(function(data) {
+					console.log(data)
+					this.setState({
+						tsneData: data
+					}, function() {
+						this.buildGeometry();
+					}.bind(this));
 
-		fetch('tsne_data/image_tsne_projections_'+dataSet+'.json')
-			.then(function(response) {
-				return response.json();
-			})
-			.then(function(data) {
-				this.setState({
-					tsneData: data
-				}, function() {
-					this.buildGeometry();
 				}.bind(this));
-
-			}.bind(this));
+		}.bind(this));
 	}
 
 	removeSceneObjects() {
@@ -358,7 +359,7 @@ export default class TsneView extends React.Component {
 				this.scene.children[i].geometry.dispose();
 				this.scene.children[i].material.dispose();
 				this.scene.remove(this.scene.children[i]);
-				this.scene.children[i] = null;
+//				this.scene.children[i] = null;
 			}
 		}
 	}
@@ -448,7 +449,7 @@ export default class TsneView extends React.Component {
 				images: []
 			};
 
-			if (props.searchMuseum == 'all' || props.searchGenre == 'all') {
+			if (props.searchMuseum == 'all' || props.searchGenre == 'all' || !props.searchMuseum) {
 				this.setState({
 					images: [],
 					loading: false
