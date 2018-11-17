@@ -249,6 +249,7 @@ export default class ImageDisplay extends React.Component {
 	render() {
 		if (this.state.image) {
 			var rearImageEl;
+
 			if (this.state.image.back) {
 				rearImageEl = <div className="image-display image-rear" onClick={this.imageDisplayClickHandler} style={this.getImageStyle(true)}></div>;
 			}
