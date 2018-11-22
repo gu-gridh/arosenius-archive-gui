@@ -63,6 +63,16 @@ function logPageView() {
 	ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
+/*
+
+React Router directs the application to right routes based on the url and url parameters.
+The main routes are:
+
+- Front page
+- Search results
+- Single image view
+
+*/
 ReactDOM.render(
 	<Router history={hashHistory} onUpdate={logPageView}>
 

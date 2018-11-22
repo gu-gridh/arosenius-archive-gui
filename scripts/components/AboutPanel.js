@@ -58,15 +58,33 @@ export default class AboutPanel extends React.Component {
 		new WindowScroll().scrollToY(0, 0.5, 'easeInOutSine', true);
 	}
 
-	panelCloseHandler() {
-		this.setState({
-			open: false
-		});
+	panelCloseHandler(target, event) {
+		// If closing immediately, hide the div first and before setting open = false to avoid the css transition
+		if (event && event.immediately) {
+			this.setState({
+				hidden: true
+			}, function() {
+				this.setState({
+					open: false
+				});
+
+				setTimeout(function() {
+					this.setState({
+						hidden: false
+					});
+				}.bind(this), 1600);
+			}.bind(this));
+		}
+		else {
+			this.setState({
+				open: false
+			});
+		}
 	}
 
 	render() {
 		return (
-			<div className={'about-panel'+(this.state.open ? ' open' : '')}>
+			<div className={'about-panel'+(this.state.open ? ' open' : '')} style={this.state.hidden ? {display: 'none'} : {}}>
 				<div className="content">
 					<div className="ivar-badge" />
 					<h2>Aroseniusarkivet</h2>

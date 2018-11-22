@@ -11,6 +11,13 @@ import WindowScroll from './../utils/window-scroll';
 
 import config from './../config';
 
+/*
+
+Search component
+
+- Here is the search input box as well as search filter components (faces, tags, )
+
+*/
 export default class Search extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,7 +30,6 @@ export default class Search extends React.Component {
 		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
 		this.eventBusOpenHandler = this.eventBusOpenHandler.bind(this);
 		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
-		this.receivedSearchParamsHandler = this.receivedSearchParamsHandler.bind(this);
 
 		this.state = {
 			searchParams: {}
@@ -37,6 +43,7 @@ export default class Search extends React.Component {
 			searchMode: this.props.searchParams.searchperson ? 'persons' : this.props.searchParams.hue && this.props.searchParams.saturation ? 'colors' : this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place ? 'multi-tags' : this.state.searchMode
 		});
 
+		// Register listener for opening and closing the tags component
 		window.eventBus.addEventListener('search.open', this.eventBusOpenHandler);
 		window.eventBus.addEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 	}
@@ -45,7 +52,6 @@ export default class Search extends React.Component {
 		window.eventBus.removeEventListener('search.open', this.eventBusOpenHandler);
 		window.eventBus.removeEventListener('search.open-tags', this.eventBusOpenTagsHandler);
 
-		window.eventBus.removeEventListener('application.searchParams', this.receivedSearchParamsHandler);		
 	}
 
 	componentWillReceiveProps(props) {
@@ -58,12 +64,6 @@ export default class Search extends React.Component {
 			open: Boolean(this.state.open || props.searchParams.search || props.searchParams.searchperson || props.searchParams.person || props.searchParams.museum || props.searchParams.hue || props.searchParams.saturation || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place),
 			searchMode: props.searchParams.searchperson ? 'persons' : props.searchParams.hue && props.searchParams.saturation ? 'colors' : props.searchParams.person || props.searchParams.museum || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place ? 'multi-tags' : this.state.searchMode
 		});
-
-		if (!this.state.open && Boolean(props.searchParams.searchString || props.searchParams.searchperson)) {
-//			var scroll = new WindowScroll();
-
-//			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
-		}
 	}
 
 	eventBusOpenTagsHandler() {
@@ -92,20 +92,6 @@ export default class Search extends React.Component {
 		} while (el = el.offsetParent);
 
 		return offsetTop;
-	}
-
-	receivedSearchParamsHandler(event, params) {
-		this.setState({
-			searchParams: params,
-			open: Boolean(this.state.open || params.search || params.searchperson || params.person || params.museum || params.hue || params.saturation || params.tags || params.type || params.genre || params.place),
-			searchMode: params.searchperson ? 'persons' : params.hue && params.saturation ? 'colors' : params.person || params.museum || params.tags || params.type || params.genre || params.place ? 'multi-tags' : this.state.searchMode
-		});
-
-		if (!this.state.open && Boolean(params.searchString || params.searchperson)) {
-			var scroll = new WindowScroll();
-
-			scroll.scrollToY(this.getOffsetTop(this.refs.searchButton), 1000, 'easeInOutSine');			
-		}
 	}
 
 	toggleButtonClick(forceOpen) {

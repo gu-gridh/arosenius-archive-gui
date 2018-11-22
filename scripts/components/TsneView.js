@@ -56,8 +56,6 @@ export default class TsneView extends React.Component {
 				this.waitingForLoad = false;
 			}.bind(this), 500);
 
-			console.log(event);
-
 			this.setState({
 				images: event.data.documents
 			}, function() {
@@ -259,7 +257,6 @@ export default class TsneView extends React.Component {
 	}
 
 	windowResizeHandler() {
-		console.log('windowResizeHandler');
 		this.camera.aspect = window.innerWidth / window.innerHeight;
 		this.camera.updateProjectionMatrix();
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -342,7 +339,6 @@ export default class TsneView extends React.Component {
 					return response.json();
 				})
 				.then(function(data) {
-					console.log(data)
 					this.setState({
 						tsneData: data
 					}, function() {

@@ -43,8 +43,6 @@ export default class FrontPage extends React.Component {
 		}.bind(this), 200);
 
 		this.loadBackgroundImage();
-
-//		window.eventBus.addEventListener('application.searchParams', this.receivedSearchParamsHandler);
 	}
 
 	componentWillReceiveProps(props) {

@@ -117,7 +117,9 @@ export default class ImageView extends React.Component {
 		}.bind(this), 200);
 
 		new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
-		window.eventBus.dispatch('about-panel.close')
+		window.eventBus.dispatch('about-panel.close', this, {
+			immediately: true
+		});
 	}
 
 	componentWillReceiveProps(props) {
@@ -129,7 +131,9 @@ export default class ImageView extends React.Component {
 			this.fetchData(props.params.imageId);
 
 			new WindowScroll().scrollToY(0, 1, 'easeInOutSine');
-			window.eventBus.dispatch('about-panel.close')
+			window.eventBus.dispatch('about-panel.close', this, {
+				immediately: true
+			});
 		}
 	}
 
@@ -253,7 +257,7 @@ export default class ImageView extends React.Component {
 			if (_.filter(this.state.image.images, function(image) {
 					return image.page && (image.page.side == 'front' || image.page.side == 'back');
 				}).length > 2 || (this.state.image.images.length == 2 && this.state.image.images[0].page.side == this.state.image.images[1].page.side)) {
-				console.log('have pages')
+
 				var pages = _.filter(this.state.image.images, function(image) {
 					return image.page && image.page.side == 'front';
 				});
@@ -269,19 +273,16 @@ export default class ImageView extends React.Component {
 			var imageObj = {};
 
 			if (this.state.image.images.length == 2 && this.state.image.images[0].page.side != this.state.image.images[1].page.side) {
-				console.log('one two sides object')
 				imageObj['front'] = this.state.image.images[0];
 				imageObj['back'] = this.state.image.images[1];
 			}
 			else if (this.state.image.images.length > 2 || (this.state.image.images.length == 2 && this.state.image.images[0].page.side == this.state.image.images[1].page.side)) {
-				console.log('two or more objects')
 				imageObj['front'] = this.getPage(this.state.currentPage, 'front') || this.state.image.images[0];
 				if (this.getPage(this.state.currentPage, 'back')) {
 					imageObj['back'] = this.getPage(this.state.currentPage, 'back');
 				}
 			}
 			else {
-				console.log('one single side object')
 				imageObj['front'] = this.state.image.images[0];
 			}
 
