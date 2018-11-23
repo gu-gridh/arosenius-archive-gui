@@ -149,7 +149,7 @@ export default class TsneView extends React.Component {
 		at any given time)
 		*/
 		var nearPlane = 100;
-		var farPlane = 50000;
+		var farPlane = 500000;
 
 		// Use the values specified above to create a camera
 		this.camera = new THREE.PerspectiveCamera(
