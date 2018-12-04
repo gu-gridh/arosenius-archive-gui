@@ -6,7 +6,7 @@ import { hashHistory } from 'react-router';
 
 import config from './../config';
 
-import imageSizes from './../utils/imageSizes';
+import imageSizes from './../utils/ImageSizes';
 
 export default class ImageMap extends React.Component {
 	constructor(props) {

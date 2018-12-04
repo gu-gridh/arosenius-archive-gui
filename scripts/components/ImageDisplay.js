@@ -6,7 +6,7 @@ import _ from 'underscore';
 
 import ImageMap from './ImageMap';
 
-import imageSizes from './../utils/imageSizes';
+import imageSizes from './../utils/ImageSizes';
 import colorUtil from './../utils/colorUtil';
 
 import config from './../config';

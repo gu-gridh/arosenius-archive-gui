@@ -4,6 +4,8 @@ import _ from 'underscore';
 import * as d3 from 'd3';
 import * as cloud from 'd3-v4-cloud';
 
+//import * as cloud from './../utils/d3.TagCloud'
+
 import config from './../config';
 
 export default class TagCloud extends React.Component {
@@ -11,6 +13,7 @@ export default class TagCloud extends React.Component {
 		super(props);
 
 		this.drawCloud = this.drawCloud.bind(this);
+		this.windowResizeHandler = this.windowResizeHandler.bind(this);
 
 		this.state = {
 			loading: false,
@@ -19,13 +22,20 @@ export default class TagCloud extends React.Component {
 	}
 
 	componentDidMount() {
-		window.d3 = d3;
-		console.log(cloud);
+		var w = window.innerWidth;
+        var h = window.innerHeight;
+
+		this.svg = d3.select('#cloudContainer').append('svg');
+
+		this.vis = this.svg.append('g');
+
+		window.addEventListener('resize', this.windowResizeHandler);
 
 		this.fetchData();
 	}
 
 	componentWillUnmount() {
+		window.removeEventListener('resize', this.windowResizeHandler);
 	}
 
 	componentWillReceiveProps(props) {
@@ -47,15 +57,15 @@ export default class TagCloud extends React.Component {
 	}
 
 	makeClound() {
-		var docCountMin = _.min(this.state.data, function(item) {
+		this.docCountMin = _.min(this.state.data, function(item) {
 			return item.doc_count;
 		}).doc_count;
 
-		var docCountMax = _.max(this.state.data, function(item) {
+		this.docCountMax = _.max(this.state.data, function(item) {
 			return item.doc_count;
 		}).doc_count;
 
-		var fontSize = d3.scaleLinear().domain([docCountMin, docCountMax]);
+		this.fontSize = d3.scaleLinear().domain([this.docCountMin, this.docCountMax]);
 
 		this.layout = cloud.cloud()
 			.size([window.innerWidth, window.innerHeight])
@@ -64,29 +74,33 @@ export default class TagCloud extends React.Component {
 			.font('Arial')
 			//.rotate(0)
 			.rotate(function() {
+				//return 0;
 				return ~~(Math.random() * 2) * 90;
 			})
-			.fontSize(function(d) {
-				return (fontSize(d.doc_count)*60)+20;
+			.text(function(d) {
+				return d.value;
 			})
+			.fontSize(function(d) {
+				return (this.fontSize(d.doc_count)*60)+20;
+			}.bind(this))
 			.on('end', this.drawCloud);
 
 		this.layout.start();
 	}
 
 	drawCloud(words) {
+		var w = window.innerWidth;
+        var h = window.innerHeight;
 
-		d3.select('#cloudContainer').append('svg')
-			.attr('width', this.layout.size()[0])
-			.attr('height', this.layout.size()[1])
-			.append('g')
-			.attr('transform', 'translate(' + this.layout.size()[0] / 2 + ',' + this.layout.size()[1] / 2 + ')')
+    	this.svg.attr('width', w).attr('height', h);
+
+		this.vis.attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')')
 			.selectAll('text')
 			.data(words)
 			.enter().append('text')
 			.style('font-size', function(d) {
-				return (d.size)+'px'
-			})
+				return d.size+'px'
+			}.bind(this))
 			.style('font-family', 'Arial')
 			.style('fill', '#fff')
 			.attr('text-anchor', 'middle')
@@ -96,6 +110,12 @@ export default class TagCloud extends React.Component {
 			.text(function(d) {
 				return d.value;
 			});
+	}
+
+	windowResizeHandler() {
+		if (this.state.data) {
+			this.layout.stop().words(this.state.data).start()
+		}
 	}
 
 	render() {
