@@ -7,6 +7,7 @@ import ImageList from './ImageList';
 import Timeline from './Timeline';
 import TsneView from './TsneView';
 import AboutPanel from './AboutPanel';
+import TagCloud from './TagCloud';
 	
 import EventBus from 'eventbusjs';
 import WindowScroll from './../utils/window-scroll';
@@ -137,6 +138,9 @@ export default class Application extends React.Component {
 		else if (this.state.galleryType == 'tsne-view') {
 			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
 		}
+		else if (this.state.galleryType == 'tagcloud') {
+			galleryElement = <TagCloud />;
+		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"
 				searchString={this.state.searchParams.search}
@@ -167,7 +171,11 @@ export default class Application extends React.Component {
 			},
 			{
 				type: 'tsne-view',
-				menuItem: 'Bildrelationer'
+				menuItem: 'Bildmoln'
+			},
+			{
+				type: 'tagcloud',
+				menuItem: 'Textmoln'
 			}
 		];
 
