@@ -42,7 +42,7 @@ export default class TagCloud extends React.Component {
 	}
 
 	fetchData() {
-		fetch(config.apiUrl+config.endpoints.googlevisionlabels)
+		fetch(config.apiUrl+config.endpoints.tag_cloud)
 			.then(function(response) {
 				return response.json();
 			})
@@ -95,9 +95,13 @@ export default class TagCloud extends React.Component {
     	this.svg.attr('width', w).attr('height', h);
 
 		this.vis.attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')')
-			.selectAll('text')
+			.selectAll('a')
 			.data(words)
-			.enter().append('text')
+			.enter().append('a')
+			.attr('xlink:href', function(d) {
+				return '#/search/tags/'+d.type+'/'+d.value;
+			})
+			.append('text')
 			.style('font-size', function(d) {
 				return d.size+'px'
 			}.bind(this))
@@ -109,7 +113,10 @@ export default class TagCloud extends React.Component {
 			})
 			.text(function(d) {
 				return d.value;
-			});
+			})
+			.on('click', function(d) {
+				console.log(d);
+			}.bind(this));
 	}
 
 	windowResizeHandler() {

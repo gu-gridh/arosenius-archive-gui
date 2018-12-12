@@ -139,7 +139,19 @@ export default class Application extends React.Component {
 			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
 		}
 		else if (this.state.galleryType == 'tagcloud') {
-			galleryElement = <TagCloud />;
+			galleryElement = <div>
+				<TagCloud />
+				<ImageList count="50" enableAutoLoad="true"
+					searchString={this.state.searchParams.search}
+					searchPerson={this.state.searchParams.searchperson && this.state.searchParams.searchperson.length > 0 ? this.state.searchParams.searchperson : this.state.searchParams.person}
+					searchPlace={this.state.searchParams.place}
+					searchMuseum={this.state.searchParams.museum}
+					searchGenre={this.state.searchParams.genre}
+					searchTags={this.state.searchParams.tags}
+					searchType={this.state.searchParams.type}
+					searchHue={this.state.searchParams.hue}
+					searchSaturation={this.state.searchParams.saturation} />
+			</div>;
 		}
 		else {
 			galleryElement = <ImageList count="50" enableAutoLoad="true"
