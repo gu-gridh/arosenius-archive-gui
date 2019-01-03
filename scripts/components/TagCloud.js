@@ -65,7 +65,7 @@ export default class TagCloud extends React.Component {
 			return item.doc_count;
 		}).doc_count;
 
-		this.fontSize = d3.scaleLinear().domain([this.docCountMin, this.docCountMax]);
+		this.fontSize = d3.scaleLinear().domain([this.docCountMin, this.docCountMax]).range([14, 100]);
 
 		this.layout = cloud.cloud()
 			.size([window.innerWidth, window.innerHeight])
@@ -81,7 +81,7 @@ export default class TagCloud extends React.Component {
 				return d.value;
 			})
 			.fontSize(function(d) {
-				return (this.fontSize(d.doc_count)*60)+20;
+				return this.fontSize(d.doc_count);
 			}.bind(this))
 			.on('end', this.drawCloud);
 
@@ -106,17 +106,34 @@ export default class TagCloud extends React.Component {
 				return d.size+'px'
 			}.bind(this))
 			.style('font-family', 'Arial')
-			.style('fill', '#fff')
+			.style('fill', function(d) {
+				if (d.type == 'genre') {
+					return '#aeeaa0';
+				}
+				if (d.type == 'tags') {
+					return '#f48fb1';
+				}
+				if (d.type == 'place') {
+					return '#4fc3f7';
+				}
+				if (d.type == 'person') {
+					return '#ffd54f';
+				}
+				return '#fff';
+			})
 			.attr('text-anchor', 'middle')
 			.attr('transform', function(d) {
-				return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
+				return 'translate(' + [d.x, d.y] + ') rotate(' + d.rotate + ')';
 			})
 			.text(function(d) {
 				return d.value;
 			})
 			.on('click', function(d) {
 				console.log(d);
-			}.bind(this));
+			}.bind(this))
+			.on('mouseover', function(d) {
+				console.log(d);	
+			});
 	}
 
 	windowResizeHandler() {

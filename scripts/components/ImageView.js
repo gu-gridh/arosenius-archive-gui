@@ -333,7 +333,13 @@ export default class ImageView extends React.Component {
 						}
 
 						<div className="four columns">
-							<div className="attribute bottom-margin-5"><span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a></div>
+							<div className="attribute bottom-margin-5">
+								<span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a>
+								{
+									this.state.image.museumLink &&
+									<span><br/><a href={this.state.image.museumLink} target="_blank">Visa på externt webbplats</a><br/><br/></span>
+								}
+							</div>
 							{
 								typeEls.length > 0 &&
 								<div className="attribute bottom-margin-5">
