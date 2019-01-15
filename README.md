@@ -4,7 +4,9 @@ Here is the source code for the Ivar Arosenius online archive (http://aroseniusa
 The system consists of a Reach.js frontent, Express.js API that connects to Elasticsearch and a Backbone.js administration system.
 
 The archive connects to an API which source code can be found here: https://github.com/CDH-DevTeam/arosenius-api
+
 Here is an administration system for the archives data: https://github.com/CDH-DevTeam/arosenius-admin
+
 The admin system uses the API to connect to Elasticsearch and add/update data.
 
 ## Getting started
