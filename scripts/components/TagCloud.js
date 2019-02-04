@@ -138,7 +138,11 @@ export default class TagCloud extends React.Component {
 
 	windowResizeHandler() {
 		if (this.state.data) {
-			this.layout.stop().words(this.state.data).start()
+			//this.makeClound();
+
+			//this.drawCloud();
+			
+			this.layout.stop().words(this.state.data).start();
 		}
 	}
 

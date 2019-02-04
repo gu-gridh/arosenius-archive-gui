@@ -310,34 +310,35 @@ export default class ImageView extends React.Component {
 					}
 
 					<div className="row">
-						{
-							(this.state.image.item_date_str || (this.state.image.size && this.state.image.size.inner) || this.state.image.technique_material) &&
 
-							<div className="four columns">
-								{
-									this.state.image.item_date_str &&
-									<div className="attribute"><span className="label">Datering:</span> {this.state.image.item_date_str}</div>
-								}
-								{
-									this.state.image.technique_material &&
-									<div className="attribute"><span className="label">Teknik och material:</span> {this.state.image.technique_material}</div>
-								}
-								{
-									this.state.image.size && this.state.image.size.inner &&
-									<div className="attribute"><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
-								}
+						<div className="four columns">
+							{
+								this.state.image.item_date_str &&
+								<div className="attribute"><span className="label">Datering:</span> {this.state.image.item_date_str}</div>
+							}
+							{
+								!this.state.image.item_date_str &&
+								<div className="attribute"><span className="label">Datering:</span> Okänt årtal</div>
+							}
+							{
+								this.state.image.technique_material &&
+								<div className="attribute"><span className="label">Teknik och material:</span> {this.state.image.technique_material}</div>
+							}
+							{
+								this.state.image.size && this.state.image.size.inner &&
+								<div className="attribute"><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
+							}
 
-								<div className="attribute"><span className="label">Rättigheter:</span> <a href="http://aroseniusarkivet.org/projekt/licens/">CC PD / CC BY-SA</a></div>
+							<div className="attribute"><span className="label">Rättigheter:</span> <a href="http://aroseniusarkivet.org/projekt/licens/">CC PD / CC BY-SA</a></div>
 
-							</div>
-						}
+						</div>
 
 						<div className="four columns">
 							<div className="attribute bottom-margin-5">
 								<span className="label">Samling:</span> <a className="button-link" href={'#/search/tags/museum/'+this.state.image.collection.museum}>{this.state.image.collection.museum}</a>
 								{
 									this.state.image.museumLink &&
-									<span><br/><a href={this.state.image.museumLink} target="_blank">Visa på externt webbplats</a><br/><br/></span>
+									<a className="link-icon" href={this.state.image.museumLink} target="_blank" alt="Visa på externt webbplats"></a>
 								}
 							</div>
 							{
