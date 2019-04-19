@@ -200,6 +200,8 @@ export default class ImageDisplay extends React.Component {
 	getImageStyle(rearImage) {
 		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
 
+		console.log('rotatedFrame: '+rotatedFrame);
+
 		var imgObj = this.getImageObj(rearImage);
 
 		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -240,7 +242,7 @@ export default class ImageDisplay extends React.Component {
 			backgroundImage: rearImage ? "url('"+config.imageUrl+imageSizes.getImageUrl()+"x/"+imgObj.image+".jpg')" : this.state.imageUrl && this.state.imageUrl != '' ? "url('"+this.state.imageUrl+"')" : "url('"+this.state.lowresImageUrl+"')",
 //			opacity: !this.state.imageUrl && this.state.lowresImageUrl ? 0.2 : 1,
 			width: imageWidth,
-			height: imageHeight
+			height: rotatedFrame && imageWidth > imageHeight ? imageWidth : imageHeight
 		};
 
 		return imageStyle;
