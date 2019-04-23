@@ -187,7 +187,7 @@ export default class Application extends React.Component {
 			},
 			{
 				type: 'tagcloud',
-				menuItem: 'Textmoln'
+				menuItem: 'Ordmoln'
 			}
 		];
 
