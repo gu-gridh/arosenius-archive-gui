@@ -200,8 +200,6 @@ export default class ImageDisplay extends React.Component {
 	getImageStyle(rearImage) {
 		var rotatedFrame = Boolean(Math.round(this.state.rotation/100) % 2);
 
-		console.log('rotatedFrame: '+rotatedFrame);
-
 		var imgObj = this.getImageObj(rearImage);
 
 		var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);

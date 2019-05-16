@@ -174,12 +174,12 @@ export default class Application extends React.Component {
 				menuItem: 'Tidslinje'
 			},
 			{
-				type: 'gallery',
-				menuItem: 'Galleri'
-			},
-			{
 				type: 'simple-list',
 				menuItem: 'Katalog'
+			},
+			{
+				type: 'gallery',
+				menuItem: 'Galleri'
 			},
 			{
 				type: 'tsne-view',
