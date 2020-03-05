@@ -1,0 +1,307 @@
+
+Body{
+height:100%;
+width:100%;
+font-family: 'Barlow Condensed', sans-serif;
+color: white;
+margin: 0;
+padding: 0;
+background: linear-gradient(to bottom, rgba(20,20,20,1.0) 0%,rgba(20,20,20,0.9) 50%,rgba(20,20,20,0.8) 100%); /* W3C */
+min-width:620px;
+font-size:100%; 
+-webkit-text-size-adjust: 100%;	
+}
+
+h1{
+width:100%;
+ color: #66CCFF;
+float:left;
+height:auto;
+text-align: left;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 400;
+font-style: normal;
+font-size: 24px;
+line-height: 0.8;
+margin-left:0px;
+margin-top:10px;
+}
+
+h2{
+width:100%;
+letter-spacing: 1px;
+float:left;
+text-align: left;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 100;
+font-style: normal;
+font-size: 16px;
+line-height: 1.2;
+margin-bottom:20px;
+margin-top:-5px;
+}
+
+
+
+a:link {
+     color: white;
+text-decoration: none;
+}
+
+
+a:visited {
+     color: #66CCFF;
+text-decoration: none;
+}
+
+
+a:hover {
+    color: white;
+}
+
+
+a:active {
+    color: white;
+text-decoration: none;
+}
+
+
+
+
+#Title{
+margin-left: 40px;
+width:auto;
+height:auto;
+text-align: left;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 200;
+font-style: normal;
+font-size: 60px;
+line-height: 0.8;
+margin-top:20px;
+
+}
+
+.Description{
+width:90%;
+
+margin-left: 40px;
+height:auto;
+text-align: left;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 200;
+font-style: normal;
+font-size: 17px;
+padding:35px 0px 0px 0px;
+letter-spacing: 1px;
+line-height: 1.3;
+}
+
+.SubTitle{
+width:100%;
+float:left;
+height:auto;
+text-align: left;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 200;
+font-style: normal;
+font-size: 30px;
+line-height: 0.8;
+padding:40px 0px 20px 40px;
+
+}
+
+
+.publications-grid-container {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(400px, 500px));
+padding: 1px;
+
+}
+
+.chronology-grid-container {
+display: grid;
+grid-template-columns: repeat(auto-fill, 500px);
+padding: 1px;
+margin-top:30px;
+
+}
+
+.persons-grid-container {
+display: grid;
+grid-template-columns: repeat(auto-fill, 350px);
+padding: 1px;
+
+
+}
+
+.publication{
+color: white;
+border-radius: 10px;
+height:150px; 
+float:left; 
+width:480px;
+margin-top:40px;
+margin-left:40px;
+background-color:RGBA(30, 30, 30, 0.7);
+overflow:hidden;
+transition: all .2s ease-in-out;
+
+
+}
+
+.publication:hover{
+transform: scale(1.05);
+}
+
+
+.persons{
+height:auto; 
+float:left; 
+margin-top:0px;
+margin-right:30px;
+
+}
+
+
+.KatalogBild{
+
+height:150px; 
+width:150px; 
+float:left;
+cursor:pointer;
+}
+
+.KatalogTitleContainer{
+display: table-cell;
+width:60%;
+
+float:left; 
+
+}
+
+.KatalogTitle{
+margin-left:20px; 
+float:left; 
+font-family: 
+hypatia-sans-pro, sans-serif; 
+font-weight: 200; 
+font-style: normal; 
+font-size:22px; 
+width:100%;
+}
+
+.KatalogSubTitle{
+margin-left:20px; 
+float:left; 
+font-family: 
+hypatia-sans-pro, sans-serif; 
+font-weight: 200; 
+font-style: normal; 
+font-size:16px; 
+width:100%;
+}
+
+
+.KatalogMeta1{
+width:80%;
+margin-left:20px; 
+margin-top:20px; 
+float:left; 
+font-family: hypatia-sans-pro, sans-serif; 
+font-weight: 100; 
+font-style: normal; 
+font-size:16px; 
+}
+
+.KatalogMeta2{
+width:80%;
+margin-left:20px; 
+float:left; 
+font-family: hypatia-sans-pro, sans-serif; 
+font-weight: 100; 
+font-style: normal; 
+font-size:14px; 
+}
+
+.KatalogMeta3{
+width:80%;
+margin-top:8px; 
+margin-left:20px; 
+float:left; 
+font-family: hypatia-sans-pro, sans-serif; 
+font-weight: 100; 
+font-style: normal; 
+font-size:14px; 
+}
+
+
+
+
+
+.introdivider {
+float:left;
+width:100%;
+border-width:1px 0 0 0;
+border-style:solid;
+border-color:#444444;
+margin-top:60px;
+}
+
+#introcontainer{
+margin-left: auto;
+margin-right: auto;
+width:315px;
+height:40px;
+margin-top:20px;
+text-align:center;
+}
+
+#extrocontainer{
+margin-left: auto;
+margin-right: auto;
+width:355px;
+height:80px;
+margin-top:0px;
+text-align:center;
+}
+
+.IntroItem{
+margin-left: auto;
+margin-right:auto;
+width:auto;
+height:auto;
+text-align: center;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 300;
+font-style: normal;
+font-size: 35px;
+line-height: 1.8;
+}
+
+.ExtroItem{
+width:auto;
+height:auto;
+font-family: "hypatia-sans-pro", sans-serif;
+font-weight: 300;
+font-style: normal;
+font-size: 20px;
+line-height: 1.8;
+float:left;
+margin-left:20px;
+}
+
+.filter{
+width:50px;
+height:50px;
+background:url(graphics/filter.png);
+background-size: 50px 50px;
+margin-left: auto;
+margin-right:auto;
+margin-top:20px;
+position:relative;
+cursor: pointer;
+}
+
+
+</style> 
