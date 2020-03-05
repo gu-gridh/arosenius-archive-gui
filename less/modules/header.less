@@ -402,16 +402,13 @@
 
 		a {
 			display: inline-block;
-			
-			margin: 0 10px;
-			
+
 			color: #fff;
 			font-weight: 200;
 
 			&:not(:last-child) {
 				&:after {
 					content: " ";
-					
 					display: inline-block;
 					
 					position: relative;
@@ -420,9 +417,25 @@
 					height: 20px;
 					width: 1px;
 
-					margin-left: 20px;
-
 					background: #fff;
+				}
+			}
+		}
+
+		&.top-row > a {
+			margin: 0 10px;
+			&:not(:last-child) {
+				&:after {
+					margin-left: 20px;
+				}
+			}
+		}
+		&.bottom-row > a {
+
+			&:not(:last-child) {
+				&:after {
+					margin-left: 40px;
+					margin-right: 40px;
 				}
 			}
 		}
