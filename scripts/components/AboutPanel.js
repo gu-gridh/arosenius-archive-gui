@@ -134,7 +134,7 @@ export default class AboutPanel extends React.Component {
 
 					<h3>Användning</h3>
 
-					<div className="about-menu">
+					<div className="about-menu top-row">
 						<a href="http://aroseniusarkivet.org/projekt/introduktion/">Introduktion</a>
 						<a href="http://aroseniusarkivet.org/projekt/metadata-och-apier/">Metadata och API:er</a>
 					</div>
