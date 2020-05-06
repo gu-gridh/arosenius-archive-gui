@@ -1,13 +1,16 @@
 {
-  "name": "react-test",
+  "name": "arosenius-archive-gui",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Frontend for https://aroseniusarkivet.org",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gulp",
+    "build": "gulp deploy"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "<=11"
+  },
   "dependencies": {
     "babel-preset-es2015": "^6.22.0",
     "babelify": "7.3.0",
