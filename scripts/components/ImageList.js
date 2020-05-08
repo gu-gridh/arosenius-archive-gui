@@ -363,7 +363,7 @@ export default class ImageList extends React.Component {
 
 		window.imageListItems = items;
 
-		if (items.length == 0) {
+		if (items.length == 0 && !this.props.nearestNeighbors) {
 			items.push(<h2 key="no-results" className="no-results">Inga sökträffar</h2>)
 		}
 		else {
