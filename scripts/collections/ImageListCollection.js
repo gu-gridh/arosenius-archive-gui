@@ -80,19 +80,7 @@ export default class ImageListCollection {
 
 			fetchParams.push('page='+page);
 
-			var url;
-			if (params.similar) {
-				url = config.apiUrl+'similar'+'?size=20&id='+params.similar;
-			}
-			else if (params.similarColors) {
-				url = config.apiUrl+'similar/colors'+'?size=20&id='+params.similarColors;
-			}
-			else if (params.similarLabels) {
-				url = config.apiUrl+'similar/labels'+'?size=20&id='+params.similarLabels;
-			}
-			else {
-				url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
-			}
+			var url = this.url+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : '');
 
 			if (this.lastUrl == url) {
 				if (this.onFail) {

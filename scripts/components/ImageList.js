@@ -173,21 +173,6 @@ export default class ImageList extends React.Component {
 				}, props.count, 1, false, props.archiveMaterial || null);
 			}
 		}
-		else if (props.similar) {
-			this.fetchData({
-				similar: props.similar
-			}, props.count, 1, false, props.archiveMaterial || null);
-		}
-		else if (props.similarColors) {
-			this.fetchData({
-				similarColors: props.similarColors
-			}, props.count, 1, false, props.archiveMaterial || null);
-		}
-		else if (props.similarLabels) {
-			this.fetchData({
-				similarLabels: props.similarLabels
-			}, props.count, 1, false, props.archiveMaterial || null);
-		}
 		else if (props.nearestNeighbors) {
 			this.fetchNearestNeighbors();
 		}

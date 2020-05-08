@@ -407,22 +407,6 @@ export default class ImageView extends React.Component {
 				<div className="container">
 
 					{
-					/*
-					<div className="related-list">
-						<ImageList title={'Similar: colors and labels'} showColors={true} showGoogleLabels={true} similar={this.props.params.imageId} count="10" />
-					</div>
-
-					<div className="related-list">
-						<ImageList title={'Similar: colors'} showColors={true} showGoogleLabels={true} similarColors={this.props.params.imageId} count="10" />
-					</div>
-
-					<div className="related-list">
-						<ImageList title={'Similar: labels'} showGoogleLabels={true} similarLabels={this.props.params.imageId} count="10" />
-					</div>
-					*/
-					}
-
-					{
 						(this.state.image.type[0] == 'Konstverk' || this.state.image.type[0] == 'Fotografi') &&
 						<div className="related-list">
 							<ImageList title={'Liknande'} nearestNeighbors={this.props.params.imageId} nearestNeighborsType={this.state.image.type[0].toLowerCase()} count="10" />
