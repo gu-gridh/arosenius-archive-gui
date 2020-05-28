@@ -49,12 +49,6 @@ export default class ImageListCollection {
 			if (params.type && params.type != '') {
 				fetchParams.push('type='+params.type);
 			}
-			if (params.hue && params.hue != '') {
-				fetchParams.push('hue='+params.hue);
-			}
-			if (params.saturation && params.saturation != '') {
-				fetchParams.push('saturation='+params.saturation);
-			}
 			if (params.year) {
 				fetchParams.push('year='+params.year);
 			}
@@ -66,10 +60,6 @@ export default class ImageListCollection {
 			}
 			if (count) {
 				fetchParams.push('count='+count);
-			}
-
-			if (params.hue || params.saturation) {
-				fetchParams.push('type=Konstverk');
 			}
 			else if (archiveMaterial) {
 				fetchParams.push('archivematerial='+archiveMaterial);

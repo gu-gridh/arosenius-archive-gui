@@ -49,9 +49,7 @@ export default class Application extends React.Component {
 				museum: this.props.params.museum ? this.props.params.museum.split(';') : null,
 				genre: this.props.params.genre ? this.props.params.genre.split(';') : null,
 				tags: this.props.params.tags ? this.props.params.tags.split(';') : null,
-				type: this.props.params.type ? this.props.params.type.split(';') : null,
-				hue: this.props.params.hue,
-				saturation: this.props.params.saturation
+				type: this.props.params.type ? this.props.params.type.split(';') : null
 			}
 		});
 	}
@@ -67,9 +65,7 @@ export default class Application extends React.Component {
 				museum: props.params.museum ? props.params.museum.split(';') : null,
 				genre: props.params.genre ? props.params.genre.split(';') : null,
 				tags: props.params.tags ? props.params.tags.split(';') : null,
-				type: props.params.type ? props.params.type.split(';') : null,
-				hue: props.params.hue,
-				saturation: props.params.saturation
+				type: props.params.type ? props.params.type.split(';') : null
 			}
 		})
 	}
@@ -119,9 +115,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
-				searchType={this.state.searchParams.type}
-				searchHue={this.state.searchParams.hue}
-				searchSaturation={this.state.searchParams.saturation} />;
+				searchType={this.state.searchParams.type} />;
 		}
 		else if (this.state.galleryType == 'simple-list') {
 			galleryElement = <div><ImageList count="50" enableAutoLoad="true" listType="simple"
@@ -131,9 +125,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
-				searchType={this.state.searchParams.type}
-				searchHue={this.state.searchParams.hue}
-				searchSaturation={this.state.searchParams.saturation} /></div>;
+				searchType={this.state.searchParams.type} /></div>;
 		}
 		else if (this.state.galleryType == 'tsne-view') {
 			galleryElement = <TsneView searchMuseum={this.state.searchParams.museum} />;
@@ -148,9 +140,7 @@ export default class Application extends React.Component {
 					searchMuseum={this.state.searchParams.museum}
 					searchGenre={this.state.searchParams.genre}
 					searchTags={this.state.searchParams.tags}
-					searchType={this.state.searchParams.type}
-					searchHue={this.state.searchParams.hue}
-					searchSaturation={this.state.searchParams.saturation} />
+					searchType={this.state.searchParams.type} />
 			</div>;
 		}
 		else {
@@ -161,9 +151,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
-				searchType={this.state.searchParams.type}
-				searchHue={this.state.searchParams.hue}
-				searchSaturation={this.state.searchParams.saturation} />;
+				searchType={this.state.searchParams.type} />;
 
 		}
 

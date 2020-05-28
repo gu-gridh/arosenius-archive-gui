@@ -78,7 +78,7 @@ ReactDOM.render(
 		<Redirect from="/" to="/search" />
 
 		<Route path="/" component={Application}>
-			<Route path="/search(/query/:search)(/person/:searchperson)(/color/:hue/:saturation)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type))" 
+			<Route path="/search(/query/:search)(/person/:searchperson)(/tags(/person/:person)(/place/:place)(/museum/:museum)(/genre/:genre)(/tags/:tags)(/type/:type))" 
 				component={FrontPage}/>
 			<Route path="/image/:imageId(/display/:display)" 
 				component={ImageView}/>

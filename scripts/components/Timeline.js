@@ -178,7 +178,7 @@ export default class Timeline extends React.Component {
 	}
 
 	handleProps(props, force) {
-		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.data.length == 0) {
+		if (!props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && this.state.data.length == 0) {
 			this.waitingForLoad = true;
 
 			this.fetchYears();
@@ -189,10 +189,7 @@ export default class Timeline extends React.Component {
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
-			this.props.searchType != props.searchType ||
-			this.props.searchHue != props.searchHue ||
-
-			this.props.searchSaturation != props.searchSaturation || force
+			this.props.searchType != props.searchType || force
 		) {
 			this.waitingForLoad = true;
 
@@ -207,9 +204,7 @@ export default class Timeline extends React.Component {
 				museum: props.searchMuseum,
 				genre: props.searchGenre,
 				tags: props.searchTags,
-				type: props.searchType,
-				hue: props.searchHue,
-				saturation: props.searchSaturation
+				type: props.searchType
 			});
 
 //			var windowScroll = new WindowScroll();
@@ -267,13 +262,6 @@ export default class Timeline extends React.Component {
 			if (params.type && params.type != '') {
 				fetchParams.push('type='+params.type);
 			}
-			if (params.hue && params.hue != '') {
-				fetchParams.push('hue='+params.hue);
-			}
-			if (params.saturation && params.saturation != '') {
-				fetchParams.push('saturation='+params.saturation);
-			}
-
 		}
 
 		fetch(config.apiUrl+config.endpoints.year_range+(fetchParams.length > 0 ? '?'+fetchParams.join('&') : ''))
@@ -306,9 +294,7 @@ export default class Timeline extends React.Component {
 					searchMuseum={this.props.searchMuseum}
 					searchGenre={this.props.searchGenre}
 					searchTags={this.props.searchTags}
-					searchType={this.props.searchType}
-					searchHue={this.props.searchHue}
-					searchSaturation={this.props.searchSaturation} />
+					searchType={this.props.searchType} />
 
 				<br/>
 
@@ -323,9 +309,7 @@ export default class Timeline extends React.Component {
 					searchMuseum={this.props.searchMuseum}
 					searchGenre={this.props.searchGenre}
 					searchTags={this.props.searchTags}
-					searchType={this.props.searchType}
-					searchHue={this.props.searchHue}
-					searchSaturation={this.props.searchSaturation} />
+					searchType={this.props.searchType} />
 
 				<br/><br/>
 

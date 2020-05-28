@@ -2,7 +2,6 @@ import React from 'react';
 import { hashHistory } from 'react-router';
 
 import ThumbnailCircles from './ThumbnailCircles';
-import ColorSearchSelector from './ColorSearchSelector';
 import MultiTagsSelector from './MultiTagsSelector';
 import DropdownMenu from './DropdownMenu';
 import AutocompleteDiscoverInput from './AutocompleteDiscoverInput';
@@ -27,7 +26,6 @@ export default class Search extends React.Component {
 		this.searchInputKeyPress = this.searchInputKeyPress.bind(this);
 		this.searchInputChangeHandler = this.searchInputChangeHandler.bind(this);
 		this.personSelectorChangeHandler = this.personSelectorChangeHandler.bind(this);
-		this.colorSelectorSelect = this.colorSelectorSelect.bind(this);
 		this.eventBusOpenHandler = this.eventBusOpenHandler.bind(this);
 		this.eventBusOpenTagsHandler = this.eventBusOpenTagsHandler.bind(this);
 
@@ -39,8 +37,8 @@ export default class Search extends React.Component {
 	componentDidMount() {
 		this.setState({
 			searchParams: this.props.searchParams,
-			open: Boolean(this.state.open || this.props.searchParams.search || this.props.searchParams.searchperson || this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.hue || this.props.searchParams.saturation || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place),
-			searchMode: this.props.searchParams.searchperson ? 'persons' : this.props.searchParams.hue && this.props.searchParams.saturation ? 'colors' : this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place ? 'multi-tags' : this.state.searchMode
+			open: Boolean(this.state.open || this.props.searchParams.search || this.props.searchParams.searchperson || this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place),
+			searchMode: this.props.searchParams.searchperson ? 'persons' : this.props.searchParams.person || this.props.searchParams.museum || this.props.searchParams.tags || this.props.searchParams.type || this.props.searchParams.genre || this.props.searchParams.place ? 'multi-tags' : this.state.searchMode
 		});
 
 		// Register listener for opening and closing the tags component
@@ -61,8 +59,8 @@ export default class Search extends React.Component {
 
 		this.setState({
 			searchParams: props.searchParams,
-			open: Boolean(this.state.open || props.searchParams.search || props.searchParams.searchperson || props.searchParams.person || props.searchParams.museum || props.searchParams.hue || props.searchParams.saturation || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place),
-			searchMode: props.searchParams.searchperson ? 'persons' : props.searchParams.hue && props.searchParams.saturation ? 'colors' : props.searchParams.person || props.searchParams.museum || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place ? 'multi-tags' : this.state.searchMode
+			open: Boolean(this.state.open || props.searchParams.search || props.searchParams.searchperson || props.searchParams.person || props.searchParams.museum || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place),
+			searchMode: props.searchParams.searchperson ? 'persons' : props.searchParams.person || props.searchParams.museum || props.searchParams.tags || props.searchParams.type || props.searchParams.genre || props.searchParams.place ? 'multi-tags' : this.state.searchMode
 		});
 	}
 
@@ -130,19 +128,6 @@ export default class Search extends React.Component {
 	personSelectorChangeHandler(event) {
 		var searchParams = this.state.searchParams;
 		searchParams.searchperson = event.selectedPersons;
-		searchParams.hue = null;
-		searchParams.saturation = null;
-
-		this.setState({
-			searchParams: searchParams
-		}, this.triggerSearch);
-	}
-
-	colorSelectorSelect(event) {
-		var searchParams = this.state.searchParams;
-		searchParams.searchperson = [];
-		searchParams.hue = event.hue;
-		searchParams.saturation = event.saturation;
 
 		this.setState({
 			searchParams: searchParams
@@ -187,18 +172,12 @@ export default class Search extends React.Component {
 			searchParams += '/person/'+this.state.searchParams.searchperson.join(';');
 		}
 
-		if (this.state.searchParams.hue && this.state.searchParams.saturation) {
-			searchParams += '/color/'+this.state.searchParams.hue+'/'+this.state.searchParams.saturation;
-		}
-
 		hashHistory.push((this.props.imageId ? '/image/'+this.props.imageId : '')+'/search'+searchParams);
 	}
 
 	render() {
 		var searchElement = this.state.searchMode == 'persons' ?
 				<ThumbnailCircles selectedPersons={this.state.searchParams.searchperson} selectionChanged={this.personSelectorChangeHandler} />
-			: this.state.searchMode == 'colors' ?
-				<ColorSearchSelector onColorSelect={this.colorSelectorSelect} />
 			: this.state.searchMode == 'multi-tags' ?
 				<MultiTagsSelector 
 					museum={this.state.searchParams.museum} 
@@ -232,7 +211,6 @@ export default class Search extends React.Component {
 					<div className="filter-menu">
 						<DropdownMenu ref="searchModeDropdownMenu" label="Filter &gt;">
 							<button onClick={this.setSearchMode.bind(this, 'persons')}>Personer</button>
-							<button onClick={this.setSearchMode.bind(this, 'colors')} style={{display: 'none'}}>Färger</button>
 							<button onClick={this.setSearchMode.bind(this, 'multi-tags')}>Nyckelord</button>
 						</DropdownMenu>
 					</div>

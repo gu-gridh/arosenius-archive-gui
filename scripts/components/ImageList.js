@@ -176,7 +176,7 @@ export default class ImageList extends React.Component {
 		else if (props.nearestNeighbors) {
 			this.fetchNearestNeighbors();
 		}
-		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && !props.searchHue && !props.searchSaturation && this.state.images.length == 0) {
+		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			var params;
@@ -204,11 +204,7 @@ export default class ImageList extends React.Component {
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
 			this.props.searchType != props.searchType ||
-			this.props.searchHue != props.searchHue ||
 			this.props.year != props.year ||
-
-			this.props.searchSaturation != props.searchSaturation ||
-
 			this.state.images.length == 0
 		) {
 			this.waitingForLoad = true;
@@ -221,8 +217,6 @@ export default class ImageList extends React.Component {
 				genre: props.searchGenre,
 				tags: props.searchTags,
 				type: props.searchType,
-				hue: props.searchHue,
-				saturation: props.searchSaturation,
 				year: props.year
 			};
 
@@ -248,7 +242,7 @@ export default class ImageList extends React.Component {
 
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 
-			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType || props.searchHue || props.searchSaturation) && !this.props.lazyLoad && !this.props.disableScrolling) {
+			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType) && !this.props.lazyLoad && !this.props.disableScrolling) {
 				var windowScroll = new WindowScroll();
 				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
@@ -274,9 +268,7 @@ export default class ImageList extends React.Component {
 				museum: this.props.searchMuseum,
 				genre: this.props.searchGenre,
 				tags: this.props.searchTags,
-				type: this.props.searchType,
-				hue: this.props.searchHue,
-				saturation: this.props.searchSaturation
+				type: this.props.searchType
 			};
 
 			if (this.props.listType == 'simple') {
