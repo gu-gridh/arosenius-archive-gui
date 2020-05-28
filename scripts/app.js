@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Router, Route, Link, hashHistory, Redirect } from 'react-router'
 
 import Application from './components/Application';
-import GoogleVisionLabelsViewer from './components/GoogleVisionLabelsViewer';
 import ImageList from './components/ImageList';
 import ImageView from './components/ImageView';
 import FrontPage from './components/FrontPage';
@@ -84,8 +83,6 @@ ReactDOM.render(
 			<Route path="/image/:imageId(/display/:display)" 
 				component={ImageView}/>
 		</Route>
-
-		<Route path="/googleVisionLabels" component={GoogleVisionLabelsViewer} />
 
 	</Router>,
 	document.getElementById('app')

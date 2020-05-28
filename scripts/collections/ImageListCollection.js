@@ -58,9 +58,6 @@ export default class ImageListCollection {
 			if (params.year) {
 				fetchParams.push('year='+params.year);
 			}
-			if (params.google_label) {
-				fetchParams.push('google_label='+params.google_label);
-			}
 			if (params.ids) {
 				fetchParams.push('ids='+params.ids);
 			}

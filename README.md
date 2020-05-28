@@ -46,7 +46,6 @@ export default {
 		museums: 'museums',
 		types: 'types',
 		year_range: 'year_range',
-		googlevisionlabels: 'googlevisionlabels',
 		tag_cloud: 'tags/cloud',
 
 		colormap: 'colormap'

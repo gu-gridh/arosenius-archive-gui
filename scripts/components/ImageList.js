@@ -206,7 +206,6 @@ export default class ImageList extends React.Component {
 			this.props.searchType != props.searchType ||
 			this.props.searchHue != props.searchHue ||
 			this.props.year != props.year ||
-			this.props.google_label != props.google_label ||
 
 			this.props.searchSaturation != props.searchSaturation ||
 
@@ -224,8 +223,7 @@ export default class ImageList extends React.Component {
 				type: props.searchType,
 				hue: props.searchHue,
 				saturation: props.searchSaturation,
-				year: props.year,
-				google_label: props.google_label
+				year: props.year
 			};
 
 			if (props.listType == 'simple') {
@@ -340,7 +338,6 @@ export default class ImageList extends React.Component {
 			else {
 				item = <ImageListItem
 					showColors={this.props.showColors}
-					showGoogleLabels={this.props.showGoogleLabels}
 					showDates={this.props.showDates}
 					key={image.id}
 					image={image}
