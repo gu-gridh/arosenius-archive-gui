@@ -1,20 +1,17 @@
 # The Ivar Arosenius archive frontend
 
-Here is the source code for the Ivar Arosenius online archive (http://aroseniusarkivet.org).
-The system consists of a React.js frontend, Express.js API that connects to Elasticsearch and a Backbone.js administration system.
+A React.js frontend for the Ivar Arosenius online archive (http://aroseniusarkivet.org).
 
-The archive connects to an API which source code can be found here: https://github.com/CDH-DevTeam/arosenius-api
+The frontend connects to a backend whose source code can be found here: https://github.com/CDH-DevTeam/arosenius-api
 
-Here is an administration system for the archives data: https://github.com/CDH-DevTeam/arosenius-admin
-
-The admin system uses the API to connect to Elasticsearch and add/update data.
+There is also an administration frontend for editing the data: https://github.com/CDH-DevTeam/arosenius-admin
 
 ## Getting started
 
-To build the archive from the source code, first clone the repository or fork it to your own repository. Then install all JS dependencies and start `gulp` to build it.
+To build the archive from the source code, first clone the repository or fork it to your own repository. Then install all JS dependencies and finally build the site.
 Node 11 or _lower_ is required (12 will not work).
 
-```
+```sh
 git clone https://github.com/CDH-DevTeam/arosenius-archive-gui.git
 cd arosenius-archive-gui
 npm install
@@ -23,9 +20,13 @@ npm run dev
 # Visit www/index.html in a web browser
 ```
 
+The resulting `www` folder is committed to version control.
+
 ## Config file
 
 The `scripts/config.js` file must include some configuration needed to run the archive.
+The `apiUrl` and `adminUrl` urls are expected to serve the aforementioned backend and administration frontend, respectively.
+The `endpoints` parameters must agree with the routes specified in the backend code.
 
 ```javascript
 export default {
@@ -38,7 +39,6 @@ export default {
 		documents: 'documents',
 		document: 'document/',
 		autocomplete: 'autocomplete',
-
 		tags: 'tags',
 		persons: 'persons',
 		places: 'places',
