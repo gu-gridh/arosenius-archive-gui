@@ -65,7 +65,7 @@ export default class TagCloud extends React.Component {
 			return item.doc_count;
 		}).doc_count;
 
-		this.fontSize = d3.scaleLinear().domain([this.docCountMin, this.docCountMax]).range([14, 100]);
+		this.fontSize = d3.scaleLinear().domain([this.docCountMin, this.docCountMax]).range([10, 110]);
 
 		this.layout = cloud.cloud()
 			.size([window.innerWidth, window.innerHeight])
