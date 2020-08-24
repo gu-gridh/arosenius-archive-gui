@@ -202,7 +202,7 @@ export default class Search extends React.Component {
 						valueField="key"
 						value={this.state.searchParams.search} 
 						type="text" 
-						placeholder="Sök efter..."
+						placeholder="S&ouml;k efter..."
 						inputClassName="search-input" 
 						onChange={this.searchInputChangeHandler} 
 						onKeyPress={this.searchInputKeyPress} 
