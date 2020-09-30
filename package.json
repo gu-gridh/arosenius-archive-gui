@@ -4,7 +4,7 @@
   "description": "Frontend for https://aroseniusarkivet.org",
   "scripts": {
     "dev": "gulp",
-    "build": "NODE_ENV=production gulp deploy"
+    "build": "NODE_ENV=production gulp build"
   },
   "author": "",
   "license": "ISC",

@@ -42,10 +42,13 @@ gulp.task('watch', function () {
 	gulp.watch(['./less/*.less', './less/*/*.less'], ['less']);
 });
 
-// When running 'gulp' on the terminal this task will fire.
+// When running 'npx gulp' on the terminal this task will fire.
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
 gulp.task('default', ['scripts', 'less', 'watch']);
+
+// When deploying, run 'npx gulp build' to fire this, one-shot.
+gulp.task('build', ['deploy', 'less']);
 
 // Private Functions
 // ----------------------------------------------------------------------------
