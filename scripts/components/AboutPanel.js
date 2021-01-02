@@ -102,14 +102,14 @@ export default class AboutPanel extends React.Component {
 					</a>
 
 					<div className="about-menu top-row" style={{marginBottom: 0}}>
-						<a href="http://aroseniusarkivet.org/projekt/">Läs om projektet</a>
-						<a href="http://aroseniusarkivet.org/projekt/bidra-till-arkivet/">Bidra till arkivet</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/projekt/">Läs om projektet</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/projekt/bidra-till-arkivet/">Bidra till arkivet</a>
 					</div>
 
 					<div className="about-menu bottom-row" style={{marginTop: 5, marginBottom: 60}}>
-						<a href="http://aroseniusarkivet.org/forskning/">Forskning</a>
-						<a href="http://aroseniusarkivet.org/personer/">Personer</a>
-						<a href="http://aroseniusarkivet.org/kronologi/">Kronologi</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/forskning/">Forskning</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/personer/">Personer</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/kronologi/">Kronologi</a>
 					</div>
 
 					<hr />
@@ -135,8 +135,8 @@ export default class AboutPanel extends React.Component {
 					<h3>Användning</h3>
 
 					<div className="about-menu top-row">
-						<a href="http://aroseniusarkivet.org/projekt/introduktion/">Introduktion</a>
-						<a href="http://aroseniusarkivet.org/projekt/metadata-och-apier/">Metadata och API:er</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/projekt/introduktion/">Introduktion</a>
+						<a href="https://aroseniusarkivet.dh.gu.se/projekt/metadata-och-apier/">Metadata och API:er</a>
 					</div>
 
 					<small>Om inget annat anges så är arkivets material Public Domain.</small>

@@ -1,7 +1,7 @@
 {
   "name": "arosenius-archive-gui",
   "version": "1.0.0",
-  "description": "Frontend for https://aroseniusarkivet.org",
+  "description": "Frontend for https://aroseniusarkivet.dh.gu.se",
   "scripts": {
     "dev": "gulp",
     "build": "NODE_ENV=production gulp build"

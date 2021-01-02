@@ -1,6 +1,6 @@
 # The Ivar Arosenius archive frontend
 
-A React.js frontend for the Ivar Arosenius online archive (http://aroseniusarkivet.org).
+A React.js frontend for the Ivar Arosenius online archive (https://aroseniusarkivet.dh.gu.se/).
 
 The frontend connects to a backend whose source code can be found here: https://github.com/CDH-DevTeam/arosenius-api
 
