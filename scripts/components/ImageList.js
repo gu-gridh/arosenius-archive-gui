@@ -6,7 +6,6 @@ import Masonry  from 'react-masonry-component';
 import ImageListCollection from '../collections/ImageListCollection';
 
 import ImageListItem from './ImageListItem';
-import DateLabelListItem from './DateLabelListItem';
 import SimpleListItem from './SimpleListItem';
 
 import WindowScroll from './../utils/window-scroll';
@@ -321,10 +320,7 @@ export default class ImageList extends React.Component {
 		_.each(this.state.images, function(image, index) {
 			var item;
 
-			if (this.props.listType == 'date-labels') {
-				item = <DateLabelListItem key={image.id} image={image} index={index} />;
-			}
-			else if (this.props.listType == 'simple') {
+			if (this.props.listType == 'simple') {
 				item = <SimpleListItem key={image.id} image={image} index={index} />
 			}
 			else {
