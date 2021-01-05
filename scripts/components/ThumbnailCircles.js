@@ -22,12 +22,12 @@ export default class ThumbnailCircles
 			},
 			{
 				image: 'img/persons/lillan.jpg',
-				label: 'Eva "Lillan" Arosenius',
+				label: 'Eva "Lillan" Arosenius Constantine',
 				shortLabel: 'Lillan'
 			},
 			{
 				image: 'img/persons/eva.jpg',
-				label: 'Ida (Eva) Arosenius',
+				label: 'Ida "Eva" Adler Arosenius Dich',
 				shortLabel: 'Eva'
 			},
 			{
