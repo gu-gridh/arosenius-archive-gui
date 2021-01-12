@@ -338,8 +338,8 @@ export default class MultiTagsSelector extends React.Component {
 								onSelect={this.tagSelectChangeHandler}
 								dropdownHeaderText="Samlingar" 
 								dropdownButtonLabel="Fler"
-								expandable={false} 
-								limit={5} 
+								expandable={true}
+								limit={10}
 								searchParam="museum" 
 								selectedTag={this.state.selectedTags}
 								endpoint={config.endpoints.museums}
