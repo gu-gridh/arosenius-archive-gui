@@ -49,6 +49,9 @@ export default class ImageListCollection {
 			if (params.type && params.type != '') {
 				fetchParams.push('type='+params.type);
 			}
+			if (params.series && params.series != '') {
+				fetchParams.push('series='+params.series);
+			}
 			if (params.year) {
 				fetchParams.push('year='+params.year);
 			}

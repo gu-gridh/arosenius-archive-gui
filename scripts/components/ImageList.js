@@ -146,31 +146,12 @@ export default class ImageList extends React.Component {
 
 	handleProps(props) {
 		if (props.related && props.relatedValue) {
-			if (props.related == 'person') {
-				this.fetchData({
-					person: props.relatedValue
-				}, props.count, 1, false, props.archiveMaterial || null);
+			var tagType = props.related === 'tag' ? 'tags' : props.related
+			var params = { [tagType]: props.relatedValue }
+			if (props.sort) {
+				params.sort = props.sort
 			}
-			if (props.related == 'place') {
-				this.fetchData({
-					place: props.relatedValue
-				}, props.count, 1, false, props.archiveMaterial || null);
-			}
-			if (props.related == 'museum') {
-				this.fetchData({
-					museum: props.relatedValue
-				}, props.count, 1, false, props.archiveMaterial || null);
-			}
-			if (props.related == 'genre') {
-				this.fetchData({
-					genre: props.relatedValue
-				}, props.count, 1, false, props.archiveMaterial || null);
-			}
-			if (props.related == 'tag') {
-				this.fetchData({
-					tags: props.relatedValue
-				}, props.count, 1, false, props.archiveMaterial || null);
-			}
+			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 		}
 		else if (props.nearestNeighbors) {
 			this.fetchNearestNeighbors();

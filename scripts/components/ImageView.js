@@ -246,6 +246,14 @@ export default class ImageView extends React.Component {
 				}
 			}.bind(this)) : [];
 
+			var seriesImages = this.state.image.series ? this.state.image.series.map(function(series, index) {
+				if (series != '') {
+					return <div className="related-list" key={series}>
+						<ImageList title={series} related="series" relatedValue={series} count="10" sort="title" />
+					</div>;
+				}
+			}) : [];
+
 			if (_.filter(this.state.image.images, function(image) {
 					return image.page && (image.page.side == 'front' || image.page.side == 'back');
 				}).length > 2 || (this.state.image.images.length == 2 && this.state.image.images[0].page.side == this.state.image.images[1].page.side)) {
@@ -386,6 +394,11 @@ export default class ImageView extends React.Component {
 				</div>
 
 				<div className="container">
+
+					{
+						seriesImages.length &&
+						<div>{seriesImages}</div>
+					}
 
 					{
 						(this.state.image.type[0] == 'Konstverk' || this.state.image.type[0] == 'Fotografi') &&
