@@ -156,7 +156,7 @@ export default class ImageList extends React.Component {
 		else if (props.nearestNeighbors) {
 			this.fetchNearestNeighbors();
 		}
-		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchType && this.state.images.length == 0) {
+		else if (!props.year && !props.searchString && !props.searchPerson && !props.searchPlace && !props.searchMuseum && !props.searchGenre && !props.searchTags && !props.searchSeries && !props.searchType && this.state.images.length == 0) {
 			this.waitingForLoad = true;
 
 			var params;
@@ -183,6 +183,7 @@ export default class ImageList extends React.Component {
 			this.props.searchMuseum != props.searchMuseum ||
 			this.props.searchGenre != props.searchGenre ||
 			this.props.searchTags != props.searchTags ||
+			this.props.searchSeries != props.searchSeries ||
 			this.props.searchType != props.searchType ||
 			this.props.year != props.year ||
 			this.state.images.length == 0
@@ -196,6 +197,7 @@ export default class ImageList extends React.Component {
 				museum: props.searchMuseum,
 				genre: props.searchGenre,
 				tags: props.searchTags,
+				series: props.searchSeries,
 				type: props.searchType,
 				year: props.year
 			};
@@ -222,7 +224,7 @@ export default class ImageList extends React.Component {
 
 			this.fetchData(params, props.count, 1, false, props.archiveMaterial || null);
 
-			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchType) && !this.props.lazyLoad && !this.props.disableScrolling) {
+			if ((props.searchString || props.searchPerson || props.searchPlace || props.searchMuseum || props.searchGenre || props.searchTags || props.searchSeries || props.searchType) && !this.props.lazyLoad && !this.props.disableScrolling) {
 				var windowScroll = new WindowScroll();
 				windowScroll.scrollToY(windowScroll.getOffsetTop(this.refs.container)-250, 1000, 'easeInOutSine');
 			}
@@ -248,6 +250,7 @@ export default class ImageList extends React.Component {
 				museum: this.props.searchMuseum,
 				genre: this.props.searchGenre,
 				tags: this.props.searchTags,
+				series: this.props.searchSeries,
 				type: this.props.searchType
 			};
 

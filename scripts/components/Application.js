@@ -49,6 +49,7 @@ export default class Application extends React.Component {
 				museum: this.props.params.museum ? this.props.params.museum.split(';') : null,
 				genre: this.props.params.genre ? this.props.params.genre.split(';') : null,
 				tags: this.props.params.tags ? this.props.params.tags.split(';') : null,
+				series: this.props.params.series ? this.props.params.series.split(';') : null,
 				type: this.props.params.type ? this.props.params.type.split(';') : null
 			}
 		});
@@ -65,6 +66,7 @@ export default class Application extends React.Component {
 				museum: props.params.museum ? props.params.museum.split(';') : null,
 				genre: props.params.genre ? props.params.genre.split(';') : null,
 				tags: props.params.tags ? props.params.tags.split(';') : null,
+				series: props.params.series ? props.params.series.split(';') : null,
 				type: props.params.type ? props.params.type.split(';') : null
 			}
 		})
@@ -115,6 +117,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
+				searchSeries={this.state.searchParams.series}
 				searchType={this.state.searchParams.type} />;
 		}
 		else if (this.state.galleryType == 'simple-list') {
@@ -125,6 +128,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
+				searchSeries={this.state.searchParams.series}
 				searchType={this.state.searchParams.type} /></div>;
 		}
 		else if (this.state.galleryType == 'tsne-view') {
@@ -140,6 +144,7 @@ export default class Application extends React.Component {
 					searchMuseum={this.state.searchParams.museum}
 					searchGenre={this.state.searchParams.genre}
 					searchTags={this.state.searchParams.tags}
+					searchSeries={this.state.searchParams.series}
 					searchType={this.state.searchParams.type} />
 			</div>;
 		}
@@ -151,6 +156,7 @@ export default class Application extends React.Component {
 				searchMuseum={this.state.searchParams.museum}
 				searchGenre={this.state.searchParams.genre}
 				searchTags={this.state.searchParams.tags}
+				searchSeries={this.state.searchParams.series}
 				searchType={this.state.searchParams.type} />;
 
 		}
