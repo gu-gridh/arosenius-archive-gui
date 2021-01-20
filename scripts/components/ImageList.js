@@ -205,6 +205,10 @@ export default class ImageList extends React.Component {
 			if (props.listType == 'simple') {
 				params.sort = 'insert_id';
 			}
+			else if (params.series) {
+				// When filtering by series, sort results by title.
+				params.sort = 'title';
+			}
 
 			var state = {
 				loading: true
