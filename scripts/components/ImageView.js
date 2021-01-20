@@ -396,7 +396,7 @@ export default class ImageView extends React.Component {
 				<div className="container">
 
 					{
-						seriesImages.length &&
+						seriesImages.length > 0 &&
 						<div>{seriesImages}</div>
 					}
 
