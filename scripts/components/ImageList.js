@@ -15,7 +15,6 @@ export default class ImageList extends React.Component {
 		super(props);
 
 		window.imageList = this;
-		this.masonryRef = React.createRef();
 
 		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
@@ -137,8 +136,6 @@ export default class ImageList extends React.Component {
 
 	componentWillReceiveProps(props) {
 		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container)) || (!this.isInViewport(this.refs.container) && this.props.forceUpdate && this.state.initialized)) {
-			// Destroy the current Masonry instance to let it reinitialize with potentially changed options.
-			this.masonryRef.current.masonry.destroy()
 			this.handleProps(props);
 		}
 	}
