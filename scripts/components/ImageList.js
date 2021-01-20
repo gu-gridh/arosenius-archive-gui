@@ -15,6 +15,7 @@ export default class ImageList extends React.Component {
 		super(props);
 
 		window.imageList = this;
+		this.masonryRef = React.createRef();
 
 		this.imageLoadedHandler = this.imageLoadedHandler.bind(this);
 		this.windowScrollHandler = this.windowScrollHandler.bind(this);
@@ -136,6 +137,8 @@ export default class ImageList extends React.Component {
 
 	componentWillReceiveProps(props) {
 		if (!this.props.lazyLoad || (this.isInViewport(this.refs.container)) || (!this.isInViewport(this.refs.container) && this.props.forceUpdate && this.state.initialized)) {
+			// Destroy the current Masonry instance to let it reinitialize with potentially changed options.
+			this.masonryRef.current.masonry.destroy()
 			this.handleProps(props);
 		}
 	}
@@ -342,6 +345,11 @@ export default class ImageList extends React.Component {
 			items.push(<div key="grid-sizer" className="grid-sizer"/>);
 		}
 
+		var masonryOptions = _.defaults({
+			// If the items are in a certain order, applying horizontal order to the masonry will make it slightly more intuitive.
+			horizontalOrder: !!this.props.searchSeries || this.props.related === 'series'
+		}, this.masonryOptions)
+
 		var listElement;
 		if (this.props.listType == 'date-labels') {
 /*
@@ -350,8 +358,9 @@ export default class ImageList extends React.Component {
 			</div>;
 */
 			listElement = <Masonry
+				ref={this.masonryRef}
 				className={'grid image-label-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-				options={this.masonryOptions}
+				options={masonryOptions}
 				disableImagesLoaded={false}
 				updateOnEachImageLoad={true}
 				onImagesLoaded={this.imageLoadedHandler}>
@@ -366,8 +375,9 @@ export default class ImageList extends React.Component {
 		}
 		else {
 			listElement = <Masonry
+				ref={this.masonryRef}
 				className={'grid image-grid'+(this.state.initialized ? ' initialized' : '')} // default ''
-				options={this.masonryOptions}
+				options={masonryOptions}
 				disableImagesLoaded={false}
 				updateOnEachImageLoad={true}
 				onImagesLoaded={this.imageLoadedHandler}>

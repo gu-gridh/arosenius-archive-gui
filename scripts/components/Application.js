@@ -1,5 +1,6 @@
 import React from 'react';
 import {hashHistory} from 'react-router'
+import _ from 'underscore';
 
 import Header from './Header';
 import Search from './Search';
@@ -31,7 +32,8 @@ export default class Application extends React.Component {
 
 		// Basic state, gallery is the default galleryType
 		this.state = {
-			searchParams: {},
+			// Apply url parameters to search filter
+			searchParams: this.makeSearchParams(props),
 			galleryType: 'gallery'
 		};
 
@@ -41,35 +43,31 @@ export default class Application extends React.Component {
 	componentDidMount() {
 		// Set the initial state, looks for parameters from the url and set the state according to that
 		this.setState({
-			searchParams: {
-				search: this.props.params.search || '',
-				searchperson: this.props.params.searchperson ? this.props.params.searchperson.split(';') : null,
-				person: this.props.params.person ? this.props.params.person.split(';') : null,
-				place: this.props.params.place ? this.props.params.place.split(';') : null,
-				museum: this.props.params.museum ? this.props.params.museum.split(';') : null,
-				genre: this.props.params.genre ? this.props.params.genre.split(';') : null,
-				tags: this.props.params.tags ? this.props.params.tags.split(';') : null,
-				series: this.props.params.series ? this.props.params.series.split(';') : null,
-				type: this.props.params.type ? this.props.params.type.split(';') : null
-			}
+			searchParams: this.makeSearchParams(this.props)
 		});
 	}
 
-	componentWillReceiveProps(props) {
+	componentDidUpdate(prevProps) {
 		// Update state if new parameters are received
-		this.setState({
-			searchParams: {
-				search: props.params.search || '',
-				searchperson: props.params.searchperson ? props.params.searchperson.split(';') : null,
-				person: props.params.person ? props.params.person.split(';') : null,
-				place: props.params.place ? props.params.place.split(';') : null,
-				museum: props.params.museum ? props.params.museum.split(';') : null,
-				genre: props.params.genre ? props.params.genre.split(';') : null,
-				tags: props.params.tags ? props.params.tags.split(';') : null,
-				series: props.params.series ? props.params.series.split(';') : null,
-				type: props.params.type ? props.params.type.split(';') : null
-			}
-		})
+		if (!_.isEqual(prevProps, this.props)) {
+			this.setState({
+				searchParams: this.makeSearchParams(this.props)
+			})
+		}
+	}
+
+	makeSearchParams(props) {
+		return {
+			search: props.params.search || '',
+			searchperson: props.params.searchperson ? props.params.searchperson.split(';') : null,
+			person: props.params.person ? props.params.person.split(';') : null,
+			place: props.params.place ? props.params.place.split(';') : null,
+			museum: props.params.museum ? props.params.museum.split(';') : null,
+			genre: props.params.genre ? props.params.genre.split(';') : null,
+			tags: props.params.tags ? props.params.tags.split(';') : null,
+			series: props.params.series ? props.params.series.split(';') : null,
+			type: props.params.type ? props.params.type.split(';') : null
+		}
 	}
 
 	galleryTypeLinkClickHandler(event) {
