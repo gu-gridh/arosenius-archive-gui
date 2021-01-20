@@ -64,7 +64,7 @@ export default class ImageListCollection {
 			if (count) {
 				fetchParams.push('count='+count);
 			}
-			else if (archiveMaterial) {
+			if (archiveMaterial) {
 				fetchParams.push('archivematerial='+archiveMaterial);
 			}
 

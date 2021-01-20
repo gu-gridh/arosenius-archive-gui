@@ -144,6 +144,7 @@ export default class ImageList extends React.Component {
 	}
 
 	fetchData(params, count, page, append, archiveMaterial) {
+		console.log('fetchData', { archiveMaterial })
 		this.collection.fetch(params, count, page, append, archiveMaterial)
 	}
 
