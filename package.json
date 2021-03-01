@@ -31,7 +31,7 @@
     "react-packery-component": "1.0.2",
     "react-router": "3.2.0",
     "react-swipe-events": "^1.0.3",
-    "three": "^0.98.0",
+    "three": "^0.125.0",
     "underscore": "1.8.3",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "^1.1.0",
