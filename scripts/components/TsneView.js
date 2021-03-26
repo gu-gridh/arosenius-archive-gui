@@ -402,9 +402,6 @@ export default class TsneView extends React.Component {
 	}
 
 	buildMesh(geometry, material, image) {
-		// Convert the geometry to a BuferGeometry for additional performance
-		var geometry = new THREE.BufferGeometry().fromGeometry(geometry);
-
 		// Combine the image geometry and material into a mesh
 		var mesh = new THREE.Mesh(geometry, material);
 
