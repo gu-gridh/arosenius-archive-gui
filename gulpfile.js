@@ -22,7 +22,7 @@ var production = process.env.NODE_ENV === 'production';
 // Gulp tasks
 // ----------------------------------------------------------------------------
 gulp.task('scripts', function () {
-    bundleApp(production);
+    return bundleApp(production);
 });
 
 gulp.task('less', function(){
@@ -33,21 +33,21 @@ gulp.task('less', function(){
 });
 
 gulp.task('deploy', function (){
-	bundleApp(true);
+	return bundleApp(true);
 });
 
 gulp.task('watch', function () {
-	gulp.watch(['./scripts/*.js', './scripts/*/*.js'], ['scripts']);
-	gulp.watch(['./less/*.less', './less/*/*.less'], ['less']);
+	gulp.watch(['./scripts/**/*.js'], gulp.series('scripts'));
+	gulp.watch(['./less/**/*.less'], gulp.series('less'));
 });
 
 // When running 'npx gulp' on the terminal this task will fire.
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
-gulp.task('default', ['scripts', 'less', 'watch']);
+gulp.task('default', gulp.series(gulp.parallel('scripts', 'less'), 'watch'));
 
 // When deploying, run 'npx gulp build' to fire this, one-shot.
-gulp.task('build', ['deploy', 'less']);
+gulp.task('build', gulp.series('deploy', 'less'));
 
 // Private Functions
 // ----------------------------------------------------------------------------
@@ -59,7 +59,7 @@ function bundleApp(isProduction) {
     	debug: !isProduction
   	})
 
-  	appBundler
+  	return appBundler
   		// transform ES6 and JSX to ES5 with babelify
 		.transform(babelify, {presets: ["es2015", "react"]})
 	    .bundle()
