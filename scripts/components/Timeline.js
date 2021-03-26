@@ -43,8 +43,6 @@ export default class Timeline extends React.Component {
 	yearSelectChangeHandler(event) {
 		var year = event.target.value;
 
-		console.log(year);
-
 		this.selectYear(year);
 	}
 

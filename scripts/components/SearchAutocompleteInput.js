@@ -196,7 +196,6 @@ export default class SearchAutocompleteInput extends React.Component {
 				}
 			</div>
 		}.bind(this));
-		console.log(items.length);
 		return <div ref="container" className="autocomplete-input">
 			<input ref="textInput" 
 				className={this.props.inputClassName} 

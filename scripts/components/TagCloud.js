@@ -129,10 +129,8 @@ export default class TagCloud extends React.Component {
 				return d.value;
 			})
 			.on('click', function(d) {
-				console.log(d);
 			}.bind(this))
 			.on('mouseover', function(d) {
-				console.log(d);	
 			});
 	}
 
