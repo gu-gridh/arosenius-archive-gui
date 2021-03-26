@@ -9,13 +9,12 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-var gutil = require('gulp-util');
+var log = require('fancy-log');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
 var less = require('gulp-less');
 var minifyCSS = require('gulp-csso');
-var path = require('path');
 var gulpif = require('gulp-if');
 
 var production = process.env.NODE_ENV === 'production';
@@ -62,9 +61,9 @@ function bundleApp(isProduction) {
 
   	appBundler
   		// transform ES6 and JSX to ES5 with babelify
-	  	.transform("babelify", {presets: ["es2015", "react"]})
+		.transform(babelify, {presets: ["es2015", "react"]})
 	    .bundle()
-	    .on('error', gutil.log)
+	    .on('error', log)
 	    .pipe(source('app.js'))
     	.pipe(buffer())
         .pipe(gulpif(production, uglify()))

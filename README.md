@@ -61,7 +61,7 @@ Clone the repo to the server, create `scripts/config.js` and run the build.
 cd arosenius-archive-gui
 git pull
 nvm use
-npm install
+npm ci
 npm run build
 ```
 
