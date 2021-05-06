@@ -40,7 +40,7 @@
     "react-router": "3.2.0",
     "react-swipe-events": "^1.0.3",
     "three": "^0.126.1",
-    "underscore": "1.8.3",
+    "underscore": "1.12.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "whatwg-fetch": "2.0.1"
