@@ -249,7 +249,7 @@ export default class ImageView extends React.Component {
 			var seriesImages = this.state.image.series ? this.state.image.series.map(function(series, index) {
 				if (series != '') {
 					return <div className="related-list" key={series}>
-						<ImageList title={series} related="series" relatedValue={series} count="10" sort="title" />
+						<ImageList title={series} related="series" relatedValue={series} sort="title" />
 					</div>;
 				}
 			}) : [];
