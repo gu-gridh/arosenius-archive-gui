@@ -15,15 +15,15 @@ Node 11 or _lower_ is required (12 will not work).
 git clone https://github.com/CDH-DevTeam/arosenius-archive-gui.git
 cd arosenius-archive-gui
 nvm use # or otherwise make sure you are using Node <=11
-npm install
+yarn install
 # Create scripts/config.js (see below)
-npm run dev
+yarn dev
 # Visit www/index.html in a web browser
 ```
 
 Gulp outputs `www/scripts/app.js` and `www/css/style.css`. The site entry point is `www/index.html`; open it directly in a web browser or serve it with Nginx or similar.
 
-When using `npm run dev`, the build process keeps watching source files and rebuilds instantly on changes.
+When using `yarn dev`, the build process keeps watching source files and rebuilds instantly on changes.
 
 ## Config file
 
@@ -61,8 +61,8 @@ Clone the repo to the server, create `scripts/config.js` and run the build.
 cd arosenius-archive-gui
 git pull
 nvm use
-npm ci
-npm run build
+yarn install
+yarn build
 ```
 
 Populate the `www/nearest_neighbors` and `www/tsne_data` directories with data from [arosenius-nearest-neighbors](https://github.com/CDH-DevTeam/arosenius-nearest-neighbors) (see instructions there).
