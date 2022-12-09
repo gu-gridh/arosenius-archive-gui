@@ -1659,9 +1659,9 @@ decamelize@^1.0.0, decamelize@^1.1.1:
   integrity sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==
 
 decode-uri-component@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-  integrity sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
+  integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
 
 default-compare@^1.0.0:
   version "1.0.0"
@@ -2513,9 +2513,10 @@ imagesloaded@^4.0.0:
   dependencies:
     ev-emitter "^1.0.0"
 
-"imagesloaded@git+https://github.com/eiriklv/imagesloaded":
+imagesloaded@eiriklv/imagesloaded:
   version "3.1.8"
-  resolved "git+https://github.com/eiriklv/imagesloaded#04535a148206e58790927e133f24ca199163b995"
+  uid "04535a148206e58790927e133f24ca199163b995"
+  resolved "https://codeload.github.com/eiriklv/imagesloaded/tar.gz/04535a148206e58790927e133f24ca199163b995"
   dependencies:
     eventie ">=1.0.4 <2"
     wolfy87-eventemitter "4.x"
@@ -3419,9 +3420,10 @@ packery@2.1.1:
     get-size "^2.0.2"
     outlayer "^2.0.0"
 
-"packery@git+https://github.com/eiriklv/packery":
+packery@eiriklv/packery:
   version "1.3.0"
-  resolved "git+https://github.com/eiriklv/packery#8e812a0a16575ef923f5e72efcea85aadc6fea67"
+  uid "8e812a0a16575ef923f5e72efcea85aadc6fea67"
+  resolved "https://codeload.github.com/eiriklv/packery/tar.gz/8e812a0a16575ef923f5e72efcea85aadc6fea67"
   dependencies:
     classie eiriklv/classie
     desandro-get-style-property eiriklv/get-style-property
