@@ -2,13 +2,14 @@ import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
 import Masonry  from 'react-masonry-component';
-import * as scale from 'd3-scale';
 
 import ImageList from './ImageList';
 
 import WindowScroll from './../utils/window-scroll';
 
 import config from './../config';
+
+const scale = require('d3-scale');
 
 export default class Timeline extends React.Component {
 	constructor(props) {

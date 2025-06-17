@@ -1,12 +1,12 @@
 import React from 'react';
 import 'whatwg-fetch';
 import _ from 'underscore';
-import * as d3 from 'd3';
-import * as cloud from 'd3-v4-cloud';
+import config from './../config';
+
+const d3 = require('d3');
+const cloud =require('d3-v4-cloud');
 
 //import * as cloud from './../utils/d3.TagCloud'
-
-import config from './../config';
 
 export default class TagCloud extends React.Component {
 	constructor(props) {
