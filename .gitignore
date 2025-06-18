@@ -66,3 +66,4 @@ scripts/config.js
 www/js/
 www/css/
 www/tsne_data/images/
+www/.htaccess
