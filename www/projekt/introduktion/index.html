@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Introduktion</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="Author" content="Jonathan Westin">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../menu.js" defer></script>
+      </head>
+      <body>
+        <!-- Navbar -->
+        <div class="navbar">
+          <div class="hamburger" onclick="openMenu()">☰</div>
+      </div>        
+      <div id="sidepanel" class="sidepanel">
+          <a href="javascript:void(0)" onclick="closeMenu()" style="font-size:30px; padding-left:30px;">×</a>
+          <a href="https://aroseniusarkivet.dh.gu.se">Aroseniusarkivet</a>
+          <a href="..">Projekt</a>
+          <a href="../introduktion">Introduktion</a>
+          <a href="../projektbeskrivning-2">Projektbeskrivning</a>
+          <a href="../att-frammana-arosenius">Att frammana konstnären ur arkiven</a>
+          <a href="../ivar-arosenius">Ivar Arosenius</a>
+          <a href="../deltagare">Deltagare</a>
+          <a href="../publikationer-och-framtradanden">Publikationer och framträdanden</a>
+          <a href="../arosenius-i-alvangen">Delstudie: Arosenius i Älvängen</a>
+          <a href="../delstudie-lillans-resor">Delstudie: Lillans Resor</a>
+      </div>        
+      <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+        <header class="arohead"><h1><a href="https://aroseniusarkivet.dh.gu.se">Aroseniusarkivet</a></h1></header>
+        <section>
+          <article>
+            <header>
+              <h1>Introduktion</h1>
+            </header>
+            <p>Aroseniusarkivet samlar digitaliserade konstverk, fotografier och dokument med koppling till den svenska konstnären Ivar Arosenius. Arkivet innefattar samtliga dokument från Göteborgs universitetsbiblioteks aroseniusarkiv fram till 1970, samt alla konstverk i Göteborgs konstmuseums, Nationalmuseums och Norrköpings museums ägo. Utöver dessa samlingar så har en stor mängd konstverk och brev i privat ägo digitaliserats och införlivats i arkivet. Arkivet omfattar mer än 4700 digitaliserade konstverk, dokument och fotografier.</p>
+
+            <h3>Arkivets utformning</h3>
+
+            <p>Arkivmaterialet ska vara så lättillgängligt som möjligt för alla användare som vill utforska konstnärskapet, men tillåta mer avancerade möjligheter för den som söker efter specifika objekt. Användargränssnittet är därför utformat för att dessa två olika mål ska kunna existera sIda vid sida.</p>
+            
+            <p>För att uppmuntra till utforskning av materialet så är alla digitaliserade konstverk och dokument tillgängliga direkt på Aroseniusarkivets startsida, utan att användaren behöver skriva in något sökord eller klicka på någon knapp. Genom att skrolla neråt så laddas först alla konstverk in, sedan alla fotografier och sist övriga dokument. Vi kallar detta grundläge för Galleri och ordningen på konstverken slumpas fram så att användaren alltid ska kunna upptäcka något nytt.</p>
+
+            <p>Förutom galleriet så har startsidan fyra andra lägen; Tidslinje, Katalog, Bildmoln och Ordmoln.</p>
+
+            <p>Tidslinjen ordnar allt material kronologiskt från det tidigaste dokumentet från 1886, ett fotografi på Ivar Arosenius moder, till det sista dokumentet från 2004, ett minnesord över Ivar Arosenius dotter Eva “Lillan” Arosenius. Storleken på årtalet avslöjar hur mycket material som finns från det året. Under varje årtal är materialet indelat i konstverk och dokument.</p>
+
+            <p>Katalogen ordnar allt material efter aroseniusarkivets interna inventarienummer och är en vy för den som systematiskt vill ta sig an arkivmaterialet. Utöver en visuell representation av arkivposten så visas dess titel, årtal, samling den tillhör, kategori av objekt och material eller teknik.</p>
+
+            <p>Bildmolnet nyttjar maskininlärning till att organisera alla konstverk och fotografier med hjälp av deras visuella relationer till andra verk i arkivet. Linjer, mönster, ljus och färger används här för att ge en ny ingång till materialet. Förstora genom att skrolla och navigera lateralt genom att klicka och dra. I bildmolnet kan användaren gallra ner resultatet till endast konstverk eller fotografier, eller till enskilda samlingar.</p>
+
+            <p>Ordmolnet ger en överblick över den vanligast förekommande metadatan där taggar som förekommer oftare får en mer framträdande position. Därigenom kan ordmolnet nyttjas till att snabbt få en överblick över de viktigaste stråken i arkivet. Varje ord är klickbart och resulterar i ett visuellt galleri av det relaterade materialet.</p>
+
+            <p>Utöver dessa vyer finns det tre olika sätt att filtrera innehållet i arkivet.</p>
+
+            <ul>
+              <li>Ett sökfält som ger förslag på ord som förekommer i metadatan men som även tillåter fritextsökning.</li>
+              <li>Filter 1: Personer. Detta är ett visuellt sätt att utforska nyckelpersoner (Ivar Arosenius, Ida (Eva) Arosenius, Eva “Lillan” Arosenius, Ole Kruse, Gerhard Henning och Ester Sahlin). Dessa kan kombineras på olika sätt (tex alla verk med både Ivar och Lillan).</li>
+              <li>
+                Filter 2: Nyckelord. Detta filter blottlägger alla registrerade taggar (Samlingar, Kategorier, Underkategorier, Personer, Platser och Taggar) organiserade efter hur vanligt förekommande de är.
+              </li>
+            </ul>
+
+            <p>Dessa filter fungerar med Tidslinjen, Galleriet och Katalogen så att du tex. kan få en tidslinje över alla dokument som har med utställning att göra, ett galleri med enbart målningar av Eva och Lillan, eller en katalog med enbart fotografier från Älvängen.</p>
+            
+            <p>När användaren klickat på ett konstverk eller dokument så skjuts arkivvyn neråt och objektvyn visar sig.</p>
+            
+            <ul>
+              <li>Överst visas det digitaliserade objektet vilket kan laddas ner, roteras, anpassas till skärmen eller förstoras. Har objektet en digitalised baksida så går det att klicka på objektet för att visa denna. Under objektet finns eventuella andra digitaliseringar som hör till samma objekt. Detta kan vara baksida, fotografi av ramen, eller övriga sidor om det rör sig om ett dokument.</li>
+              <li>Under det digitaliserade objektet följer en sammanställning av den metadata som registrerats för dokumentet. Detta inkluderar Datering, Teknik och material, Mått, Rättigheter, Samling, Kategori, Underkategori, Personer, Taggar och Transkribering.</li>
+              <li>Därefter följer relaterade minigallerier baserade på metadatan eller objektets utseende. I kombination med arkivvyns fokus på upptäckande, där användaren inte ska behöva känna till något om Ivar Arosenius för att börja uppleva konstnärskapet, så är minigalleriernas funktion att ständigt visa upp något nytt som lockar till klicka vidare till nya konstverk eller dokument. Varje galleri har en knapp i högra hörnet genom vilken verkens relativa storlek kan aktiveras (i den mån det finns uppgifter registrerade om verkens storlek). Detta för motverka den normalisering av storlek en digitalisering leder till och ge en inblick i hur Arosenius jobbade i olika skalor för olika motiv.</li>
+            </ul>
+            
+            <p>Längst ner på sidan återfinns arkivvyn.</p>
+
+ 
+<h3>Materialets tillförlitlighet</h3>
+
+<p>Digitaliseringen av de original som tillhör Göteborgs universitetsbibliotek (GUB), Göteborgs konstmuseum (GKM) och Nationalmuseum har följt procedurer för att säkerställa att färgåtergivning och skärpa ska komma så nära originalet som möjligt. Merparten av detta arbete har skett inom ramen för Aroseniusprojektet 2016-2018.</p>
+
+<p>För att arkivet ska erbjuda en sådan komplett överblick över Ivar Arosenius konstnärskap som möjligt har vi även fotograferat verk hemma hos privata samlare och inkluderat digitaliseringar gjorda av auktionshus. Vi har även tagit emot fotografier av verk från privata samlare och digitaliserat en stor samling diabilder. Diabilderna är resultatet av decennier av dokumentationsfotografering utförd av GKM i anslutning till utställningar om Ivar Arosenius.</p>
+
+<p>Dessa verk har fyra olika nivåer av tillförlitlighet:</p>
+
+    <ul>
+      <li>
+        De verk som fotograferats hemma hos samlare under Aroseniusprojektet är mest tillförlitliga vad gäller färgåtergivning, men sämre än de som digitaliserats hos GUB, GKM och Nationalmuseum då vi inte haft möjlighet att kontrollera ljus eller avlägsna skyddande glas.
+      </li>
+      <li>
+        De verk som fotograferats av auktionshus har fotograferats professionellt, men då vi inte själva alltid har sett originalen så kan vi inte uttala oss om färgåtergivningen. Dessa objekt är taggade med “Auktionshusfotografi”.
+      </li>
+      <li>
+        De fotografier som skickats till oss av privata samlare är osäkra både vad gäller proportioner och färgåtergivning, och är ofta i lägre upplösning än övriga verk. Dessa objekt är taggade med “Arkivbidrag”.
+      </li>
+      <li>
+        De verk som dokumenterats i GKM’s diabildssamling, och som digitaliserats inom ramen för Aroseniusprojektet, har lägst tillförlitlighet då denna dokumentation hade andra syften. I vissa fall är det svårt att avgöra om verket i dess helhet fotograferats, och i samtliga fall har färgerna fått korrigeras vid digitaliseringen utan några tillförlitliga referenspunkter såsom färgstickor. Dessa objekt är taggade med “GKMs diabildssamling”.
+      </li>
+    </ul>
+            </article>          
+        </section>
+      </body>
+</html>
