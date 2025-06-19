@@ -102,8 +102,7 @@ export default class AboutPanel extends React.Component {
 					</a>
 
 					<div className="about-menu top-row" style={{marginBottom: 0}}>
-						<a href="https://aroseniusarkivet.dh.gu.se/projekt/">Läs om projektet</a>
-						<a href="https://aroseniusarkivet.dh.gu.se/projekt/bidra-till-arkivet/">Bidra till arkivet</a>
+						<a href="https://www.gu.se/forskning/att-frammana-konstnaren-ur-arkiven-aroseniusprojektet">Läs om projektet</a>
 					</div>
 
 					<div className="about-menu bottom-row" style={{marginTop: 5, marginBottom: 60}}>

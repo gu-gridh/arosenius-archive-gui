@@ -329,7 +329,7 @@ export default class ImageView extends React.Component {
 								<div className="attribute"><span className="label">Mått:</span> {this.state.image.size.inner.height+'x'+this.state.image.size.inner.width} cm</div>
 							}
 
-							<div className="attribute"><span className="label">Rättigheter:</span> <a href="https://aroseniusarkivet.dh.gu.se/projekt/licens/">CC-PD</a></div>
+							<div className="attribute"><span className="label">Rättigheter: CC-PD</span></div>
 
 						</div>
 

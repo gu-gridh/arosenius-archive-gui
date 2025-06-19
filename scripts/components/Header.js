@@ -54,8 +54,7 @@ export default class Header extends React.Component {
 								event.preventDefault();
 
 								window.eventBus.dispatch('about-panel.open');
-							}} href="https://aroseniusarkivet.dh.gu.se/projekt/">Om projektet och Ivar Arosenius</a></li>
-							<li><a href="https://aroseniusarkivet.dh.gu.se/projekt/bidra-till-arkivet/">Bidra till arkivet</a></li>
+							}} href="https://www.gu.se/forskning/att-frammana-konstnaren-ur-arkiven-aroseniusprojektet">Om projektet och Ivar Arosenius</a></li>							
 							<li><a onClick={this.openTagSearchButtonClickHandler} href="#">Upptäck arkivet</a></li>
 						</ul>
 					</nav>
