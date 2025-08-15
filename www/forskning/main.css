@@ -257,17 +257,20 @@ margin-top:60px;
 #introcontainer{
 margin-left: auto;
 margin-right: auto;
-width:325px;
-height:40px;
+width:100%;
 margin-top:20px;
 text-align:center;
+display:flex; 
+flex-direction: column; 
+justify-content: center; 
+align-items: center;
 }
 
 #extrocontainer{
 margin-left: auto;
 margin-right: auto;
 
-width:398px;
+
 height:80px;
 margin-top:0px;
 text-align:center;
@@ -295,7 +298,8 @@ font-style: normal;
 font-size: 20px;
 line-height: 1.8;
 float:left;
-margin-left:20px;
+margin-left:0px;
+width
 }
 
 .filter{

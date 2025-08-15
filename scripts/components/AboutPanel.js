@@ -112,9 +112,9 @@ export default class AboutPanel extends React.Component {
 						
 					</div>
 
-					<hr />
-
-					<h3>Appar</h3>
+					{/*<hr />
+	
+					 <h3>Appar</h3>
 
 					<div className="apps">
 
@@ -128,7 +128,7 @@ export default class AboutPanel extends React.Component {
 							<span className="text">Lillans resor</span>
 						</a>
 
-					</div>
+					</div> */}
 
 					<hr />
 
